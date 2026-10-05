@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { EventStatus, EventType } from "@prisma/client";
+import { EventStatus, EventType } from "@/lib/constants";
 
 export async function getEvents(filters?: {
   search?: string;

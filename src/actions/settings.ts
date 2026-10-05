@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { UserRole, EventType, EventStatus, AnnouncementPriority } from "@prisma/client";
+import { UserRole, EventType, EventStatus, AnnouncementPriority } from "@/lib/constants";
 
 export async function getHouses() {
   try {

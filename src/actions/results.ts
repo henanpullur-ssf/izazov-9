@@ -5,10 +5,7 @@ import { revalidatePath } from "next/cache";
 
 export async function getResults(eventId?: string) {
   try {
-    const where: Record<string, unknown> = {};
-    if (eventId && eventId !== "ALL") {
-      where.eventId = eventId;
-    }
+    const where = eventId && eventId !== "ALL" ? { eventId } : {};
 
     const results = await prisma.result.findMany({
       where,

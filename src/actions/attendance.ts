@@ -2,15 +2,12 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { AttendanceStatus } from "@prisma/client";
+import { AttendanceStatus } from "@/lib/constants";
 import { getCurrentUser } from "@/lib/auth-helpers";
 
 export async function getAttendance(eventId?: string) {
   try {
-    const where: Record<string, unknown> = {};
-    if (eventId && eventId !== "ALL") {
-      where.eventId = eventId;
-    }
+    const where = eventId && eventId !== "ALL" ? { eventId } : {};
 
     const records = await prisma.attendance.findMany({
       where,

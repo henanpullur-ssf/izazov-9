@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { RegistrationStatus } from "@prisma/client";
+import { RegistrationStatus } from "@/lib/constants";
 
 export async function getRegistrations(filters?: {
   eventId?: string;

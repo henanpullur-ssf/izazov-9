@@ -2,14 +2,11 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { AnnouncementPriority } from "@prisma/client";
+import { AnnouncementPriority } from "@/lib/constants";
 
 export async function getAnnouncements(onlyPublished = false) {
   try {
-    const where: Record<string, unknown> = {};
-    if (onlyPublished) {
-      where.isPublished = true;
-    }
+    const where = onlyPublished ? { isPublished: true } : {};
 
     const announcements = await prisma.announcement.findMany({
       where,

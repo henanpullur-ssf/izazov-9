@@ -2,14 +2,11 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { ScoreStatus } from "@prisma/client";
+import { ScoreStatus } from "@/lib/constants";
 
 export async function getScores(eventId?: string) {
   try {
-    const where: Record<string, unknown> = {};
-    if (eventId && eventId !== "ALL") {
-      where.eventId = eventId;
-    }
+    const where = eventId && eventId !== "ALL" ? { eventId } : {};
 
     const scores = await prisma.score.findMany({
       where,

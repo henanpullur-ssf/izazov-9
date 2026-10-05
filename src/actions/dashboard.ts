@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { EventStatus } from "@prisma/client";
+import { EventStatus } from "@/lib/constants";
 
 export async function getDashboardStats() {
   try {
