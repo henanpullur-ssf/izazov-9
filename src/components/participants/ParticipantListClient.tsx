@@ -1,0 +1,343 @@
+"use client";
+
+import React, { useState, useMemo } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import {
+  Users,
+  Eye,
+  Trash2,
+  QrCode,
+  PlusCircle,
+  Phone,
+  Mail,
+} from "lucide-react";
+import { SearchFilterBar } from "@/components/ui/SearchFilterBar";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { Modal } from "@/components/ui/Modal";
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableHeader,
+  TableCell,
+} from "@/components/ui/Table";
+import { deleteParticipant } from "@/actions/participants";
+
+export interface ParticipantListItem {
+  id: string;
+  participantId: string;
+  name: string;
+  gender: string | null;
+  email: string | null;
+  phone: string | null;
+  qrToken: string;
+  house?: { id: string; name: string } | null;
+  _count?: {
+    registrations: number;
+    attendance: number;
+    results: number;
+  };
+}
+
+export function ParticipantListClient({
+  participants,
+  houses = [],
+}: {
+  participants: ParticipantListItem[];
+  houses: { id: string; name: string }[];
+}) {
+  const router = useRouter();
+  const [search, setSearch] = useState("");
+  const [houseId, setHouseId] = useState("ALL");
+  const [deleteTarget, setDeleteTarget] = useState<ParticipantListItem | null>(
+    null
+  );
+  const [qrModalTarget, setQrModalTarget] =
+    useState<ParticipantListItem | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const filteredParticipants = useMemo(() => {
+    return participants.filter((p) => {
+      const matchesSearch =
+        search === "" ||
+        p.name.toLowerCase().includes(search.toLowerCase()) ||
+        p.participantId.toLowerCase().includes(search.toLowerCase()) ||
+        (p.email && p.email.toLowerCase().includes(search.toLowerCase())) ||
+        (p.phone && p.phone.includes(search));
+
+      const matchesHouse = houseId === "ALL" || p.house?.id === houseId;
+
+      return matchesSearch && matchesHouse;
+    });
+  }, [participants, search, houseId]);
+
+  async function handleDelete() {
+    if (!deleteTarget) return;
+    setIsDeleting(true);
+    try {
+      await deleteParticipant(deleteTarget.id);
+      setDeleteTarget(null);
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsDeleting(false);
+    }
+  }
+
+  return (
+    <div className="space-y-6">
+      <SearchFilterBar
+        searchValue={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Search by name, ID, email, or phone..."
+        filters={[
+          {
+            id: "house",
+            label: "House",
+            value: houseId,
+            options: [
+              { label: "All Houses", value: "ALL" },
+              ...houses.map((h) => ({ label: h.name, value: h.id })),
+            ],
+            onChange: setHouseId,
+          },
+        ]}
+      >
+        <Link href="/admin/participants/new">
+          <Button size="sm" className="gap-1.5 whitespace-nowrap">
+            <PlusCircle className="w-4 h-4" />
+            <span>Add Participant</span>
+          </Button>
+        </Link>
+      </SearchFilterBar>
+
+      {filteredParticipants.length === 0 ? (
+        <EmptyState
+          icon={<Users className="w-6 h-6 text-zinc-500" />}
+          title="No participants found"
+          description={
+            search || houseId !== "ALL"
+              ? "Try adjusting your search criteria or house filter."
+              : "Register your first participant for IZAZOV 9.0."
+          }
+          actionLabel="Add Participant"
+          actionHref="/admin/participants/new"
+        />
+      ) : (
+        <>
+          {/* Desktop Table */}
+          <div className="hidden md:block">
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableHeader>Participant</TableHeader>
+                    <TableHeader>House</TableHeader>
+                    <TableHeader>Contact</TableHeader>
+                    <TableHeader>Events / Activity</TableHeader>
+                    <TableHeader>QR Token</TableHeader>
+                    <TableHeader className="text-right">Actions</TableHeader>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {filteredParticipants.map((p) => (
+                    <TableRow key={p.id}>
+                      <TableCell>
+                        <div className="space-y-0.5">
+                          <span className="font-semibold text-white">
+                            {p.name}
+                          </span>
+                          <div className="flex items-center gap-1.5">
+                            <Badge variant="primary" className="text-[10px]">
+                              {p.participantId}
+                            </Badge>
+                            {p.gender && (
+                              <span className="text-xs text-zinc-500">
+                                • {p.gender}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        {p.house ? (
+                          <Badge variant="info">{p.house.name}</Badge>
+                        ) : (
+                          <span className="text-xs text-zinc-500">Unassigned</span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-0.5 text-xs text-zinc-400">
+                          {p.email && (
+                            <div className="flex items-center gap-1">
+                              <Mail className="w-3 h-3 text-zinc-500" />
+                              <span>{p.email}</span>
+                            </div>
+                          )}
+                          {p.phone && (
+                            <div className="flex items-center gap-1">
+                              <Phone className="w-3 h-3 text-zinc-500" />
+                              <span>{p.phone}</span>
+                            </div>
+                          )}
+                          {!p.email && !p.phone && (
+                            <span className="text-zinc-500">—</span>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-xs text-zinc-400 space-y-0.5">
+                          <p>{p._count?.registrations || 0} registered</p>
+                          <p className="text-[11px] text-zinc-500">
+                            {p._count?.attendance || 0} attended
+                          </p>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <button
+                          onClick={() => setQrModalTarget(p)}
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-[#383334] bg-[#1a1819] px-2.5 py-1 text-xs text-zinc-300 hover:border-[#931827] hover:text-white transition cursor-pointer"
+                        >
+                          <QrCode className="w-3.5 h-3.5 text-[#931827]" />
+                          <span>View Pass</span>
+                        </button>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <Link href={`/admin/participants/${p.id}`}>
+                            <Button variant="secondary" size="sm">
+                              <Eye className="w-3.5 h-3.5" />
+                              <span className="hidden lg:inline ml-1">Profile</span>
+                            </Button>
+                          </Link>
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => setDeleteTarget(p)}
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+
+          {/* Mobile Cards */}
+          <div className="md:hidden space-y-3">
+            {filteredParticipants.map((p) => (
+              <div
+                key={p.id}
+                className="p-4 rounded-xl border border-[#2d292a] bg-[#141314] space-y-3"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-1.5">
+                      <Badge variant="primary" className="text-[10px]">
+                        {p.participantId}
+                      </Badge>
+                      {p.house && (
+                        <Badge variant="info" className="text-[10px]">
+                          {p.house.name}
+                        </Badge>
+                      )}
+                    </div>
+                    <h3 className="font-semibold text-white text-base">
+                      {p.name}
+                    </h3>
+                  </div>
+                  <button
+                    onClick={() => setQrModalTarget(p)}
+                    className="p-2 rounded-lg border border-[#383334] bg-[#1a1819] text-[#931827] hover:bg-[#252223]"
+                    aria-label="View QR Pass"
+                  >
+                    <QrCode className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <div className="space-y-1 text-xs text-zinc-400 pt-2 border-t border-[#232021]">
+                  {p.email && <p className="truncate">Email: {p.email}</p>}
+                  {p.phone && <p>Phone: {p.phone}</p>}
+                </div>
+
+                <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#232021]">
+                  <Link href={`/admin/participants/${p.id}`} className="flex-1">
+                    <Button variant="secondary" size="sm" className="w-full">
+                      <Eye className="w-3.5 h-3.5 mr-1" />
+                      View Profile
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => setDeleteTarget(p)}
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* QR Pass Modal */}
+      <Modal
+        isOpen={Boolean(qrModalTarget)}
+        onClose={() => setQrModalTarget(null)}
+        title="Participant QR Pass Token"
+        maxWidth="sm"
+      >
+        {qrModalTarget && (
+          <div className="flex flex-col items-center justify-center text-center space-y-4 py-4">
+            <div className="p-6 rounded-2xl bg-[#201d1e] border-2 border-[#931827] shadow-xl">
+              <QrCode className="w-32 h-32 text-white mx-auto stroke-[1.2]" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-base font-bold text-white">
+                {qrModalTarget.name}
+              </h4>
+              <p className="text-xs font-mono font-semibold text-[#931827]">
+                {qrModalTarget.participantId}
+              </p>
+              {qrModalTarget.house && (
+                <p className="text-xs text-zinc-400">
+                  House: {qrModalTarget.house.name}
+                </p>
+              )}
+            </div>
+            <div className="w-full p-3 rounded-xl bg-[#0c0b0c] border border-[#2d292a] text-left">
+              <p className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">
+                Raw Token String
+              </p>
+              <p className="text-xs font-mono text-zinc-300 break-all select-all mt-1">
+                {qrModalTarget.qrToken}
+              </p>
+            </div>
+          </div>
+        )}
+      </Modal>
+
+      {/* Delete Confirmation */}
+      <ConfirmDialog
+        isOpen={Boolean(deleteTarget)}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={handleDelete}
+        title="Delete Participant"
+        message={`Are you sure you want to remove "${deleteTarget?.name}" (${deleteTarget?.participantId})? This will delete all registered entries and attendance records for this participant.`}
+        confirmLabel="Delete Participant"
+        isLoading={isDeleting}
+      />
+    </div>
+  );
+}
