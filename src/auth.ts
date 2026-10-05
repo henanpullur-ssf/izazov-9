@@ -27,31 +27,40 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        });
+        try {
+          const normalizedEmail = credentials.email.trim().toLowerCase();
 
-        if (!user || !user.passwordHash) {
+          const user = await prisma.user.findUnique({
+            where: {
+              email: normalizedEmail,
+            },
+          });
+
+          if (!user || !user.passwordHash) {
+            console.warn(`[AUTH] User not found for email: ${normalizedEmail}`);
+            return null;
+          }
+
+          const passwordValid = await bcrypt.compare(
+            credentials.password,
+            user.passwordHash
+          );
+
+          if (!passwordValid) {
+            console.warn(`[AUTH] Invalid password attempt for: ${normalizedEmail}`);
+            return null;
+          }
+
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+          };
+        } catch (error) {
+          console.error("[AUTH] Error during authorize:", error);
           return null;
         }
-
-        const passwordValid = await bcrypt.compare(
-          credentials.password,
-          user.passwordHash
-        );
-
-        if (!passwordValid) {
-          return null;
-        }
-
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        };
       },
     }),
   ],
@@ -79,7 +88,10 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
 
-  secret: process.env.NEXTAUTH_SECRET || "izazov-9-platform-secret-2026",
+  secret:
+    process.env.NEXTAUTH_SECRET ||
+    process.env.AUTH_SECRET ||
+    "izazov-9-platform-secret-2026",
 };
 
 export const auth = () => getServerSession(authOptions);
