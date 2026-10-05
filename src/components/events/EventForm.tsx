@@ -4,9 +4,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input, Textarea, Select } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { EVENT_CATEGORIES, EVENT_STATUSES, EVENT_TYPES } from "@/lib/constants";
+import { EVENT_CATEGORIES, EVENT_STATUSES, EVENT_TYPES, EventStatus, EventType } from "@/lib/constants";
 import { createEvent, updateEvent } from "@/actions/events";
-import { EventStatus, EventType } from "@prisma/client";
 
 export interface VenueOption {
   id: string;

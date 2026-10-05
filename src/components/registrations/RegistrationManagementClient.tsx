@@ -28,8 +28,7 @@ import {
   updateRegistrationStatus,
   deleteRegistration,
 } from "@/actions/registrations";
-import { formatDate, REGISTRATION_STATUSES } from "@/lib/constants";
-import { RegistrationStatus } from "@prisma/client";
+import { formatDate, REGISTRATION_STATUSES, RegistrationStatus } from "@/lib/constants";
 
 export interface RegistrationItem {
   id: string;

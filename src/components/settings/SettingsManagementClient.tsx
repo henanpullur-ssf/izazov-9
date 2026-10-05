@@ -20,8 +20,7 @@ import {
   updateUserRole,
   seedInitialData,
 } from "@/actions/settings";
-import { USER_ROLES } from "@/lib/constants";
-import { UserRole } from "@prisma/client";
+import { USER_ROLES, UserRole } from "@/lib/constants";
 
 export interface HouseItem {
   id: string;

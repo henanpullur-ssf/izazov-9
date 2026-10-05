@@ -24,10 +24,9 @@ import {
   TableHeader,
   TableCell,
 } from "@/components/ui/Table";
-import { EVENT_CATEGORIES, EVENT_STATUSES, EVENT_TYPES } from "@/lib/constants";
+import { EVENT_CATEGORIES, EVENT_STATUSES, EVENT_TYPES, EventStatus, EventType } from "@/lib/constants";
 import { deleteEvent } from "@/actions/events";
 import { useRouter } from "next/navigation";
-import { EventStatus, EventType } from "@prisma/client";
 
 export interface EventListItem {
   id: string;

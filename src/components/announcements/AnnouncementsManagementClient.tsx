@@ -24,8 +24,7 @@ import {
   deleteAnnouncement,
   togglePublishAnnouncement,
 } from "@/actions/announcements";
-import { formatDate, ANNOUNCEMENT_PRIORITIES } from "@/lib/constants";
-import { AnnouncementPriority } from "@prisma/client";
+import { formatDate, ANNOUNCEMENT_PRIORITIES, AnnouncementPriority } from "@/lib/constants";
 
 export interface AnnouncementItem {
   id: string;

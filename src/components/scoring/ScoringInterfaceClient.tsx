@@ -14,7 +14,7 @@ import { StatusBadge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Card } from "@/components/ui/Card";
 import { submitScore, lockScores } from "@/actions/scoring";
-import { ScoreStatus } from "@prisma/client";
+import { ScoreStatus } from "@/lib/constants";
 
 export interface ScoringEvent {
   id: string;

@@ -19,8 +19,7 @@ import { Modal } from "@/components/ui/Modal";
 import { EventForm, VenueOption } from "./EventForm";
 import { updateEventStatus } from "@/actions/events";
 import { assignJudgeToEvent, removeJudgeAssignment } from "@/actions/judges";
-import { formatDate, formatTime, EVENT_STATUSES } from "@/lib/constants";
-import { EventStatus, EventType } from "@prisma/client";
+import { formatDate, formatTime, EVENT_STATUSES, EventStatus, EventType } from "@/lib/constants";
 
 export interface EventDetailData {
   id: string;

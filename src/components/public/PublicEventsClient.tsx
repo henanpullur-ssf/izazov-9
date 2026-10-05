@@ -15,8 +15,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { Badge, StatusBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { EVENT_CATEGORIES, EVENT_TYPES, EVENT_STATUSES } from "@/lib/constants";
-import { EventStatus, EventType } from "@prisma/client";
+import { EVENT_CATEGORIES, EVENT_TYPES, EVENT_STATUSES, EventStatus, EventType } from "@/lib/constants";
 
 export interface PublicEventItem {
   id: string;

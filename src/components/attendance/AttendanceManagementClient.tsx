@@ -26,8 +26,7 @@ import {
   recordAttendance,
   checkInByQrToken,
 } from "@/actions/attendance";
-import { formatDate, formatTime, ATTENDANCE_STATUSES } from "@/lib/constants";
-import { AttendanceStatus } from "@prisma/client";
+import { formatDate, formatTime, ATTENDANCE_STATUSES, AttendanceStatus } from "@/lib/constants";
 
 export interface AttendanceRecord {
   id: string;
