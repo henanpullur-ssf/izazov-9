@@ -1,31 +1,41 @@
 import React from "react";
 import { Megaphone, Pin } from "lucide-react";
 import { getAnnouncements } from "@/actions/announcements";
+import { getSiteSettings } from "@/actions/settings";
 import { PublicNavbar } from "@/components/public/PublicNavbar";
 import { PublicFooter } from "@/components/public/PublicFooter";
 import { Card } from "@/components/ui/Card";
 import { StatusBadge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { formatDate, formatTime, FEST_NAME } from "@/lib/constants";
+import { formatDate, formatTime, DEFAULT_SITE_SETTINGS } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = {
-  title: `Announcements & Bulletins | ${FEST_NAME}`,
-  description: "Official notifications, schedule changes, and live bulletins.",
-};
+export async function generateMetadata() {
+  const res = await getSiteSettings();
+  const settings = res.data || DEFAULT_SITE_SETTINGS;
+  return {
+    title: `Announcements & Bulletins | ${settings.siteName || "IZAZOV 9.0"}`,
+    description: "Official notifications, schedule changes, and live bulletins.",
+  };
+}
 
 export default async function PublicAnnouncementsPage() {
-  const res = await getAnnouncements(true);
-  const announcements = res.data || [];
+  const [announcementsRes, settingsRes] = await Promise.all([
+    getAnnouncements(true),
+    getSiteSettings(),
+  ]);
+
+  const announcements = announcementsRes.data || [];
+  const settings = settingsRes.data || DEFAULT_SITE_SETTINGS;
 
   return (
-    <div className="min-h-screen bg-[#000000] text-white flex flex-col selection:bg-[#931827]">
-      <PublicNavbar />
+    <div className="min-h-screen bg-[var(--background,#000000)] text-[var(--foreground,#FFFFFF)] flex flex-col selection:bg-[var(--brand,#931827)]">
+      <PublicNavbar settings={settings} />
 
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-8">
         <div className="space-y-2 text-center sm:text-left">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#931827]">
+          <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
             Official Updates & Alerts
           </span>
           <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase">
@@ -52,7 +62,7 @@ export default async function PublicAnnouncementsPage() {
                     ? "border-amber-500/50 bg-gradient-to-r from-[#17140e] to-[#121112]"
                     : a.priority === "URGENT"
                     ? "border-red-600/50 bg-[#160f10]"
-                    : "hover:border-[#383334]"
+                    : "hover:border-[var(--border-subtle,#383334)]"
                 }`}
               >
                 <div className="space-y-3">
@@ -85,7 +95,7 @@ export default async function PublicAnnouncementsPage() {
         )}
       </main>
 
-      <PublicFooter />
+      <PublicFooter settings={settings} />
     </div>
   );
 }

@@ -10,12 +10,13 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { getEventById } from "@/actions/events";
+import { getSiteSettings } from "@/actions/settings";
 import { PublicNavbar } from "@/components/public/PublicNavbar";
 import { PublicFooter } from "@/components/public/PublicFooter";
 import { Badge, StatusBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
-import { formatDate, formatTime, FEST_NAME } from "@/lib/constants";
+import { formatDate, formatTime, DEFAULT_SITE_SETTINGS } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -25,12 +26,16 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const res = await getEventById(id);
+  const [res, settingsRes] = await Promise.all([
+    getEventById(id),
+    getSiteSettings(),
+  ]);
+  const siteName = settingsRes.data?.siteName || "IZAZOV 9.0";
   if (!res.success || !res.data) {
-    return { title: `Event | ${FEST_NAME}` };
+    return { title: `Event | ${siteName}` };
   }
   return {
-    title: `${res.data.name} (${res.data.code}) | ${FEST_NAME}`,
+    title: `${res.data.name} (${res.data.code}) | ${siteName}`,
     description: res.data.description || "Festival Competition Details",
   };
 }
@@ -41,17 +46,21 @@ export default async function PublicEventDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const res = await getEventById(id);
+  const [res, settingsRes] = await Promise.all([
+    getEventById(id),
+    getSiteSettings(),
+  ]);
 
   if (!res.success || !res.data) {
     notFound();
   }
 
   const event = res.data;
+  const settings = settingsRes.data || DEFAULT_SITE_SETTINGS;
 
   return (
-    <div className="min-h-screen bg-[#000000] text-white flex flex-col selection:bg-[#931827]">
-      <PublicNavbar />
+    <div className="min-h-screen bg-[var(--background,#000000)] text-[var(--foreground,#FFFFFF)] flex flex-col selection:bg-[var(--brand,#931827)]">
+      <PublicNavbar settings={settings} />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-8">
         {/* Back Link */}
@@ -66,10 +75,10 @@ export default async function PublicEventDetailPage({
         </div>
 
         {/* Hero Card */}
-        <div className="p-6 sm:p-8 rounded-3xl border border-[#2e2a2b] bg-gradient-to-br from-[#181315] via-[#121112] to-[#151012] space-y-6">
+        <div className="p-6 sm:p-8 rounded-3xl border border-[var(--border-subtle,#2e2a2b)] bg-gradient-to-br from-[var(--surface-card,#181315)] via-[var(--surface,#121112)] to-[var(--background,#151012)] space-y-6">
           <div className="space-y-3">
             <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-[#931827] text-white">
+              <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-[var(--brand,#931827)] text-white">
                 {event.code}
               </span>
               <Badge variant="primary">{event.category || "Competition"}</Badge>
@@ -88,8 +97,8 @@ export default async function PublicEventDetailPage({
           </div>
 
           {/* Quick Stats Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-[#262223]">
-            <div className="p-3 rounded-xl bg-[#111011] border border-[#272425]">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-[var(--border-subtle,#262223)]">
+            <div className="p-3 rounded-xl bg-[var(--surface-card,#111011)] border border-[var(--border-subtle,#272425)]">
               <p className="text-[10px] uppercase font-bold text-zinc-500">
                 Participation Type
               </p>
@@ -101,7 +110,7 @@ export default async function PublicEventDetailPage({
               </p>
             </div>
 
-            <div className="p-3 rounded-xl bg-[#111011] border border-[#272425]">
+            <div className="p-3 rounded-xl bg-[var(--surface-card,#111011)] border border-[var(--border-subtle,#272425)]">
               <p className="text-[10px] uppercase font-bold text-zinc-500">
                 Estimated Duration
               </p>
@@ -113,7 +122,7 @@ export default async function PublicEventDetailPage({
               </p>
             </div>
 
-            <div className="p-3 rounded-xl bg-[#111011] border border-[#272425]">
+            <div className="p-3 rounded-xl bg-[var(--surface-card,#111011)] border border-[var(--border-subtle,#272425)]">
               <p className="text-[10px] uppercase font-bold text-zinc-500">
                 Assigned Venue
               </p>
@@ -123,7 +132,7 @@ export default async function PublicEventDetailPage({
               </p>
             </div>
 
-            <div className="p-3 rounded-xl bg-[#111011] border border-[#272425]">
+            <div className="p-3 rounded-xl bg-[var(--surface-card,#111011)] border border-[var(--border-subtle,#272425)]">
               <p className="text-[10px] uppercase font-bold text-zinc-500">
                 Current Status
               </p>
@@ -141,11 +150,11 @@ export default async function PublicEventDetailPage({
             <Card>
               <CardHeader className="py-4">
                 <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-[#931827]" />
+                  <Calendar className="w-4 h-4 text-[var(--brand,#931827)]" />
                   <CardTitle className="text-base">Event Schedule & Rounds</CardTitle>
                 </div>
               </CardHeader>
-              <CardContent className="p-0 divide-y divide-[#231f20]">
+              <CardContent className="p-0 divide-y divide-[var(--border-subtle,#231f20)]">
                 {event.schedules.length === 0 ? (
                   <p className="text-xs text-zinc-500 p-6 text-center">
                     Schedule slots will be published soon.
@@ -180,7 +189,7 @@ export default async function PublicEventDetailPage({
                   {event.results.map((res) => (
                     <div
                       key={res.id}
-                      className="p-3 rounded-xl border border-[#332f30] bg-[#141213] flex items-center justify-between"
+                      className="p-3 rounded-xl border border-[var(--border-subtle,#332f30)] bg-[var(--surface,#141213)] flex items-center justify-between"
                     >
                       <div className="flex items-center gap-3">
                         <span
@@ -219,13 +228,13 @@ export default async function PublicEventDetailPage({
 
           {/* Right Col: Registration Card */}
           <div className="space-y-6">
-            <Card className="p-6 space-y-4 border-[#332e30]">
+            <Card className="p-6 space-y-4 border-[var(--border-subtle,#332e30)]">
               <CardTitle className="text-base">Registration Notice</CardTitle>
               <p className="text-xs text-zinc-400 leading-relaxed">
                 Participation is organized through campus house nominations and registered attendee passes.
               </p>
 
-              <div className="p-3 rounded-xl bg-[#0e0d0e] border border-[#272425] text-xs space-y-1.5">
+              <div className="p-3 rounded-xl bg-[var(--surface-card,#0e0d0e)] border border-[var(--border-subtle,#272425)] text-xs space-y-1.5">
                 <p className="font-semibold text-zinc-300">Rules & Eligibility</p>
                 <ul className="list-disc pl-4 text-zinc-400 space-y-1 text-[11px]">
                   <li>Valid Student ID card required at gate.</li>
@@ -246,7 +255,7 @@ export default async function PublicEventDetailPage({
         </div>
       </main>
 
-      <PublicFooter />
+      <PublicFooter settings={settings} />
     </div>
   );
 }

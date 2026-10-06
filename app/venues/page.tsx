@@ -2,39 +2,49 @@ import React from "react";
 import Link from "next/link";
 import { MapPin, Users, Calendar, ArrowRight } from "lucide-react";
 import { getVenues } from "@/actions/venues";
+import { getSiteSettings } from "@/actions/settings";
 import { PublicNavbar } from "@/components/public/PublicNavbar";
 import { PublicFooter } from "@/components/public/PublicFooter";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { FEST_NAME } from "@/lib/constants";
+import { DEFAULT_SITE_SETTINGS } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = {
-  title: `Venues & Stages | ${FEST_NAME}`,
-  description: "Explore campus auditoriums, open stages, and computing arenas.",
-};
+export async function generateMetadata() {
+  const res = await getSiteSettings();
+  const settings = res.data || DEFAULT_SITE_SETTINGS;
+  return {
+    title: `Venues & Stages | ${settings.siteName || "IZAZOV 9.0"}`,
+    description: "Explore campus auditoriums, open stages, and computing arenas.",
+  };
+}
 
 export default async function PublicVenuesPage() {
-  const res = await getVenues();
-  const venues = res.data || [];
+  const [venuesRes, settingsRes] = await Promise.all([
+    getVenues(),
+    getSiteSettings(),
+  ]);
+
+  const venues = venuesRes.data || [];
+  const settings = settingsRes.data || DEFAULT_SITE_SETTINGS;
 
   return (
-    <div className="min-h-screen bg-[#000000] text-white flex flex-col selection:bg-[#931827]">
-      <PublicNavbar />
+    <div className="min-h-screen bg-[var(--background,#000000)] text-[var(--foreground,#FFFFFF)] flex flex-col selection:bg-[var(--brand,#931827)]">
+      <PublicNavbar settings={settings} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-8">
         <div className="space-y-2 text-center sm:text-left">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#931827]">
+          <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
             Campus Stages & Arenas
           </span>
           <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase">
             Festival Venues
           </h1>
           <p className="text-xs sm:text-sm text-zinc-400 max-w-2xl">
-            State-of-the-art concert halls, computing labs, amphitheaters, and indoor arenas hosting IZAZOV 9.0 competitions.
+            State-of-the-art concert halls, computing labs, amphitheaters, and indoor arenas hosting {settings.siteName || "IZAZOV 9.0"} competitions.
           </p>
         </div>
 
@@ -49,11 +59,11 @@ export default async function PublicVenuesPage() {
             {venues.map((v) => (
               <Card
                 key={v.id}
-                className="flex flex-col justify-between hover:border-[#931827] transition group"
+                className="flex flex-col justify-between hover:border-[var(--brand,#931827)] transition group"
               >
                 <CardHeader className="py-4">
                   <div className="flex items-center justify-between gap-2 mb-1.5">
-                    <span className="text-xs font-semibold text-[#931827] flex items-center gap-1">
+                    <span className="text-xs font-semibold text-[var(--brand,#931827)] flex items-center gap-1">
                       <MapPin className="w-3.5 h-3.5" />
                       <span>{v.location || "Campus"}</span>
                     </span>
@@ -78,7 +88,7 @@ export default async function PublicVenuesPage() {
                       "Equipped with staging, acoustic sound systems, and tournament projection."}
                   </p>
 
-                  <div className="flex items-center justify-between pt-3 border-t border-[#232021] text-xs text-zinc-400">
+                  <div className="flex items-center justify-between pt-3 border-t border-[var(--border-subtle,#232021)] text-xs text-zinc-400">
                     <span className="flex items-center gap-1.5">
                       <Users className="w-3.5 h-3.5 text-zinc-500" />
                       <span>Capacity: {v.capacity || "Open"}</span>
@@ -99,7 +109,7 @@ export default async function PublicVenuesPage() {
                           <Link key={e.id} href={`/events/${e.id}`}>
                             <Badge
                               variant="neutral"
-                              className="text-[10px] hover:border-[#931827] hover:text-white transition"
+                              className="text-[10px] hover:border-[var(--brand,#931827)] hover:text-white transition"
                             >
                               {e.code}
                             </Badge>
@@ -124,7 +134,7 @@ export default async function PublicVenuesPage() {
         )}
       </main>
 
-      <PublicFooter />
+      <PublicFooter settings={settings} />
     </div>
   );
 }

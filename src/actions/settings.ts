@@ -2,7 +2,15 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { UserRole, EventType, EventStatus, AnnouncementPriority } from "@/lib/constants";
+import {
+  UserRole,
+  EventType,
+  EventStatus,
+  AnnouncementPriority,
+  SiteSettingsData,
+  DEFAULT_SITE_SETTINGS,
+} from "@/lib/constants";
+import { getCurrentUser } from "@/lib/auth-helpers";
 
 export async function getHouses() {
   try {
@@ -308,5 +316,178 @@ export async function seedInitialData() {
   } catch (error) {
     console.error("Failed to seed initial data:", error);
     return { success: false, error: "Failed to initialize demo data" };
+  }
+}
+
+function isValidHex(hex: string): boolean {
+  return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hex.trim());
+}
+
+function sanitizeUrl(url?: string | null): string | null {
+  if (!url || !url.trim()) return null;
+  const trimmed = url.trim();
+  if (/^(https?:\/\/|\/|mailto:|tel:)/i.test(trimmed)) {
+    return trimmed;
+  }
+  return null;
+}
+
+export async function getSiteSettings(): Promise<{ success: boolean; data: SiteSettingsData }> {
+  try {
+    const settings = await prisma.siteSettings.upsert({
+      where: { id: "default" },
+      update: {},
+      create: {
+        id: "default",
+        ...DEFAULT_SITE_SETTINGS,
+      },
+    });
+
+    return { success: true, data: settings as SiteSettingsData };
+  } catch (error) {
+    console.warn("Could not load SiteSettings from database, falling back to defaults:", error);
+    return { success: true, data: DEFAULT_SITE_SETTINGS };
+  }
+}
+
+export async function updateSiteSettings(data: Partial<SiteSettingsData>) {
+  try {
+    const user = await getCurrentUser();
+    if (!user || (user.role !== "SUPER_ADMIN" && user.role !== "ADMIN")) {
+      return { success: false, error: "Unauthorized: Only Admins can modify website settings" };
+    }
+
+    // Validate colors
+    const colors = {
+      primaryColor: data.primaryColor && isValidHex(data.primaryColor) ? data.primaryColor : undefined,
+      backgroundColor: data.backgroundColor && isValidHex(data.backgroundColor) ? data.backgroundColor : undefined,
+      surfaceColor: data.surfaceColor && isValidHex(data.surfaceColor) ? data.surfaceColor : undefined,
+      cardColor: data.cardColor && isValidHex(data.cardColor) ? data.cardColor : undefined,
+      textColor: data.textColor && isValidHex(data.textColor) ? data.textColor : undefined,
+      mutedTextColor: data.mutedTextColor && isValidHex(data.mutedTextColor) ? data.mutedTextColor : undefined,
+      borderColor: data.borderColor && isValidHex(data.borderColor) ? data.borderColor : undefined,
+    };
+
+    const updatePayload: Record<string, string | boolean | null | undefined> = {
+      ...colors,
+      siteName: data.siteName?.trim(),
+      shortName: data.shortName?.trim(),
+      tagline: data.tagline?.trim(),
+      logoUrl: sanitizeUrl(data.logoUrl),
+      faviconUrl: sanitizeUrl(data.faviconUrl),
+
+      heroTitle: data.heroTitle?.trim(),
+      heroSubtitle: data.heroSubtitle?.trim(),
+      heroDescription: data.heroDescription?.trim(),
+      heroButtonText: data.heroButtonText?.trim(),
+      heroButtonLink: sanitizeUrl(data.heroButtonLink) || "/events",
+      heroImageUrl: sanitizeUrl(data.heroImageUrl),
+      showFeaturedEvents: data.showFeaturedEvents,
+      showAnnouncements: data.showAnnouncements,
+      showResults: data.showResults,
+      showSchedule: data.showSchedule,
+      showStats: data.showStats,
+
+      aboutTitle: data.aboutTitle?.trim(),
+      aboutDescription: data.aboutDescription?.trim(),
+      aboutImageUrl: sanitizeUrl(data.aboutImageUrl),
+
+      contactEmail: data.contactEmail?.trim(),
+      contactPhone: data.contactPhone?.trim(),
+      contactWhatsApp: data.contactWhatsApp?.trim() || null,
+      contactAddress: data.contactAddress?.trim(),
+
+      instagramUrl: sanitizeUrl(data.instagramUrl),
+      facebookUrl: sanitizeUrl(data.facebookUrl),
+      youtubeUrl: sanitizeUrl(data.youtubeUrl),
+      whatsappUrl: sanitizeUrl(data.whatsappUrl),
+      websiteUrl: sanitizeUrl(data.websiteUrl),
+
+      festName: data.festName?.trim(),
+      edition: data.edition?.trim(),
+      startDate: data.startDate?.trim(),
+      endDate: data.endDate?.trim(),
+      venueName: data.venueName?.trim(),
+      venueLocation: data.venueLocation?.trim(),
+
+      showEvents: data.showEvents,
+      showScheduleNav: data.showScheduleNav,
+      showVenuesNav: data.showVenuesNav,
+      showAnnouncementsNav: data.showAnnouncementsNav,
+      showResultsNav: data.showResultsNav,
+      showAboutNav: data.showAboutNav,
+
+      footerText: data.footerText?.trim(),
+      copyrightText: data.copyrightText?.trim(),
+
+      metaTitle: data.metaTitle?.trim(),
+      metaDescription: data.metaDescription?.trim(),
+      ogImageUrl: sanitizeUrl(data.ogImageUrl),
+    };
+
+    // Remove undefined
+    Object.keys(updatePayload).forEach((key) => {
+      if (updatePayload[key] === undefined) {
+        delete updatePayload[key];
+      }
+    });
+
+    const settings = await prisma.siteSettings.upsert({
+      where: { id: "default" },
+      update: updatePayload,
+      create: {
+        id: "default",
+        ...DEFAULT_SITE_SETTINGS,
+        ...updatePayload,
+      },
+    });
+
+    revalidatePath("/");
+    revalidatePath("/events");
+    revalidatePath("/schedule");
+    revalidatePath("/venues");
+    revalidatePath("/announcements");
+    revalidatePath("/results");
+    revalidatePath("/about");
+    revalidatePath("/admin");
+    revalidatePath("/admin/settings");
+
+    return { success: true, data: settings as SiteSettingsData };
+  } catch (error) {
+    console.error("Failed to update site settings:", error);
+    return { success: false, error: "Failed to update site settings" };
+  }
+}
+
+export async function resetSiteSettings() {
+  try {
+    const user = await getCurrentUser();
+    if (!user || (user.role !== "SUPER_ADMIN" && user.role !== "ADMIN")) {
+      return { success: false, error: "Unauthorized: Only Admins can reset website settings" };
+    }
+
+    const settings = await prisma.siteSettings.upsert({
+      where: { id: "default" },
+      update: DEFAULT_SITE_SETTINGS,
+      create: {
+        id: "default",
+        ...DEFAULT_SITE_SETTINGS,
+      },
+    });
+
+    revalidatePath("/");
+    revalidatePath("/events");
+    revalidatePath("/schedule");
+    revalidatePath("/venues");
+    revalidatePath("/announcements");
+    revalidatePath("/results");
+    revalidatePath("/about");
+    revalidatePath("/admin");
+    revalidatePath("/admin/settings");
+
+    return { success: true, data: settings as SiteSettingsData };
+  } catch (error) {
+    console.error("Failed to reset site settings:", error);
+    return { success: false, error: "Failed to reset site settings" };
   }
 }

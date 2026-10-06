@@ -299,6 +299,85 @@ model AuditLog {
   @@index([createdAt])
 }
 
+model SiteSettings {
+  id                  String   @id @default("default")
+
+  // BRAND
+  siteName            String   @default("IZAZOV 9.0")
+  shortName           String   @default("IZAZOV")
+  tagline             String   @default("Where Talent Meets Glory")
+  logoUrl             String?
+  faviconUrl          String?
+
+  // COLORS
+  primaryColor        String   @default("#931827")
+  backgroundColor     String   @default("#000000")
+  surfaceColor        String   @default("#231F20")
+  cardColor           String   @default("#111011")
+  textColor           String   @default("#FFFFFF")
+  mutedTextColor      String   @default("#B8B8B8")
+  borderColor         String   @default("#2D292A")
+
+  // HOMEPAGE
+  heroTitle           String   @default("IGNITE THE ARENA")
+  heroSubtitle        String   @default("THE 9TH EDITION • MARCH 2026")
+  heroDescription     String   @default("The flagship campus festival uniting cultural spectacles, 24-hour hackathons, esports battles, literary arenas, and the four-house championship.")
+  heroButtonText      String   @default("Explore Events")
+  heroButtonLink      String   @default("/events")
+  heroImageUrl        String?
+  showFeaturedEvents  Boolean  @default(true)
+  showAnnouncements   Boolean  @default(true)
+  showResults         Boolean  @default(true)
+  showSchedule        Boolean  @default(true)
+  showStats           Boolean  @default(true)
+
+  // ABOUT
+  aboutTitle          String   @default("About IZAZOV 9.0")
+  aboutDescription    String   @default("IZAZOV is the premier annual inter-collegiate cultural and technical festival. Over three days, students from across departments and institutions compete in cultural showcases, algorithmic battles, parliamentary debates, and gaming tournaments.")
+  aboutImageUrl       String?
+
+  // CONTACT
+  contactEmail        String   @default("fest@izazov9.com")
+  contactPhone        String   @default("+91 98765 43210")
+  contactWhatsApp     String?
+  contactAddress      String   @default("Main Campus Arena, University City")
+
+  // SOCIAL
+  instagramUrl        String?
+  facebookUrl         String?
+  youtubeUrl          String?
+  whatsappUrl         String?
+  websiteUrl          String?
+
+  // FEST
+  festName            String   @default("IZAZOV")
+  edition             String   @default("9.0")
+  startDate           String   @default("MARCH 25, 2026")
+  endDate             String   @default("MARCH 28, 2026")
+  venueName           String   @default("Main Campus Arena")
+  venueLocation       String   @default("Block A & Central Amphitheatre")
+
+  // NAVIGATION
+  showEvents          Boolean  @default(true)
+  showScheduleNav     Boolean  @default(true)
+  showVenuesNav       Boolean  @default(true)
+  showAnnouncementsNav Boolean @default(true)
+  showResultsNav      Boolean  @default(true)
+  showAboutNav        Boolean  @default(true)
+
+  // FOOTER
+  footerText          String   @default("IZAZOV 9.0 is the official campus festival operations and competition management system.")
+  copyrightText       String   @default("© 2026 IZAZOV 9.0 Fest Committee. All rights reserved.")
+
+  // SEO
+  metaTitle           String   @default("IZAZOV 9.0 — Campus Fest Operations & Management Platform")
+  metaDescription     String   @default("Official festival management platform for IZAZOV 9.0 — explore competitions, schedules, live results, and official announcements.")
+  ogImageUrl          String?
+
+  updatedAt           DateTime @updatedAt
+  createdAt           DateTime @default(now())
+}
+
 enum UserRole {
   SUPER_ADMIN
   ADMIN

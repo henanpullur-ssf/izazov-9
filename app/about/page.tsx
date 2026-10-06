@@ -4,48 +4,73 @@ import {
   Shield,
   Flame,
   CheckCircle2,
+  Mail,
+  MapPin,
+  Calendar,
 } from "lucide-react";
-import { getHouses } from "@/actions/settings";
+import { getHouses, getSiteSettings } from "@/actions/settings";
 import { PublicNavbar } from "@/components/public/PublicNavbar";
 import { PublicFooter } from "@/components/public/PublicFooter";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { FEST_NAME } from "@/lib/constants";
+import { DEFAULT_SITE_SETTINGS } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = {
-  title: `About & House System | ${FEST_NAME}`,
-  description: "Learn about the festival championship, house system, rules, and governance.",
-};
+export async function generateMetadata() {
+  const res = await getSiteSettings();
+  const settings = res.data || DEFAULT_SITE_SETTINGS;
+  return {
+    title: `About & House Championship | ${settings.siteName || "IZAZOV 9.0"}`,
+    description: settings.aboutDescription || "Learn about the festival championship, house system, rules, and governance.",
+  };
+}
 
 export default async function PublicAboutPage() {
-  const housesRes = await getHouses();
+  const [settingsRes, housesRes] = await Promise.all([
+    getSiteSettings(),
+    getHouses(),
+  ]);
+
+  const settings = settingsRes.data || DEFAULT_SITE_SETTINGS;
   const houses = housesRes.data || [];
 
   return (
-    <div className="min-h-screen bg-[#000000] text-white flex flex-col selection:bg-[#931827]">
-      <PublicNavbar />
+    <div className="min-h-screen bg-[var(--background,#000000)] text-[var(--foreground,#FFFFFF)] flex flex-col selection:bg-[var(--brand,#931827)]">
+      <PublicNavbar settings={settings} />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16">
         {/* Title Header */}
-        <div className="space-y-3 text-center sm:text-left">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#931827]">
-            The 9th Edition
+        <div className="space-y-4 text-center sm:text-left">
+          <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
+            THE {settings.edition || "9.0"} EDITION
           </span>
           <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase">
-            About {FEST_NAME}
+            {settings.aboutTitle || `About ${settings.siteName || "IZAZOV 9.0"}`}
           </h1>
           <p className="text-sm sm:text-base text-zinc-300 max-w-3xl leading-relaxed">
-            IZAZOV (meaning “The Challenge”) is our premier annual campus festival uniting over 2,000 students across technical hackathons, cultural showdowns, debates, arts, and esports arenas.
+            {settings.aboutDescription ||
+              "IZAZOV (meaning “The Challenge”) is our premier annual campus festival uniting students across technical hackathons, cultural showdowns, debates, arts, and esports arenas."}
           </p>
         </div>
 
+        {/* Optional About Banner Image */}
+        {settings.aboutImageUrl && (
+          <div className="rounded-3xl overflow-hidden border border-[var(--border-subtle,#2d292a)] max-h-96 w-full">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={settings.aboutImageUrl}
+              alt={settings.aboutTitle}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
+
         {/* Four Houses Championship Section */}
         <section className="space-y-6">
-          <div className="flex items-center gap-2 pb-2 border-b border-[#242122]">
-            <Flame className="w-5 h-5 text-[#931827]" />
+          <div className="flex items-center gap-2 pb-2 border-b border-[var(--border-subtle,#242122)]">
+            <Flame className="w-5 h-5 text-[var(--brand,#931827)]" />
             <h2 className="text-2xl font-bold text-white tracking-tight">
               The Four Houses Championship
             </h2>
@@ -56,13 +81,43 @@ export default async function PublicAboutPage() {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {(houses.length > 0 ? houses : [
-              { id: "1", name: "Phoenix", shortName: "PHX", description: "House of Flames & Innovation. Known for technical dominance and bold choreography." },
-              { id: "2", name: "Pegasus", shortName: "PEG", description: "House of Vision & Culture. Renowned for theatrical productions, music, and literary arts." },
-              { id: "3", name: "Orion", shortName: "ORN", description: "House of Strategy & Intellect. Excelling in debate, quiz, strategy games, and coding sprints." },
-              { id: "4", name: "Hydra", shortName: "HYD", description: "House of Resilience & Power. Dominating esports, physical sports, and battle of the bands." },
-            ]).map((h) => (
-              <Card key={h.id} className="p-5 space-y-2 border-[#2c2829] bg-[#141314]">
+            {(houses.length > 0
+              ? houses
+              : [
+                  {
+                    id: "1",
+                    name: "Phoenix",
+                    shortName: "PHX",
+                    description:
+                      "House of Flames & Innovation. Known for technical dominance and bold choreography.",
+                  },
+                  {
+                    id: "2",
+                    name: "Pegasus",
+                    shortName: "PEG",
+                    description:
+                      "House of Vision & Culture. Renowned for theatrical productions, music, and literary arts.",
+                  },
+                  {
+                    id: "3",
+                    name: "Orion",
+                    shortName: "ORN",
+                    description:
+                      "House of Strategy & Intellect. Excelling in debate, quiz, strategy games, and coding sprints.",
+                  },
+                  {
+                    id: "4",
+                    name: "Hydra",
+                    shortName: "HYD",
+                    description:
+                      "House of Resilience & Power. Dominating esports, physical sports, and battle of the bands.",
+                  },
+                ]
+            ).map((h) => (
+              <Card
+                key={h.id}
+                className="p-5 space-y-2 border-[var(--border-subtle,#2c2829)] bg-[var(--surface,#141314)]"
+              >
                 <div className="flex items-center justify-between">
                   <h3 className="font-bold text-white text-lg">{h.name}</h3>
                   {h.shortName && (
@@ -79,8 +134,8 @@ export default async function PublicAboutPage() {
 
         {/* Code of Conduct & Guidelines */}
         <section id="guidelines" className="space-y-6">
-          <div className="flex items-center gap-2 pb-2 border-b border-[#242122]">
-            <Shield className="w-5 h-5 text-[#931827]" />
+          <div className="flex items-center gap-2 pb-2 border-b border-[var(--border-subtle,#242122)]">
+            <Shield className="w-5 h-5 text-[var(--brand,#931827)]" />
             <h2 className="text-2xl font-bold text-white tracking-tight">
               Code of Conduct & Competition Rules
             </h2>
@@ -129,14 +184,51 @@ export default async function PublicAboutPage() {
           </div>
         </section>
 
-        {/* Contact & Coordination Desk */}
-        <section className="p-8 rounded-3xl border border-[#2d292a] bg-[#121112] text-center space-y-4">
-          <h3 className="text-xl font-bold text-white">
-            Have Questions or Need Assistance?
-          </h3>
-          <p className="text-xs sm:text-sm text-zinc-400 max-w-xl mx-auto">
-            Our student coordinator desk and technical crew are available at the Main Operations Desk in Block A.
-          </p>
+        {/* Fest Logistics & Contact Desk */}
+        <section className="p-8 rounded-3xl border border-[var(--border-subtle,#2d292a)] bg-[var(--surface-card,#121112)] text-center space-y-6">
+          <div className="space-y-2">
+            <h3 className="text-xl sm:text-2xl font-bold text-white">
+              Operations & Helpdesk
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-400 max-w-xl mx-auto">
+              Our central operations committee is active throughout the festival days to assist participants and audience members.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-zinc-300 max-w-3xl mx-auto">
+            <div className="p-4 rounded-2xl bg-[var(--surface,#181617)] border border-[var(--border-subtle,#282526)] space-y-1">
+              <Calendar className="w-4 h-4 text-[var(--brand,#931827)] mx-auto mb-1" />
+              <p className="font-semibold text-white">Festival Dates</p>
+              <p className="text-zinc-400">
+                {settings.startDate && settings.endDate
+                  ? `${settings.startDate} - ${settings.endDate}`
+                  : "March 2026"}
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[var(--surface,#181617)] border border-[var(--border-subtle,#282526)] space-y-1">
+              <MapPin className="w-4 h-4 text-[var(--brand,#931827)] mx-auto mb-1" />
+              <p className="font-semibold text-white">Main Venue</p>
+              <p className="text-zinc-400 truncate">
+                {settings.venueName || "Main Campus Arena"}
+              </p>
+              <p className="text-[10px] text-zinc-500 truncate">
+                {settings.venueLocation || "Campus Grounds"}
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[var(--surface,#181617)] border border-[var(--border-subtle,#282526)] space-y-1">
+              <Mail className="w-4 h-4 text-[var(--brand,#931827)] mx-auto mb-1" />
+              <p className="font-semibold text-white">Contact & Support</p>
+              <p className="text-zinc-400 truncate">
+                {settings.contactEmail || "fest@izazov9.com"}
+              </p>
+              <p className="text-[10px] text-zinc-500 truncate">
+                {settings.contactPhone || "+91 98765 43210"}
+              </p>
+            </div>
+          </div>
+
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <Link href="/events">
               <Button size="sm">Explore Events</Button>
@@ -150,7 +242,7 @@ export default async function PublicAboutPage() {
         </section>
       </main>
 
-      <PublicFooter />
+      <PublicFooter settings={settings} />
     </div>
   );
 }
