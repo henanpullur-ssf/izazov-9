@@ -26,39 +26,47 @@ model User {
 }
 
 model Participant {
-  id            String                    @id @default(cuid())
-  participantId String                    @unique
-  userId        String?                   @unique
-  name          String
-  gender        String?
-  dateOfBirth   DateTime?
-  phone         String?
-  email         String?
-  address       String?
-  photoUrl      String?
-  qrToken       String                    @unique @default(cuid())
-  houseId       String?
-  createdAt     DateTime                  @default(now())
-  updatedAt     DateTime                  @updatedAt
-  attendance    Attendance[]
-  house         House?                    @relation(fields: [houseId], references: [id])
-  user          User?                     @relation(fields: [userId], references: [id])
-  registrations RegistrationParticipant[]
-  results       Result[]
+  id                      String                    @id @default(cuid())
+  participantId           String                    @unique
+  rollNumber              String?
+  userId                  String?                   @unique
+  name                    String
+  gender                  String?
+  dateOfBirth             DateTime?
+  phone                   String?
+  email                   String?
+  address                 String?
+  photoUrl                String?
+  qrToken                 String                    @unique @default(cuid())
+  houseId                 String?
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  attendance              Attendance[]
+  house                   House?                    @relation(fields: [houseId], references: [id])
+  managedHouses           House[]                   @relation("HouseManager")
+  assistantManagedHouses  House[]                   @relation("HouseAssistantManager")
+  user                    User?                     @relation(fields: [userId], references: [id])
+  registrations           RegistrationParticipant[]
+  results                 Result[]
 
   @@index([name])
   @@index([houseId])
+  @@index([rollNumber])
 }
 
 model House {
-  id           String        @id @default(cuid())
-  name         String        @unique
-  shortName    String?
-  description  String?
-  logoUrl      String?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  participants Participant[]
+  id                  String        @id @default(cuid())
+  name                String        @unique
+  shortName           String?
+  description         String?
+  logoUrl             String?
+  managerId           String?
+  assistantManagerId  String?
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  manager             Participant?  @relation("HouseManager", fields: [managerId], references: [id], onDelete: SetNull)
+  assistantManager    Participant?  @relation("HouseAssistantManager", fields: [assistantManagerId], references: [id], onDelete: SetNull)
+  participants        Participant[]
 }
 
 model Category {
@@ -271,6 +279,11 @@ model Result {
   participantId  String?
   position       Int?
   totalMarks     Decimal      @db.Decimal(8, 2)
+  points         Decimal?     @default(0) @db.Decimal(8, 2)
+  grade          String?
+  prizeLevel     String?
+  remarks        String?
+  isPublished    Boolean      @default(true)
   isWinner       Boolean      @default(false)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
@@ -281,6 +294,7 @@ model Result {
   @@index([eventId])
   @@index([registrationId])
   @@index([participantId])
+  @@index([isPublished])
 }
 
 model Announcement {

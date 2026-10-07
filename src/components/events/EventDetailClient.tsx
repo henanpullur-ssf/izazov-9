@@ -417,7 +417,7 @@ export function EventDetailClient({
                           </p>
                           {res.participant?.house && (
                             <p className="text-[10px] text-zinc-400">
-                              House: {res.participant.house.name}
+                              Team: {res.participant.house.name}
                             </p>
                           )}
                         </div>

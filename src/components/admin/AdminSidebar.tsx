@@ -60,6 +60,11 @@ export const ADMIN_NAV_SECTIONS: NavSection[] = [
         icon: Tag,
       },
       {
+        title: "Teams",
+        href: "/admin/teams",
+        icon: Users,
+      },
+      {
         title: "Participants",
         href: "/admin/participants",
         icon: Users,
@@ -113,6 +118,11 @@ export const ADMIN_NAV_SECTIONS: NavSection[] = [
         title: "Results",
         href: "/admin/results",
         icon: Trophy,
+      },
+      {
+        title: "Championship",
+        href: "/admin/championship",
+        icon: Award,
       },
     ],
   },

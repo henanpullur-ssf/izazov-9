@@ -19,6 +19,7 @@ export function ParticipantForm({
   initialData?: {
     id?: string;
     participantId?: string;
+    rollNumber?: string | null;
     name?: string;
     gender?: string | null;
     dateOfBirth?: Date | string | null;
@@ -34,6 +35,9 @@ export function ParticipantForm({
 
   const [participantId, setParticipantId] = useState(
     initialData?.participantId || ""
+  );
+  const [rollNumber, setRollNumber] = useState(
+    initialData?.rollNumber || ""
   );
   const [name, setName] = useState(initialData?.name || "");
   const [gender, setGender] = useState(initialData?.gender || "Male");
@@ -59,6 +63,7 @@ export function ParticipantForm({
 
     const payload = {
       participantId,
+      rollNumber: rollNumber || undefined,
       name,
       gender,
       dateOfBirth: dateOfBirth || undefined,
@@ -109,22 +114,30 @@ export function ParticipantForm({
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Input
-          label="Participant ID / Roll No."
+          label="Participant ID"
           value={participantId}
           onChange={(e) => setParticipantId(e.target.value)}
-          placeholder="e.g. IZ-2026-001 or University Roll"
+          placeholder="e.g. IZ-001"
           required
           disabled={isEdit}
-          helperText="Unique identifier for pass generation"
+          helperText="Unique festival pass ID"
+        />
+
+        <Input
+          label="Roll Number"
+          value={rollNumber}
+          onChange={(e) => setRollNumber(e.target.value)}
+          placeholder="e.g. 001, CS2026-45"
+          helperText="Official student / roll number"
         />
 
         <Input
           label="Full Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="e.g. Alex Johnson"
+          placeholder="e.g. Ahmed Khan"
           required
         />
       </div>
@@ -149,14 +162,14 @@ export function ParticipantForm({
         />
 
         <Select
-          label="House / Team"
+          label="Assigned Team"
           value={houseId}
           onChange={(e) => setHouseId(e.target.value)}
         >
-          <option value="">No House Assigned</option>
+          <option value="">No Team Assigned</option>
           {houses.map((h) => (
             <option key={h.id} value={h.id}>
-              {h.name}
+              Team {h.name}
             </option>
           ))}
         </Select>
@@ -176,7 +189,7 @@ export function ParticipantForm({
           type="tel"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          placeholder="+1 555-0199"
+          placeholder="+91 98765 43210"
         />
       </div>
 
@@ -184,7 +197,7 @@ export function ParticipantForm({
         label="Department / Hostel / Address"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
-        placeholder="e.g. Computer Science Dept, Block B..."
+        placeholder="e.g. Department of Computer Science, Room 402..."
         rows={2}
       />
 

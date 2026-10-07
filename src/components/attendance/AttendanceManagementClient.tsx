@@ -245,7 +245,7 @@ export function AttendanceManagementClient({
                           </p>
                           <p className="text-[11px] text-zinc-400">
                             {r.participant.participantId}
-                            {r.participant.house && ` • House ${r.participant.house.name}`}
+                            {r.participant.house && ` • Team ${r.participant.house.name}`}
                           </p>
                         </div>
                       </TableCell>

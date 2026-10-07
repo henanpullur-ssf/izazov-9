@@ -1,5 +1,5 @@
 import React from "react";
-import { getResults } from "@/actions/results";
+import { getResults, getChampionshipData } from "@/actions/results";
 import { getEvents } from "@/actions/events";
 import { getCategories } from "@/actions/categories";
 import { getHouses, getSiteSettings } from "@/actions/settings";
@@ -17,19 +17,20 @@ export async function generateMetadata() {
   const res = await getSiteSettings();
   const settings = res.data || DEFAULT_SITE_SETTINGS;
   return {
-    title: `Results & Leaderboard | ${settings.siteName || "IZAZOV 9.0"}`,
-    description: "Live scores, winners, and house championship standings.",
+    title: `Results & Team Standings | ${settings.siteName || "IZAZOV 9.0"}`,
+    description: "Live scores, winners, and team championship standings.",
   };
 }
 
 export default async function PublicResultsPage() {
-  const [resultsRes, eventsRes, categoriesRes, housesRes, settingsRes] =
+  const [resultsRes, eventsRes, categoriesRes, housesRes, settingsRes, championshipRes] =
     await Promise.all([
-      getResults(),
+      getResults(undefined, true), // Only published results
       getEvents(),
       getCategories(false),
       getHouses(),
       getSiteSettings(),
+      getChampionshipData(),
     ]);
 
   const results = resultsRes.data || [];
@@ -49,6 +50,18 @@ export default async function PublicResultsPage() {
   }));
   const settings = settingsRes.data || DEFAULT_SITE_SETTINGS;
 
+  const defaultChampionship = {
+    totalPublishedCount: 0,
+    checkpointCount: 0,
+    nextCheckpoint: 5,
+    resultsUntilNextCheckpoint: 5,
+    liveTeamStandings: [],
+    publicTeamStandings: [],
+    individualStandings: [],
+  };
+
+  const championship = championshipRes.data || defaultChampionship;
+
   return (
     <div className="min-h-screen bg-[var(--background,#000000)] text-[var(--foreground,#FFFFFF)] flex flex-col selection:bg-[var(--brand,#931827)]">
       <PublicNavbar settings={settings} />
@@ -56,13 +69,13 @@ export default async function PublicResultsPage() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-8">
         <div className="space-y-2 text-center sm:text-left">
           <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
-            Scores & Champions
+            Official Festival Leaderboard
           </span>
           <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase">
-            Leaderboard & Results
+            Results & Team Championship
           </h1>
           <p className="text-xs sm:text-sm text-zinc-400 max-w-2xl">
-            Live festival scorecards, verified winner podiums, and the continuous House Championship points race.
+            Official competition scores, verified winner podiums, and the continuous Team Championship standings updated at 5-result checkpoints.
           </p>
         </div>
 
@@ -71,6 +84,7 @@ export default async function PublicResultsPage() {
           events={events}
           categories={categories}
           houses={houses}
+          championship={championship}
         />
       </main>
 

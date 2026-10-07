@@ -440,7 +440,7 @@ export function RegistrationManagementClient({
                       <div>
                         <p className="text-xs font-semibold">{p.name}</p>
                         <p className="text-[10px] text-zinc-400">
-                          {p.participantId} {p.houseName ? `• House ${p.houseName}` : ""}
+                          {p.participantId} {p.houseName ? `• Team ${p.houseName}` : ""}
                         </p>
                       </div>
                       <input

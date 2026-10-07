@@ -21,6 +21,24 @@ export const EVENT_STATUSES = [
   "CANCELLED",
 ] as const;
 
+export const GRADE_OPTIONS = [
+  "A+",
+  "A",
+  "B+",
+  "B",
+  "C",
+  "Other",
+] as const;
+
+export const PRIZE_LEVELS = [
+  "1st Prize",
+  "2nd Prize",
+  "3rd Prize",
+  "Consolation",
+  "Special Prize",
+  "No Prize",
+] as const;
+
 export const EventStatus = {
   DRAFT: "DRAFT",
   UPCOMING: "UPCOMING",

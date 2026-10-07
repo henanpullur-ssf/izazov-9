@@ -149,7 +149,7 @@ export default async function HomePage() {
                   <p className="text-2xl sm:text-3xl font-black text-white font-mono">
                     {houses.length > 0 ? houses.length : "4"}
                   </p>
-                  <p className="text-xs text-zinc-400 mt-0.5">Campus Houses</p>
+                  <p className="text-xs text-zinc-400 mt-0.5">Fest Teams</p>
                 </div>
                 <div className="p-3">
                   <p className="text-2xl sm:text-3xl font-black text-white font-mono">
@@ -168,7 +168,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* 2. FESTIVAL INTRODUCTION & HOUSES */}
+        {/* 2. FESTIVAL INTRODUCTION & TEAMS */}
         <section className="py-16 sm:py-20 border-b border-[var(--border-subtle,#232021)] bg-[var(--surface-card,#0c0b0c)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -177,22 +177,22 @@ export default async function HomePage() {
                   Championship Legacy
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
-                  Four Houses. One Ultimate Trophy.
+                  Four Teams. One Ultimate Trophy.
                 </h2>
                 <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
-                  {settings.siteName || "IZAZOV 9.0"} is engineered around high-stakes inter-house and open campus rivalry. Every dance victory, coding breakthrough, debate win, and esports triumph contributes points toward the prestigious Fest Cup.
+                  {settings.siteName || "IZAZOV 9.0"} is engineered around high-stakes inter-team and open campus rivalry. Every dance victory, coding breakthrough, debate win, and esports triumph contributes points toward the prestigious Fest Cup.
                 </p>
                 <div className="pt-2">
-                  <Link href="/about">
+                  <Link href="/results">
                     <Button variant="outline" size="sm" className="gap-1.5">
-                      <span>Learn about the House System & Rules</span>
+                      <span>View Team Championship Standings</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Button>
                   </Link>
                 </div>
               </div>
 
-              {/* Houses Showcase */}
+              {/* Teams Showcase */}
               <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 {(houses.length > 0
                   ? houses
@@ -602,7 +602,7 @@ export default async function HomePage() {
               Ready to Compete at {settings.siteName || "IZAZOV 9.0"}?
             </h2>
             <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
-              Explore competitions, coordinate with your House Captains, and follow real-time schedule updates directly through the platform.
+              Explore competitions, coordinate with your Team Captains & Managers, and follow real-time schedule updates directly through the platform.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
               <Link href={settings.heroButtonLink || "/events"}>

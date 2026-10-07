@@ -75,7 +75,7 @@ export default async function AdminDashboardPage() {
           <StatCard
             title="Total Participants"
             value={stats.totalParticipants}
-            subtitle="Registered across houses"
+            subtitle="Registered across teams"
             icon={<Users className="w-5 h-5" />}
             highlight={stats.totalParticipants > 0}
           />
@@ -148,7 +148,7 @@ export default async function AdminDashboardPage() {
           >
             <Users className="w-5 h-5 text-red-400 mb-2 group-hover:scale-110 transition-transform" />
             <span className="text-xs font-semibold text-white">Add Participant</span>
-            <span className="text-[10px] text-zinc-500 mt-0.5">House & QR</span>
+            <span className="text-[10px] text-zinc-500 mt-0.5">Team & QR</span>
           </Link>
 
           <Link
@@ -332,7 +332,7 @@ export default async function AdminDashboardPage() {
                         Event: <span className="text-zinc-300">{reg.event.name}</span>
                         {reg.participants[0]?.participant?.house && (
                           <span className="ml-2 text-zinc-500">
-                            • House: {reg.participants[0]?.participant?.house.name}
+                            • Team: {reg.participants[0]?.participant?.house.name}
                           </span>
                         )}
                       </p>
