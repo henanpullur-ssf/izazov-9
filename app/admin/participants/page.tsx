@@ -1,4 +1,5 @@
 import React from "react";
+import { requireModule } from "@/lib/auth-helpers";
 import { getParticipants } from "@/actions/participants";
 import { getHouses } from "@/actions/settings";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -7,6 +8,8 @@ import { ParticipantListClient } from "@/components/participants/ParticipantList
 export const dynamic = "force-dynamic";
 
 export default async function AdminParticipantsPage() {
+  await requireModule("fest_management");
+
   const [participantsRes, housesRes] = await Promise.all([
     getParticipants(),
     getHouses(),

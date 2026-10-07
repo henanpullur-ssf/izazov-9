@@ -1,5 +1,6 @@
 import React from "react";
 import { notFound } from "next/navigation";
+import { requireModule } from "@/lib/auth-helpers";
 import { getTeamById } from "@/actions/teams";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { TeamDetailClient, type TeamDetailData } from "@/components/teams/TeamDetailClient";
@@ -11,6 +12,8 @@ export default async function AdminTeamDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await requireModule("fest_management");
+
   const { id } = await params;
   const teamRes = await getTeamById(id);
 

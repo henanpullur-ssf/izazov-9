@@ -1,4 +1,5 @@
 import React from "react";
+import { requireModule } from "@/lib/auth-helpers";
 import { getSchedules } from "@/actions/schedule";
 import { getEvents } from "@/actions/events";
 import { getVenues } from "@/actions/venues";
@@ -9,6 +10,8 @@ import { ScheduleManagementClient } from "@/components/schedule/ScheduleManageme
 export const dynamic = "force-dynamic";
 
 export default async function AdminSchedulePage() {
+  await requireModule("fest_management");
+
   const [schedulesRes, eventsRes, venuesRes, categoriesRes] =
     await Promise.all([
       getSchedules(),

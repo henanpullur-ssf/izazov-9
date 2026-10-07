@@ -1,5 +1,6 @@
 import React from "react";
 import { notFound } from "next/navigation";
+import { requireModule } from "@/lib/auth-helpers";
 import { getParticipantById } from "@/actions/participants";
 import { getHouses } from "@/actions/settings";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -12,6 +13,8 @@ export default async function AdminParticipantDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await requireModule("fest_management");
+
   const { id } = await params;
   const [participantRes, housesRes] = await Promise.all([
     getParticipantById(id),

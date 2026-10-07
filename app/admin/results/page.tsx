@@ -1,4 +1,5 @@
 import React from "react";
+import { requireModule } from "@/lib/auth-helpers";
 import { getResults } from "@/actions/results";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -7,6 +8,8 @@ import { ResultsManagementClient, type ResultItem, type EventOption } from "@/co
 export const dynamic = "force-dynamic";
 
 export default async function AdminResultsPage() {
+  await requireModule("competition");
+
   const [resultsRes, events] = await Promise.all([
     getResults(),
     prisma.event.findMany({

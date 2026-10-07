@@ -1,4 +1,5 @@
 import React from "react";
+import { requireModule } from "@/lib/auth-helpers";
 import { getEvents } from "@/actions/events";
 import { getCategories } from "@/actions/categories";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -7,6 +8,8 @@ import { EventListClient } from "@/components/events/EventListClient";
 export const dynamic = "force-dynamic";
 
 export default async function AdminEventsPage() {
+  await requireModule("fest_management");
+
   const [eventsResult, categoriesResult] = await Promise.all([
     getEvents(),
     getCategories(true),

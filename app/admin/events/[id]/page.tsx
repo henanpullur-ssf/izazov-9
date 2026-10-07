@@ -1,5 +1,6 @@
 import React from "react";
 import { notFound } from "next/navigation";
+import { requireModule } from "@/lib/auth-helpers";
 import { getEventById } from "@/actions/events";
 import { getVenues } from "@/actions/venues";
 import { getJudges } from "@/actions/judges";
@@ -14,6 +15,8 @@ export default async function AdminEventDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await requireModule("fest_management");
+
   const { id } = await params;
   const [eventRes, venuesRes, judgesRes, categoriesRes] = await Promise.all([
     getEventById(id),

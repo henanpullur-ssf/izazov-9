@@ -1,4 +1,5 @@
 import React from "react";
+import { requireModule } from "@/lib/auth-helpers";
 import { getCategories } from "@/actions/categories";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { CategoryManagementClient } from "@/components/categories/CategoryManagementClient";
@@ -6,6 +7,8 @@ import { CategoryManagementClient } from "@/components/categories/CategoryManage
 export const dynamic = "force-dynamic";
 
 export default async function AdminCategoriesPage() {
+  await requireModule("fest_management");
+
   const result = await getCategories(true);
   const categories = result.data || [];
 

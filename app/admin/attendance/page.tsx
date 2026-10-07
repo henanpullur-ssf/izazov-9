@@ -1,4 +1,5 @@
 import React from "react";
+import { requireModule } from "@/lib/auth-helpers";
 import { getAttendance } from "@/actions/attendance";
 import { getEvents } from "@/actions/events";
 import { getParticipants } from "@/actions/participants";
@@ -8,6 +9,8 @@ import { AttendanceManagementClient } from "@/components/attendance/AttendanceMa
 export const dynamic = "force-dynamic";
 
 export default async function AdminAttendancePage() {
+  await requireModule("operations");
+
   const [attRes, eventsRes, partRes] = await Promise.all([
     getAttendance(),
     getEvents(),

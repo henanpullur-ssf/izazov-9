@@ -1,4 +1,5 @@
 import React from "react";
+import { requireModule } from "@/lib/auth-helpers";
 import { getRegistrations } from "@/actions/registrations";
 import { getEvents } from "@/actions/events";
 import { getParticipants } from "@/actions/participants";
@@ -8,6 +9,8 @@ import { RegistrationManagementClient } from "@/components/registrations/Registr
 export const dynamic = "force-dynamic";
 
 export default async function AdminRegistrationsPage() {
+  await requireModule("fest_management");
+
   const [regRes, eventsRes, partRes] = await Promise.all([
     getRegistrations(),
     getEvents(),

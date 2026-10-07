@@ -1,4 +1,5 @@
 import React from "react";
+import { requireModule } from "@/lib/auth-helpers";
 import { getJudges } from "@/actions/judges";
 import { getEvents } from "@/actions/events";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -7,6 +8,8 @@ import { JudgeManagementClient } from "@/components/judges/JudgeManagementClient
 export const dynamic = "force-dynamic";
 
 export default async function AdminJudgesPage() {
+  await requireModule("operations");
+
   const [judgesRes, eventsRes] = await Promise.all([
     getJudges(),
     getEvents(),

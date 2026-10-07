@@ -41,6 +41,11 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
 
+          if (user.isActive === false) {
+            console.warn(`[AUTH] Deactivated account login attempt: ${normalizedEmail}`);
+            throw new Error("ACCOUNT_DEACTIVATED: Your account has been deactivated. Please contact the administrator.");
+          }
+
           const passwordValid = await bcrypt.compare(
             credentials.password,
             user.passwordHash
@@ -56,9 +61,14 @@ export const authOptions: NextAuthOptions = {
             name: user.name,
             email: user.email,
             role: user.role,
+            isActive: user.isActive,
+            permissions: user.permissions || [],
           };
         } catch (error) {
           console.error("[AUTH] Error during authorize:", error);
+          if (error instanceof Error && error.message.startsWith("ACCOUNT_DEACTIVATED")) {
+            throw error;
+          }
           return null;
         }
       },
@@ -67,8 +77,10 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     async jwt({ token, user }) {
-      if (user && "role" in user) {
+      if (user) {
         token.role = user.role;
+        token.isActive = user.isActive;
+        token.permissions = user.permissions;
       }
 
       return token;
@@ -78,6 +90,8 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.sub!;
         session.user.role = token.role as string;
+        session.user.isActive = token.isActive !== false;
+        session.user.permissions = (token.permissions as string[]) || [];
       }
 
       return session;

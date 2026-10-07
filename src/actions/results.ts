@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { assertPermission } from "@/lib/auth-helpers";
 
 export async function getResults(eventId?: string, publishedOnly: boolean = false) {
   try {
@@ -66,6 +67,11 @@ export async function saveResult(data: {
   isWinner?: boolean;
   isPublished?: boolean;
 }) {
+  const authCheck = await assertPermission("results.manage");
+  if (!authCheck.success) {
+    return { success: false, error: authCheck.error };
+  }
+
   try {
     const pointsValue = Number(data.points) || 0;
     const isWinnerValue = data.isWinner !== undefined 
@@ -157,6 +163,11 @@ export async function saveResult(data: {
 }
 
 export async function toggleResultPublish(id: string, isPublished: boolean) {
+  const authCheck = await assertPermission("results.manage");
+  if (!authCheck.success) {
+    return { success: false, error: authCheck.error };
+  }
+
   try {
     const result = await prisma.result.update({
       where: { id },
@@ -178,6 +189,11 @@ export async function toggleResultPublish(id: string, isPublished: boolean) {
 }
 
 export async function deleteResult(id: string) {
+  const authCheck = await assertPermission("results.manage");
+  if (!authCheck.success) {
+    return { success: false, error: authCheck.error };
+  }
+
   try {
     await prisma.result.delete({
       where: { id },

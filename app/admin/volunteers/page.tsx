@@ -1,4 +1,5 @@
 import React from "react";
+import { requireModule } from "@/lib/auth-helpers";
 import { getVolunteers } from "@/actions/volunteers";
 import { getEvents } from "@/actions/events";
 import { getVenues } from "@/actions/venues";
@@ -8,6 +9,8 @@ import { VolunteerManagementClient, type VolunteerItem } from "@/components/volu
 export const dynamic = "force-dynamic";
 
 export default async function AdminVolunteersPage() {
+  await requireModule("operations");
+
   const [volRes, eventsRes, venuesRes] = await Promise.all([
     getVolunteers(),
     getEvents(),

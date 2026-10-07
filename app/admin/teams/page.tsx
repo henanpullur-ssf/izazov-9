@@ -1,4 +1,5 @@
 import React from "react";
+import { requireModule } from "@/lib/auth-helpers";
 import { getTeams } from "@/actions/teams";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { TeamListClient, type TeamItem } from "@/components/teams/TeamListClient";
@@ -6,6 +7,8 @@ import { TeamListClient, type TeamItem } from "@/components/teams/TeamListClient
 export const dynamic = "force-dynamic";
 
 export default async function AdminTeamsPage() {
+  await requireModule("fest_management");
+
   const teamsRes = await getTeams();
   const teams = (teamsRes.data || []) as unknown as TeamItem[];
 

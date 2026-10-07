@@ -1,4 +1,5 @@
 import React from "react";
+import { requireModule } from "@/lib/auth-helpers";
 import { getChampionshipData } from "@/actions/results";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ChampionshipDashboardClient, type ChampionshipData } from "@/components/championship/ChampionshipDashboardClient";
@@ -6,6 +7,8 @@ import { ChampionshipDashboardClient, type ChampionshipData } from "@/components
 export const dynamic = "force-dynamic";
 
 export default async function AdminChampionshipPage() {
+  await requireModule("competition");
+
   const res = await getChampionshipData();
   const defaultData: ChampionshipData = {
     totalPublishedCount: 0,

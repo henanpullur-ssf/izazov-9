@@ -1,4 +1,5 @@
 import React from "react";
+import { requireSuperAdmin } from "@/lib/auth-helpers";
 import { getSiteSettings, getHouses, getUsers } from "@/actions/settings";
 import { PageHeader } from "@/components/ui/PageHeader";
 import {
@@ -11,6 +12,7 @@ import { DEFAULT_SITE_SETTINGS } from "@/lib/constants";
 export const dynamic = "force-dynamic";
 
 export default async function AdminSettingsPage() {
+  await requireSuperAdmin();
   const [settingsRes, housesRes, usersRes] = await Promise.all([
     getSiteSettings(),
     getHouses(),

@@ -1,4 +1,5 @@
 import React from "react";
+import { requirePermission } from "@/lib/auth-helpers";
 import { getVenues } from "@/actions/venues";
 import { getCategories } from "@/actions/categories";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -8,6 +9,8 @@ import { EventForm } from "@/components/events/EventForm";
 export const dynamic = "force-dynamic";
 
 export default async function NewEventPage() {
+  await requirePermission("events.create");
+
   const [venuesResult, categoriesResult] = await Promise.all([
     getVenues(),
     getCategories(false),

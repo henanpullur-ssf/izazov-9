@@ -1,4 +1,5 @@
 import React from "react";
+import { requireModule } from "@/lib/auth-helpers";
 import { getEvents } from "@/actions/events";
 import { getScores } from "@/actions/scoring";
 import { getJudges } from "@/actions/judges";
@@ -8,6 +9,8 @@ import { ScoringInterfaceClient, ScoringEvent, ExistingScore } from "@/component
 export const dynamic = "force-dynamic";
 
 export default async function AdminScoringPage() {
+  await requireModule("competition");
+
   const [eventsRes, scoresRes, judgesRes] = await Promise.all([
     getEvents(),
     getScores(),

@@ -1,4 +1,5 @@
 import React from "react";
+import { requirePermission } from "@/lib/auth-helpers";
 import { getHouses } from "@/actions/settings";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -7,6 +8,8 @@ import { ParticipantForm } from "@/components/participants/ParticipantForm";
 export const dynamic = "force-dynamic";
 
 export default async function NewParticipantPage() {
+  await requirePermission("participants.manage");
+
   const housesRes = await getHouses();
   const houses = (housesRes.data || []).map((h) => ({
     id: h.id,

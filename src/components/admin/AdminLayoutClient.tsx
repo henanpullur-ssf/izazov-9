@@ -4,16 +4,13 @@ import React, { useState } from "react";
 import { AdminSidebar } from "./AdminSidebar";
 import { AdminHeader } from "./AdminHeader";
 import { X } from "lucide-react";
+import type { UserAuthContext } from "@/lib/permissions";
 
 export function AdminLayoutClient({
   user,
   children,
 }: {
-  user?: {
-    name?: string | null;
-    email?: string | null;
-    role?: string | null;
-  } | null;
+  user?: UserAuthContext | null;
   children: React.ReactNode;
 }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -22,7 +19,7 @@ export function AdminLayoutClient({
     <div className="flex min-h-screen bg-[#000000] text-white">
       {/* Desktop fixed sidebar */}
       <div className="hidden lg:block lg:w-64 lg:shrink-0 fixed inset-y-0 left-0 z-40">
-        <AdminSidebar userRole={user?.role || undefined} />
+        <AdminSidebar user={user} userRole={user?.role || undefined} />
       </div>
 
       {/* Mobile drawer backdrop & sidebar */}
@@ -43,6 +40,7 @@ export function AdminLayoutClient({
               </button>
             </div>
             <AdminSidebar
+              user={user}
               userRole={user?.role || undefined}
               onItemClick={() => setMobileNavOpen(false)}
             />
