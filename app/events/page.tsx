@@ -1,5 +1,6 @@
 import React from "react";
 import { getEvents } from "@/actions/events";
+import { getCategories } from "@/actions/categories";
 import { getSiteSettings } from "@/actions/settings";
 import { PublicNavbar } from "@/components/public/PublicNavbar";
 import { PublicFooter } from "@/components/public/PublicFooter";
@@ -26,12 +27,18 @@ export default async function PublicEventsPage({
   searchParams: Promise<{ category?: string }>;
 }) {
   const { category } = await searchParams;
-  const [eventsRes, settingsRes] = await Promise.all([
+  const [eventsRes, categoriesRes, settingsRes] = await Promise.all([
     getEvents(),
+    getCategories(false),
     getSiteSettings(),
   ]);
 
   const events = eventsRes.data || [];
+  const categories = (categoriesRes.data || []).map((c) => ({
+    id: c.id,
+    name: c.name,
+    color: c.color,
+  }));
   const settings = settingsRes.data || DEFAULT_SITE_SETTINGS;
 
   return (
@@ -53,6 +60,7 @@ export default async function PublicEventsPage({
 
         <PublicEventsClient
           events={events as unknown as PublicEventItem[]}
+          categories={categories}
           initialCategory={category}
         />
       </main>

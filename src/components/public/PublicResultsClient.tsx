@@ -18,7 +18,6 @@ import {
   TableHeader,
   TableCell,
 } from "@/components/ui/Table";
-import { EVENT_CATEGORIES } from "@/lib/constants";
 
 export interface PublicResultItem {
   id: string;
@@ -52,15 +51,25 @@ export interface PublicResultItem {
 export function PublicResultsClient({
   results,
   events = [],
+  categories = [],
   houses = [],
 }: {
   results: PublicResultItem[];
   events: { id: string; name: string; code: string }[];
+  categories?: { id: string; name: string }[];
   houses: { id: string; name: string; shortName: string | null }[];
 }) {
   const [selectedEventId, setSelectedEventId] = useState("ALL");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
   const [search, setSearch] = useState("");
+
+  const categoryOptions = useMemo(() => {
+    const names = new Set(categories.map((c) => c.name));
+    results.forEach((r) => {
+      if (r.event.category) names.add(r.event.category);
+    });
+    return Array.from(names);
+  }, [categories, results]);
 
   const filteredResults = useMemo(() => {
     return results.filter((r) => {
@@ -211,7 +220,7 @@ export function PublicResultsClient({
               className="rounded-xl border border-[#332f30] bg-[#181617] px-3 py-2 text-xs text-zinc-300 outline-none focus:border-[#931827] cursor-pointer"
             >
               <option value="ALL">All Categories</option>
-              {EVENT_CATEGORIES.map((c) => (
+              {categoryOptions.map((c) => (
                 <option key={c} value={c}>
                   {c}
                 </option>

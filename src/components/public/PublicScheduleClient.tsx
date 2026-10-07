@@ -12,7 +12,7 @@ import { Card } from "@/components/ui/Card";
 import { Badge, StatusBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { formatDate, formatTime, EVENT_CATEGORIES } from "@/lib/constants";
+import { formatDate, formatTime } from "@/lib/constants";
 
 export interface PublicScheduleItem {
   id: string;
@@ -38,13 +38,23 @@ export interface PublicScheduleItem {
 export function PublicScheduleClient({
   schedules,
   venues = [],
+  categories = [],
 }: {
   schedules: PublicScheduleItem[];
   venues: { id: string; name: string }[];
+  categories?: { id: string; name: string }[];
 }) {
   const [selectedVenue, setSelectedVenue] = useState("ALL");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
   const [search, setSearch] = useState("");
+
+  const categoryOptions = useMemo(() => {
+    const names = new Set(categories.map((c) => c.name));
+    schedules.forEach((s) => {
+      if (s.event.category) names.add(s.event.category);
+    });
+    return Array.from(names);
+  }, [categories, schedules]);
 
   const filtered = useMemo(() => {
     return schedules.filter((s) => {
@@ -106,7 +116,7 @@ export function PublicScheduleClient({
             className="rounded-xl border border-[#332f30] bg-[#181617] px-3 py-2 text-xs text-zinc-300 outline-none focus:border-[#931827] cursor-pointer"
           >
             <option value="ALL">All Categories</option>
-            {EVENT_CATEGORIES.map((c) => (
+            {categoryOptions.map((c) => (
               <option key={c} value={c}>
                 {c}
               </option>

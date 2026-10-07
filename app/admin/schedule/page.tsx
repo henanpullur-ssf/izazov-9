@@ -2,17 +2,20 @@ import React from "react";
 import { getSchedules } from "@/actions/schedule";
 import { getEvents } from "@/actions/events";
 import { getVenues } from "@/actions/venues";
+import { getCategories } from "@/actions/categories";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ScheduleManagementClient } from "@/components/schedule/ScheduleManagementClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminSchedulePage() {
-  const [schedulesRes, eventsRes, venuesRes] = await Promise.all([
-    getSchedules(),
-    getEvents(),
-    getVenues(),
-  ]);
+  const [schedulesRes, eventsRes, venuesRes, categoriesRes] =
+    await Promise.all([
+      getSchedules(),
+      getEvents(),
+      getVenues(),
+      getCategories(true),
+    ]);
 
   const schedules = schedulesRes.data || [];
   const events = (eventsRes.data || []).map((e) => ({
@@ -23,6 +26,10 @@ export default async function AdminSchedulePage() {
   const venues = (venuesRes.data || []).map((v) => ({
     id: v.id,
     name: v.name,
+  }));
+  const categories = (categoriesRes.data || []).map((c) => ({
+    id: c.id,
+    name: c.name,
   }));
 
   return (
@@ -40,6 +47,7 @@ export default async function AdminSchedulePage() {
         schedules={schedules}
         events={events}
         venues={venues}
+        categories={categories}
       />
     </div>
   );

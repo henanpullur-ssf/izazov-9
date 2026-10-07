@@ -11,6 +11,7 @@ import {
   DEFAULT_SITE_SETTINGS,
 } from "@/lib/constants";
 import { getCurrentUser } from "@/lib/auth-helpers";
+import { ensureDefaultCategories } from "@/actions/categories";
 
 export async function getHouses() {
   try {
@@ -303,7 +304,11 @@ export async function seedInitialData() {
       });
     }
 
+    // 6. Ensure default categories exist
+    await ensureDefaultCategories();
+
     revalidatePath("/admin");
+    revalidatePath("/admin/categories");
     revalidatePath("/admin/events");
     revalidatePath("/admin/venues");
     revalidatePath("/admin/settings");

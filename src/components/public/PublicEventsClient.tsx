@@ -15,7 +15,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { Badge, StatusBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { EVENT_CATEGORIES, EVENT_TYPES, EVENT_STATUSES, EventStatus, EventType } from "@/lib/constants";
+import { EVENT_TYPES, EVENT_STATUSES, EventStatus, EventType } from "@/lib/constants";
 
 export interface PublicEventItem {
   id: string;
@@ -33,15 +33,25 @@ export interface PublicEventItem {
 
 export function PublicEventsClient({
   events,
+  categories = [],
   initialCategory,
 }: {
   events: PublicEventItem[];
+  categories?: { id: string; name: string; color?: string | null }[];
   initialCategory?: string;
 }) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState(initialCategory || "ALL");
   const [type, setType] = useState("ALL");
   const [status, setStatus] = useState("ALL");
+
+  const categoryOptions = useMemo(() => {
+    const names = new Set(categories.map((c) => c.name));
+    events.forEach((e) => {
+      if (e.category) names.add(e.category);
+    });
+    return Array.from(names);
+  }, [categories, events]);
 
   const filteredEvents = useMemo(() => {
     return events.filter((e) => {
@@ -87,7 +97,7 @@ export function PublicEventsClient({
             className="rounded-xl border border-[#332f30] bg-[#181617] px-3 py-1.5 text-zinc-300 outline-none focus:border-[#931827] cursor-pointer"
           >
             <option value="ALL">All Categories</option>
-            {EVENT_CATEGORIES.map((c) => (
+            {categoryOptions.map((c) => (
               <option key={c} value={c}>
                 {c}
               </option>

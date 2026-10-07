@@ -1,6 +1,7 @@
 import React from "react";
 import { getResults } from "@/actions/results";
 import { getEvents } from "@/actions/events";
+import { getCategories } from "@/actions/categories";
 import { getHouses, getSiteSettings } from "@/actions/settings";
 import { PublicNavbar } from "@/components/public/PublicNavbar";
 import { PublicFooter } from "@/components/public/PublicFooter";
@@ -22,18 +23,24 @@ export async function generateMetadata() {
 }
 
 export default async function PublicResultsPage() {
-  const [resultsRes, eventsRes, housesRes, settingsRes] = await Promise.all([
-    getResults(),
-    getEvents(),
-    getHouses(),
-    getSiteSettings(),
-  ]);
+  const [resultsRes, eventsRes, categoriesRes, housesRes, settingsRes] =
+    await Promise.all([
+      getResults(),
+      getEvents(),
+      getCategories(false),
+      getHouses(),
+      getSiteSettings(),
+    ]);
 
   const results = resultsRes.data || [];
   const events = (eventsRes.data || []).map((e) => ({
     id: e.id,
     name: e.name,
     code: e.code,
+  }));
+  const categories = (categoriesRes.data || []).map((c) => ({
+    id: c.id,
+    name: c.name,
   }));
   const houses = (housesRes.data || []).map((h) => ({
     id: h.id,
@@ -62,6 +69,7 @@ export default async function PublicResultsPage() {
         <PublicResultsClient
           results={results as unknown as PublicResultItem[]}
           events={events}
+          categories={categories}
           houses={houses}
         />
       </main>

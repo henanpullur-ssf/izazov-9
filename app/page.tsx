@@ -20,10 +20,10 @@ import { getSchedules } from "@/actions/schedule";
 import { getAnnouncements } from "@/actions/announcements";
 import { getResults } from "@/actions/results";
 import { getVenues } from "@/actions/venues";
+import { getCategories } from "@/actions/categories";
 import { getHouses, getSiteSettings } from "@/actions/settings";
 import {
   DEFAULT_SITE_SETTINGS,
-  EVENT_CATEGORIES,
   formatDate,
   formatTime,
 } from "@/lib/constants";
@@ -34,6 +34,7 @@ export default async function HomePage() {
   const [
     settingsRes,
     eventsRes,
+    categoriesRes,
     schedulesRes,
     announcementsRes,
     resultsRes,
@@ -42,6 +43,7 @@ export default async function HomePage() {
   ] = await Promise.all([
     getSiteSettings(),
     getEvents(),
+    getCategories(false),
     getSchedules(),
     getAnnouncements(true),
     getResults(),
@@ -51,6 +53,7 @@ export default async function HomePage() {
 
   const settings = settingsRes.data || DEFAULT_SITE_SETTINGS;
   const events = eventsRes.data || [];
+  const categories = categoriesRes.data || [];
   const schedules = (schedulesRes.data || []).slice(0, 4);
   const announcements = (announcementsRes.data || []).slice(0, 3);
   const results = (resultsRes.data || []).slice(0, 4);
@@ -263,18 +266,29 @@ export default async function HomePage() {
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-              {EVENT_CATEGORIES.map((cat) => (
+              {categories.map((cat) => (
                 <Link
-                  key={cat}
-                  href={`/events?category=${encodeURIComponent(cat)}`}
+                  key={cat.id}
+                  href={`/events?category=${encodeURIComponent(cat.name)}`}
                   className="p-5 rounded-2xl border border-[var(--border-subtle,#272425)] bg-[var(--surface,#121112)] hover:border-[var(--brand,#931827)] hover:bg-[var(--surface-elevated,#181214)] transition group"
                 >
-                  <Sparkles className="w-5 h-5 text-[var(--brand,#931827)] mb-3 group-hover:scale-110 transition-transform" />
+                  <div className="flex items-center justify-between mb-3">
+                    <Sparkles
+                      className="w-5 h-5 group-hover:scale-110 transition-transform"
+                      style={{ color: cat.color || "var(--brand,#931827)" }}
+                    />
+                    {cat.color && (
+                      <span
+                        className="w-2 h-2 rounded-full"
+                        style={{ backgroundColor: cat.color }}
+                      />
+                    )}
+                  </div>
                   <h3 className="font-bold text-sm sm:text-base text-white">
-                    {cat}
+                    {cat.name}
                   </h3>
-                  <p className="text-[11px] text-zinc-400 mt-1">
-                    View competitions & rules
+                  <p className="text-[11px] text-zinc-400 mt-1 line-clamp-1">
+                    {cat.description || "View competitions & rules"}
                   </p>
                 </Link>
               ))}

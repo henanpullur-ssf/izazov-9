@@ -1,6 +1,7 @@
 import React from "react";
 import { getSchedules } from "@/actions/schedule";
 import { getVenues } from "@/actions/venues";
+import { getCategories } from "@/actions/categories";
 import { getSiteSettings } from "@/actions/settings";
 import { PublicNavbar } from "@/components/public/PublicNavbar";
 import { PublicFooter } from "@/components/public/PublicFooter";
@@ -22,16 +23,22 @@ export async function generateMetadata() {
 }
 
 export default async function PublicSchedulePage() {
-  const [schedulesRes, venuesRes, settingsRes] = await Promise.all([
-    getSchedules(),
-    getVenues(),
-    getSiteSettings(),
-  ]);
+  const [schedulesRes, venuesRes, categoriesRes, settingsRes] =
+    await Promise.all([
+      getSchedules(),
+      getVenues(),
+      getCategories(false),
+      getSiteSettings(),
+    ]);
 
   const schedules = schedulesRes.data || [];
   const venues = (venuesRes.data || []).map((v) => ({
     id: v.id,
     name: v.name,
+  }));
+  const categories = (categoriesRes.data || []).map((c) => ({
+    id: c.id,
+    name: c.name,
   }));
   const settings = settingsRes.data || DEFAULT_SITE_SETTINGS;
 
@@ -55,6 +62,7 @@ export default async function PublicSchedulePage() {
         <PublicScheduleClient
           schedules={schedules as unknown as PublicScheduleItem[]}
           venues={venues}
+          categories={categories}
         />
       </main>
 

@@ -18,6 +18,7 @@ import {
   Sliders,
   LogOut,
   Sparkles,
+  Tag,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 
@@ -52,6 +53,11 @@ export const ADMIN_NAV_SECTIONS: NavSection[] = [
         title: "Events",
         href: "/admin/events",
         icon: Sparkles,
+      },
+      {
+        title: "Categories",
+        href: "/admin/categories",
+        icon: Tag,
       },
       {
         title: "Participants",

@@ -21,7 +21,7 @@ import {
   updateSchedule,
   deleteSchedule,
 } from "@/actions/schedule";
-import { formatDate, formatTime, EVENT_CATEGORIES } from "@/lib/constants";
+import { formatDate, formatTime } from "@/lib/constants";
 
 export interface ScheduleItem {
   id: string;
@@ -48,10 +48,12 @@ export function ScheduleManagementClient({
   schedules,
   events = [],
   venues = [],
+  categories = [],
 }: {
   schedules: ScheduleItem[];
   events: { id: string; name: string; code: string }[];
   venues: { id: string; name: string }[];
+  categories?: { id: string; name: string }[];
 }) {
   const router = useRouter();
 
@@ -62,6 +64,14 @@ export function ScheduleManagementClient({
   // Filters
   const [selectedVenue, setSelectedVenue] = useState("ALL");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
+
+  const categoryOptions = useMemo(() => {
+    const names = new Set(categories.map((c) => c.name));
+    schedules.forEach((s) => {
+      if (s.event.category) names.add(s.event.category);
+    });
+    return Array.from(names);
+  }, [categories, schedules]);
 
   // Form State
   const [eventId, setEventId] = useState(events[0]?.id || "");
@@ -187,7 +197,7 @@ export function ScheduleManagementClient({
             className="rounded-xl border border-[#2f2b2c] bg-[#121112] px-3.5 py-2 text-xs text-zinc-300 outline-none focus:border-[#931827] cursor-pointer"
           >
             <option value="ALL">All Categories</option>
-            {EVENT_CATEGORIES.map((cat) => (
+            {categoryOptions.map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
               </option>

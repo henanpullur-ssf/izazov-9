@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input, Textarea, Select } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { EVENT_CATEGORIES, EVENT_STATUSES, EVENT_TYPES, EventStatus, EventType } from "@/lib/constants";
+import { EVENT_STATUSES, EVENT_TYPES, EventStatus, EventType } from "@/lib/constants";
 import { createEvent, updateEvent } from "@/actions/events";
 
 export interface VenueOption {
@@ -12,9 +12,17 @@ export interface VenueOption {
   name: string;
 }
 
+export interface CategoryOption {
+  id: string;
+  name: string;
+  color?: string | null;
+  isActive?: boolean;
+}
+
 export function EventForm({
   initialData,
   venues = [],
+  categories = [],
   isEdit = false,
 }: {
   initialData?: {
@@ -30,15 +38,30 @@ export function EventForm({
     venueId?: string | null;
   };
   venues: VenueOption[];
+  categories?: CategoryOption[];
   isEdit?: boolean;
 }) {
   const router = useRouter();
+
+  const initialCategory = initialData?.category;
+
+  // Combine active categories with initialData category if not present
+  const availableCategoryNames = React.useMemo(() => {
+    const list = categories.map((c) => c.name);
+    if (initialCategory && !list.includes(initialCategory)) {
+      list.unshift(initialCategory);
+    }
+    if (list.length === 0) {
+      list.push("General");
+    }
+    return list;
+  }, [categories, initialCategory]);
 
   const [code, setCode] = useState(initialData?.code || "");
   const [name, setName] = useState(initialData?.name || "");
   const [description, setDescription] = useState(initialData?.description || "");
   const [category, setCategory] = useState(
-    initialData?.category || EVENT_CATEGORIES[0]
+    initialData?.category || availableCategoryNames[0] || "General"
   );
   const [type, setType] = useState<EventType>(
     initialData?.type || EventType.INDIVIDUAL
@@ -151,7 +174,7 @@ export function EventForm({
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
-          {EVENT_CATEGORIES.map((cat) => (
+          {availableCategoryNames.map((cat) => (
             <option key={cat} value={cat}>
               {cat}
             </option>

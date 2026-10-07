@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getEventById } from "@/actions/events";
 import { getVenues } from "@/actions/venues";
 import { getJudges } from "@/actions/judges";
+import { getCategories } from "@/actions/categories";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { EventDetailClient } from "@/components/events/EventDetailClient";
 
@@ -14,10 +15,11 @@ export default async function AdminEventDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [eventRes, venuesRes, judgesRes] = await Promise.all([
+  const [eventRes, venuesRes, judgesRes, categoriesRes] = await Promise.all([
     getEventById(id),
     getVenues(),
     getJudges(),
+    getCategories(false),
   ]);
 
   if (!eventRes.success || !eventRes.data) {
@@ -28,6 +30,12 @@ export default async function AdminEventDetailPage({
   const venues = (venuesRes.data || []).map((v) => ({
     id: v.id,
     name: v.name,
+  }));
+  const categories = (categoriesRes.data || []).map((c) => ({
+    id: c.id,
+    name: c.name,
+    color: c.color,
+    isActive: c.isActive,
   }));
   const availableJudges = (judgesRes.data || []).map((j) => ({
     id: j.id,
@@ -52,6 +60,7 @@ export default async function AdminEventDetailPage({
       <EventDetailClient
         event={event}
         venues={venues}
+        categories={categories}
         availableJudges={availableJudges}
       />
     </div>

@@ -24,7 +24,7 @@ import {
   TableHeader,
   TableCell,
 } from "@/components/ui/Table";
-import { EVENT_CATEGORIES, EVENT_STATUSES, EVENT_TYPES, EventStatus, EventType } from "@/lib/constants";
+import { EVENT_STATUSES, EVENT_TYPES, EventStatus, EventType } from "@/lib/constants";
 import { deleteEvent } from "@/actions/events";
 import { useRouter } from "next/navigation";
 
@@ -47,8 +47,10 @@ export interface EventListItem {
 
 export function EventListClient({
   events,
+  categories = [],
 }: {
   events: EventListItem[];
+  categories?: { id: string; name: string }[];
 }) {
   const router = useRouter();
   const [search, setSearch] = useState("");
@@ -58,6 +60,14 @@ export function EventListClient({
 
   const [deleteTarget, setDeleteTarget] = useState<EventListItem | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const categoryOptions = useMemo(() => {
+    const names = new Set(categories.map((c) => c.name));
+    events.forEach((e) => {
+      if (e.category) names.add(e.category);
+    });
+    return Array.from(names);
+  }, [categories, events]);
 
   const filteredEvents = useMemo(() => {
     return events.filter((e) => {
@@ -102,7 +112,7 @@ export function EventListClient({
             value: category,
             options: [
               { label: "All Categories", value: "ALL" },
-              ...EVENT_CATEGORIES.map((c) => ({ label: c, value: c })),
+              ...categoryOptions.map((c) => ({ label: c, value: c })),
             ],
             onChange: setCategory,
           },

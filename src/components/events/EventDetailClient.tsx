@@ -16,7 +16,7 @@ import { StatusBadge, Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { Modal } from "@/components/ui/Modal";
-import { EventForm, VenueOption } from "./EventForm";
+import { EventForm, VenueOption, CategoryOption } from "./EventForm";
 import { updateEventStatus } from "@/actions/events";
 import { assignJudgeToEvent, removeJudgeAssignment } from "@/actions/judges";
 import { formatDate, formatTime, EVENT_STATUSES, EventStatus, EventType } from "@/lib/constants";
@@ -80,10 +80,12 @@ export interface EventDetailData {
 export function EventDetailClient({
   event,
   venues,
+  categories = [],
   availableJudges,
 }: {
   event: EventDetailData;
   venues: VenueOption[];
+  categories?: CategoryOption[];
   availableJudges: { id: string; user: { name: string; email: string } }[];
 }) {
   const router = useRouter();
@@ -442,6 +444,7 @@ export function EventDetailClient({
         <EventForm
           initialData={event}
           venues={venues}
+          categories={categories}
           isEdit={true}
         />
       </Modal>
