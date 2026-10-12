@@ -34,6 +34,7 @@ export function PublicFooter({ settings }: PublicFooterProps) {
   const showResults = settings ? settings.showResultsNav : true;
   const showAnnouncements = settings ? settings.showAnnouncementsNav : true;
   const showAbout = settings ? settings.showAboutNav : true;
+  const showGallery = settings ? settings.showGalleryNav : true;
 
   const hasSocials =
     Boolean(settings?.instagramUrl) ||
@@ -177,6 +178,13 @@ export function PublicFooter({ settings }: PublicFooterProps) {
                 <li>
                   <Link href="/results" className="hover:text-white transition">
                     Live Leaderboard & Results
+                  </Link>
+                </li>
+              )}
+              {showGallery && (
+                <li>
+                  <Link href="/gallery" className="hover:text-white transition">
+                    Photo Gallery Archive
                   </Link>
                 </li>
               )}

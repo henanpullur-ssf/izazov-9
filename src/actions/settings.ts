@@ -307,11 +307,50 @@ export async function seedInitialData() {
     // 6. Ensure default categories exist
     await ensureDefaultCategories();
 
+    // 7. Seed default Gallery Albums if none exist
+    const albumCount = await prisma.galleryAlbum.count();
+    if (albumCount === 0) {
+      await prisma.galleryAlbum.createMany({
+        data: [
+          {
+            name: "Inauguration & Day 1",
+            slug: "inauguration-day-1",
+            description: "Opening ceremony, torch lighting, and inaugural addresses.",
+            sortOrder: 1,
+            isActive: true,
+          },
+          {
+            name: "Competitions",
+            slug: "competitions",
+            description: "High-octane hackathons, debates, and esports clashes.",
+            sortOrder: 2,
+            isActive: true,
+          },
+          {
+            name: "Cultural Showcase",
+            slug: "cultural-showcase",
+            description: "Music, dance, battle of bands, and stage dramatics.",
+            sortOrder: 3,
+            isActive: true,
+          },
+          {
+            name: "Closing Ceremony",
+            slug: "closing-ceremony",
+            description: "Award presentations and championship trophy celebration.",
+            sortOrder: 4,
+            isActive: true,
+          },
+        ],
+      });
+    }
+
     revalidatePath("/admin");
+    revalidatePath("/admin/gallery");
     revalidatePath("/admin/categories");
     revalidatePath("/admin/events");
     revalidatePath("/admin/venues");
     revalidatePath("/admin/settings");
+    revalidatePath("/gallery");
     revalidatePath("/events");
     revalidatePath("/schedule");
     revalidatePath("/announcements");
@@ -392,6 +431,9 @@ export async function updateSiteSettings(data: Partial<SiteSettingsData>) {
       showResults: data.showResults,
       showSchedule: data.showSchedule,
       showStats: data.showStats,
+      showGallery: data.showGallery,
+      galleryTitle: data.galleryTitle !== undefined ? data.galleryTitle?.trim() : undefined,
+      gallerySubtitle: data.gallerySubtitle !== undefined ? data.gallerySubtitle?.trim() : undefined,
 
       aboutTitle: data.aboutTitle?.trim(),
       aboutDescription: data.aboutDescription?.trim(),
@@ -421,6 +463,7 @@ export async function updateSiteSettings(data: Partial<SiteSettingsData>) {
       showAnnouncementsNav: data.showAnnouncementsNav,
       showResultsNav: data.showResultsNav,
       showAboutNav: data.showAboutNav,
+      showGalleryNav: data.showGalleryNav,
 
       footerText: data.footerText?.trim(),
       copyrightText: data.copyrightText?.trim(),
@@ -454,6 +497,7 @@ export async function updateSiteSettings(data: Partial<SiteSettingsData>) {
     revalidatePath("/announcements");
     revalidatePath("/results");
     revalidatePath("/about");
+    revalidatePath("/gallery");
     revalidatePath("/admin");
     revalidatePath("/admin/settings");
 

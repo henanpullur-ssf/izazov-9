@@ -185,6 +185,9 @@ export interface SiteSettingsData {
   showResults: boolean;
   showSchedule: boolean;
   showStats: boolean;
+  showGallery: boolean;
+  galleryTitle?: string | null;
+  gallerySubtitle?: string | null;
 
   aboutTitle: string;
   aboutDescription: string;
@@ -214,6 +217,7 @@ export interface SiteSettingsData {
   showAnnouncementsNav: boolean;
   showResultsNav: boolean;
   showAboutNav: boolean;
+  showGalleryNav: boolean;
 
   footerText: string;
   copyrightText: string;
@@ -250,6 +254,10 @@ export const DEFAULT_SITE_SETTINGS: SiteSettingsData = {
   showResults: true,
   showSchedule: true,
   showStats: true,
+  showGallery: true,
+  galleryTitle: "MOMENTS & MEMORIES",
+  gallerySubtitle:
+    "Experience the energy, passion, and triumph of IZAZOV 9.0 through our official photo archive.",
 
   aboutTitle: "About IZAZOV 9.0",
   aboutDescription:
@@ -280,6 +288,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettingsData = {
   showAnnouncementsNav: true,
   showResultsNav: true,
   showAboutNav: true,
+  showGalleryNav: true,
 
   footerText:
     "IZAZOV 9.0 is the official campus festival operations and competition management system.",

@@ -108,6 +108,7 @@ model Event {
   schedules            Schedule[]
   scores               Score[]
   volunteerAssignments VolunteerAssignment[]
+  galleryImages        GalleryImage[]
 
   @@index([status])
   @@index([category])
@@ -361,6 +362,9 @@ model SiteSettings {
   showResults         Boolean  @default(true)
   showSchedule        Boolean  @default(true)
   showStats           Boolean  @default(true)
+  showGallery         Boolean  @default(true)
+  galleryTitle        String?  @default("MOMENTS & MEMORIES")
+  gallerySubtitle     String?  @default("Relive the highlights, emotion, and triumph of IZAZOV 9.0.")
 
   // ABOUT
   aboutTitle          String   @default("About IZAZOV 9.0")
@@ -395,6 +399,7 @@ model SiteSettings {
   showAnnouncementsNav Boolean @default(true)
   showResultsNav      Boolean  @default(true)
   showAboutNav        Boolean  @default(true)
+  showGalleryNav      Boolean  @default(true)
 
   // FOOTER
   footerText          String   @default("IZAZOV 9.0 is the official campus festival operations and competition management system.")
@@ -455,3 +460,53 @@ enum ScoreStatus {
   SUBMITTED
   LOCKED
 }
+
+model GalleryAlbum {
+  id            String         @id @default(cuid())
+  name          String
+  slug          String         @unique
+  description   String?
+  coverImageUrl String?
+  isActive      Boolean        @default(true)
+  sortOrder     Int            @default(0)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  images        GalleryImage[]
+
+  @@index([isActive])
+  @@index([sortOrder])
+  @@index([slug])
+}
+
+model GalleryImage {
+  id           String        @id @default(cuid())
+  title        String?
+  slug         String?
+  caption      String?
+  imageUrl     String
+  publicId     String
+  width        Int?
+  height       Int?
+  fileSize     Int?
+  format       String?
+  albumId      String
+  album        GalleryAlbum  @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  eventId      String?
+  event        Event?        @relation(fields: [eventId], references: [id], onDelete: SetNull)
+  category     String?
+  photographer String?
+  sortOrder    Int           @default(0)
+  isPublished  Boolean       @default(false)
+  isFeatured   Boolean       @default(false)
+  uploadedById String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([albumId])
+  @@index([eventId])
+  @@index([isPublished])
+  @@index([isFeatured])
+  @@index([sortOrder])
+  @@index([createdAt])
+}
+

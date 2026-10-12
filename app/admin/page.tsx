@@ -15,6 +15,7 @@ import {
   ArrowRight,
   Clock,
   ShieldCheck,
+  Camera,
 } from "lucide-react";
 import { requireAuth } from "@/lib/auth-helpers";
 import { isSuperAdmin, hasPermission, hasModuleAccess } from "@/lib/permissions";
@@ -83,6 +84,14 @@ export default async function AdminDashboardPage() {
       icon: Trophy,
       iconColor: "text-yellow-400",
       permission: "results.manage",
+    },
+    {
+      title: "Upload Photos",
+      subtitle: "Media archive",
+      href: "/admin/gallery",
+      icon: Camera,
+      iconColor: "text-rose-400",
+      permission: "gallery.upload",
     },
   ].filter((item) => superAdmin || hasPermission(currentUser, item.permission));
 

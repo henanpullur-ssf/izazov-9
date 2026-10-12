@@ -20,6 +20,7 @@ import {
   Sparkles,
   Tag,
   ShieldCheck,
+  Images,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { hasPermission, isSuperAdmin, type UserAuthContext } from "@/lib/permissions";
@@ -158,6 +159,12 @@ export const ADMIN_NAV_SECTIONS: NavSection[] = [
         href: "/admin/announcements",
         icon: Megaphone,
         permission: "announcements.view",
+      },
+      {
+        title: "Gallery",
+        href: "/admin/gallery",
+        icon: Images,
+        permission: "gallery.view",
       },
     ],
   },

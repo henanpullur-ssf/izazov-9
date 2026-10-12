@@ -22,6 +22,8 @@ import { getResults } from "@/actions/results";
 import { getVenues } from "@/actions/venues";
 import { getCategories } from "@/actions/categories";
 import { getHouses, getSiteSettings } from "@/actions/settings";
+import { getAlbums, getPublicGalleryImages } from "@/actions/gallery";
+import { HomeGallerySection } from "@/components/gallery/HomeGallerySection";
 import {
   DEFAULT_SITE_SETTINGS,
   formatDate,
@@ -40,6 +42,8 @@ export default async function HomePage() {
     resultsRes,
     venuesRes,
     housesRes,
+    albumsRes,
+    galleryImagesRes,
   ] = await Promise.all([
     getSiteSettings(),
     getEvents(),
@@ -49,6 +53,8 @@ export default async function HomePage() {
     getResults(),
     getVenues(),
     getHouses(),
+    getAlbums(true),
+    getPublicGalleryImages({ page: 1, limit: 12 }),
   ]);
 
   const settings = settingsRes.data || DEFAULT_SITE_SETTINGS;
@@ -59,6 +65,8 @@ export default async function HomePage() {
   const results = (resultsRes.data || []).slice(0, 4);
   const venues = (venuesRes.data || []).slice(0, 3);
   const houses = housesRes.data || [];
+  const galleryAlbums = albumsRes.data || [];
+  const galleryImages = galleryImagesRes.data?.images || [];
 
   const festDates =
     settings.startDate && settings.endDate
@@ -379,125 +387,62 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* 5. SCHEDULE PREVIEW & ANNOUNCEMENTS TWO-COL */}
-        {(settings.showSchedule || settings.showAnnouncements) && (
+        {/* 5. SCHEDULE PREVIEW */}
+        {settings.showSchedule && (
           <section className="py-16 sm:py-20 border-b border-[var(--border-subtle,#232021)] bg-[var(--background,#000000)]">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div
-                className={`grid grid-cols-1 ${
-                  settings.showSchedule && settings.showAnnouncements
-                    ? "lg:grid-cols-2"
-                    : "lg:grid-cols-1 max-w-3xl mx-auto"
-                } gap-8`}
-              >
-                {/* Schedule Preview */}
-                {settings.showSchedule && (
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-[var(--brand,#931827)]" />
-                        <h3 className="text-lg font-bold text-white">
-                          Festival Schedule Preview
-                        </h3>
-                      </div>
-                      <Link
-                        href="/schedule"
-                        className="text-xs text-red-400 hover:underline font-medium"
-                      >
-                        Full timeline →
-                      </Link>
-                    </div>
-
-                    <Card>
-                      <CardContent className="p-0 divide-y divide-[var(--border-subtle,#231f20)]">
-                        {schedules.length === 0 ? (
-                          <p className="text-xs text-zinc-500 p-6 text-center">
-                            Schedule slots will be released shortly.
-                          </p>
-                        ) : (
-                          schedules.map((s) => (
-                            <div
-                              key={s.id}
-                              className="p-4 flex items-center justify-between hover:bg-[var(--surface-elevated,#161415)] transition"
-                            >
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <Badge
-                                    variant="primary"
-                                    className="text-[10px]"
-                                  >
-                                    {s.event.code}
-                                  </Badge>
-                                  <span className="text-xs font-semibold text-white">
-                                    {s.event.name}
-                                  </span>
-                                </div>
-                                <p className="text-[11px] text-zinc-400 mt-1">
-                                  {formatDate(s.startTime)} •{" "}
-                                  {formatTime(s.startTime)} -{" "}
-                                  {formatTime(s.endTime)}
-                                  {s.venue && ` • ${s.venue.name}`}
-                                </p>
-                              </div>
-                              <StatusBadge status={s.event.status} />
-                            </div>
-                          ))
-                        )}
-                      </CardContent>
-                    </Card>
-                  </div>
-                )}
-
-                {/* Latest Announcements */}
-                {settings.showAnnouncements && (
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Megaphone className="w-4 h-4 text-[var(--brand,#931827)]" />
-                        <h3 className="text-lg font-bold text-white">
-                          Official Bulletins
-                        </h3>
-                      </div>
-                      <Link
-                        href="/announcements"
-                        className="text-xs text-red-400 hover:underline font-medium"
-                      >
-                        View all notices →
-                      </Link>
-                    </div>
-
-                    <Card>
-                      <CardContent className="p-0 divide-y divide-[var(--border-subtle,#231f20)]">
-                        {announcements.length === 0 ? (
-                          <p className="text-xs text-zinc-500 p-6 text-center">
-                            No announcements posted yet.
-                          </p>
-                        ) : (
-                          announcements.map((a) => (
-                            <div
-                              key={a.id}
-                              className="p-4 space-y-1.5 hover:bg-[var(--surface-elevated,#161415)] transition"
-                            >
-                              <div className="flex items-center justify-between gap-2">
-                                <span className="text-xs font-bold text-white line-clamp-1">
-                                  {a.title}
-                                </span>
-                                <StatusBadge status={a.priority} />
-                              </div>
-                              <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
-                                {a.content}
-                              </p>
-                              <p className="text-[10px] text-zinc-500">
-                                {formatDate(a.createdAt)}
-                              </p>
-                            </div>
-                          ))
-                        )}
-                      </CardContent>
-                    </Card>
-                  </div>
-                )}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-[var(--brand,#931827)]" />
+                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                    Festival Schedule Preview
+                  </h3>
+                </div>
+                <Link
+                  href="/schedule"
+                  className="text-xs text-red-400 hover:underline font-medium"
+                >
+                  Full timeline →
+                </Link>
               </div>
+
+              <Card>
+                <CardContent className="p-0 divide-y divide-[var(--border-subtle,#231f20)]">
+                  {schedules.length === 0 ? (
+                    <p className="text-xs text-zinc-500 p-6 text-center">
+                      Schedule slots will be released shortly.
+                    </p>
+                  ) : (
+                    schedules.map((s) => (
+                      <div
+                        key={s.id}
+                        className="p-4 flex items-center justify-between hover:bg-[var(--surface-elevated,#161415)] transition"
+                      >
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <Badge
+                              variant="primary"
+                              className="text-[10px]"
+                            >
+                              {s.event.code}
+                            </Badge>
+                            <span className="text-xs font-semibold text-white">
+                              {s.event.name}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-zinc-400 mt-1">
+                            {formatDate(s.startTime)} •{" "}
+                            {formatTime(s.startTime)} -{" "}
+                            {formatTime(s.endTime)}
+                            {s.venue && ` • ${s.venue.name}`}
+                          </p>
+                        </div>
+                        <StatusBadge status={s.event.status} />
+                      </div>
+                    ))
+                  )}
+                </CardContent>
+              </Card>
             </div>
           </section>
         )}
@@ -593,6 +538,72 @@ export default async function HomePage() {
               </div>
             </div>
           </section>
+        )}
+
+        {/* 8. LATEST ANNOUNCEMENTS */}
+        {settings.showAnnouncements && (
+          <section className="py-16 sm:py-20 border-b border-[var(--border-subtle,#232021)] bg-[var(--surface-card,#0c0b0c)]">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Megaphone className="w-5 h-5 text-[var(--brand,#931827)]" />
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
+                      Official Broadcasts
+                    </span>
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                      Festival Bulletins & Notices
+                    </h3>
+                  </div>
+                </div>
+                <Link
+                  href="/announcements"
+                  className="text-xs text-red-400 hover:underline font-medium"
+                >
+                  View all notices →
+                </Link>
+              </div>
+
+              {announcements.length === 0 ? (
+                <div className="p-8 text-center text-xs text-zinc-500 rounded-2xl border border-dashed border-[var(--border-subtle,#2d292a)]">
+                  No announcements posted yet.
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {announcements.map((a) => (
+                    <Card
+                      key={a.id}
+                      className="p-5 space-y-3 hover:border-[var(--brand,#931827)] transition"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs font-bold text-white line-clamp-1">
+                          {a.title}
+                        </span>
+                        <StatusBadge status={a.priority} />
+                      </div>
+                      <p className="text-xs text-zinc-400 line-clamp-3 leading-relaxed">
+                        {a.content}
+                      </p>
+                      <p className="text-[10px] text-zinc-500 pt-2 border-t border-[var(--border-subtle,#232021)]">
+                        {formatDate(a.createdAt)}
+                      </p>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* 9. IMAGE GALLERY (DIRECTLY BELOW ANNOUNCEMENTS) */}
+        {settings.showGallery !== false && (
+          <HomeGallerySection
+            initialImages={galleryImages}
+            albums={galleryAlbums}
+            title={settings.galleryTitle}
+            subtitle={settings.gallerySubtitle}
+            siteName={settings.siteName || "IZAZOV 9.0"}
+          />
         )}
 
         {/* 8. CALL TO ACTION SECTION */}

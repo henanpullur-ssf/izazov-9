@@ -703,6 +703,11 @@ export function SettingsManagementClient({
                         label: "Championship Standings & Podiums",
                         desc: "Shows live House scores and recent winners.",
                       },
+                      {
+                        key: "showGallery" as const,
+                        label: "Official Photo Gallery Archive",
+                        desc: "Shows curated highlights directly below Announcements on the homepage.",
+                      },
                     ].map((section) => (
                       <div
                         key={section.key}
@@ -944,6 +949,7 @@ export function SettingsManagementClient({
                       { key: "showScheduleNav" as const, label: "Schedule (/schedule)" },
                       { key: "showResultsNav" as const, label: "Leaderboard (/results)" },
                       { key: "showAnnouncementsNav" as const, label: "Bulletins (/announcements)" },
+                      { key: "showGalleryNav" as const, label: "Photo Gallery (/gallery)" },
                       { key: "showVenuesNav" as const, label: "Venues (/venues)" },
                       { key: "showAboutNav" as const, label: "About Page (/about)" },
                     ].map((item) => (

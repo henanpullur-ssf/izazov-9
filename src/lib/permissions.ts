@@ -104,13 +104,20 @@ export const MODULE_DEFINITIONS: Record<string, ModuleDefinition> = {
     id: "communication",
     key: "communication",
     name: "Communication",
-    description: "Festival broadcasts, notifications, and public announcements",
+    description: "Festival broadcasts, notifications, announcements, and official photo archive",
     permissions: [
       { key: "announcements.view", name: "View Announcements", description: "Browse announcements feed" },
       { key: "announcements.manage", name: "Manage Announcements", description: "Publish, pin, edit, or delete announcements" },
+      { key: "gallery.view", name: "View Gallery Admin", description: "Access official image gallery dashboard" },
+      { key: "gallery.upload", name: "Upload Gallery Photos", description: "Upload new photos to albums" },
+      { key: "gallery.edit", name: "Edit Gallery Metadata", description: "Modify photo titles, captions, and event links" },
+      { key: "gallery.delete", name: "Delete Gallery Photos", description: "Remove photos from database and cloud storage" },
+      { key: "gallery.publish", name: "Publish Gallery Photos", description: "Toggle draft vs published state" },
+      { key: "gallery.manage_albums", name: "Manage Gallery Albums", description: "Create, edit, reorder, or delete albums" },
     ],
     subItems: [
       { title: "Announcements", href: "/admin/announcements", permission: "announcements.view" },
+      { title: "Gallery", href: "/admin/gallery", permission: "gallery.view" },
     ],
   },
 };

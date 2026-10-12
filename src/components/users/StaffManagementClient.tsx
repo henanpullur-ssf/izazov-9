@@ -95,8 +95,8 @@ const AVAILABLE_MODULES = [
     name: "Communication",
     icon: Megaphone,
     color: "text-emerald-400 bg-emerald-950/40 border-emerald-800",
-    description: "Broadcasts, Live Feed, Announcements",
-    subItems: ["Festival Announcements & Feeds"],
+    description: "Broadcasts, Live Feed, Announcements, and Gallery Archive",
+    subItems: ["Festival Announcements & Feeds", "Official Photo Gallery Archive"],
   },
 ];
 

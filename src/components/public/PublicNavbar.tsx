@@ -13,6 +13,7 @@ import {
   MapPin,
   Info,
   Shield,
+  Camera,
 } from "lucide-react";
 import type { SiteSettingsData } from "@/lib/constants";
 
@@ -52,6 +53,12 @@ export function PublicNavbar({ settings }: PublicNavbarProps) {
       label: "Announcements",
       href: "/announcements",
       icon: Megaphone,
+    },
+    {
+      show: settings ? settings.showGalleryNav : true,
+      label: "Gallery",
+      href: "/gallery",
+      icon: Camera,
     },
     {
       show: settings ? settings.showVenuesNav : true,
