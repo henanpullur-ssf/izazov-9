@@ -93,15 +93,15 @@ export function PublicGalleryClient({
   return (
     <div className="space-y-10">
       {/* Dynamic Filter Controls */}
-      <div className="p-4 sm:p-6 rounded-3xl border border-[var(--border-subtle,#242021)] bg-[var(--surface-card,#0f0d0e)] space-y-4">
+      <div className="p-4 sm:p-6 rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-card)] shadow-[var(--shadow-card)] space-y-4">
         {/* Album Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
           <button
             onClick={() => applyFilters("all", selectedCategory, selectedEvent)}
             className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
               selectedAlbum === "all"
-                ? "bg-[var(--brand,#931827)] text-white shadow-lg shadow-red-950/40 border border-red-500/40"
-                : "bg-[var(--surface,#181516)] text-zinc-400 hover:text-white border border-[var(--border-subtle,#2b2628)]"
+                ? "bg-[var(--brand)] text-[var(--brand-foreground)] shadow-md shadow-[var(--brand)]/20 border border-[var(--brand)]/40"
+                : "bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--foreground)] border border-[var(--border-subtle)] hover:border-[var(--brand)]"
             }`}
           >
             All Albums
@@ -114,8 +114,8 @@ export function PublicGalleryClient({
                 onClick={() => applyFilters(album.slug, selectedCategory, selectedEvent)}
                 className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                   active
-                    ? "bg-[var(--brand,#931827)] text-white shadow-lg shadow-red-950/40 border border-red-500/40"
-                    : "bg-[var(--surface,#181516)] text-zinc-400 hover:text-white border border-[var(--border-subtle,#2b2628)]"
+                    ? "bg-[var(--brand)] text-[var(--brand-foreground)] shadow-md shadow-[var(--brand)]/20 border border-[var(--brand)]/40"
+                    : "bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--foreground)] border border-[var(--border-subtle)] hover:border-[var(--brand)]"
                 }`}
               >
                 <span>{album.name}</span>
@@ -130,18 +130,18 @@ export function PublicGalleryClient({
         </div>
 
         {/* Secondary Filters (Category & Event dropdowns) */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[var(--border-subtle,#231f20)] text-xs text-zinc-400">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[var(--border-subtle)] text-xs text-[var(--text-muted)]">
           <div className="flex flex-wrap items-center gap-3">
             {/* Category Select */}
             {categories.length > 0 && (
               <div className="flex items-center gap-1.5">
-                <span className="text-zinc-500">Category:</span>
+                <span className="text-[var(--text-dim)] font-medium">Category:</span>
                 <select
                   value={selectedCategory}
                   onChange={(e) =>
                     applyFilters(selectedAlbum, e.target.value, selectedEvent)
                   }
-                  className="bg-[var(--surface,#161415)] text-white border border-[var(--border-subtle,#2e282a)] rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[var(--brand,#931827)] cursor-pointer"
+                  className="bg-[var(--surface)] text-[var(--foreground)] border border-[var(--border-strong)] rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[var(--brand)] cursor-pointer"
                 >
                   <option value="all">All Categories</option>
                   {categories.map((c) => (
@@ -156,13 +156,13 @@ export function PublicGalleryClient({
             {/* Event Select */}
             {events.length > 0 && (
               <div className="flex items-center gap-1.5">
-                <span className="text-zinc-500">Event:</span>
+                <span className="text-[var(--text-dim)] font-medium">Event:</span>
                 <select
                   value={selectedEvent}
                   onChange={(e) =>
                     applyFilters(selectedAlbum, selectedCategory, e.target.value)
                   }
-                  className="bg-[var(--surface,#161415)] text-white border border-[var(--border-subtle,#2e282a)] rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[var(--brand,#931827)] cursor-pointer max-w-[200px]"
+                  className="bg-[var(--surface)] text-[var(--foreground)] border border-[var(--border-strong)] rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[var(--brand)] cursor-pointer max-w-[200px]"
                 >
                   <option value="all">All Competitions</option>
                   {events.map((e) => (
@@ -176,7 +176,7 @@ export function PublicGalleryClient({
           </div>
 
           <div className="flex items-center gap-2 ml-auto">
-            <span className="text-zinc-400 font-mono text-[11px]">
+            <span className="text-[var(--text-dim)] font-mono text-[11px]">
               Showing {images.length} of {pagination.total} photos
             </span>
             {(selectedAlbum !== "all" ||
@@ -184,7 +184,7 @@ export function PublicGalleryClient({
               selectedEvent !== "all") && (
               <button
                 onClick={handleResetFilters}
-                className="text-[11px] text-red-400 hover:text-red-300 underline cursor-pointer"
+                className="text-[11px] text-[var(--brand)] hover:underline cursor-pointer font-medium"
               >
                 Reset filters
               </button>
@@ -196,18 +196,18 @@ export function PublicGalleryClient({
       {/* Loading state during filter update */}
       {isFiltering ? (
         <div className="py-24 text-center">
-          <Loader2 className="w-8 h-8 animate-spin text-red-500 mx-auto" />
-          <p className="text-xs text-zinc-500 mt-2">Loading gallery archive...</p>
+          <Loader2 className="w-8 h-8 animate-spin text-[var(--brand)] mx-auto" />
+          <p className="text-xs text-[var(--text-muted)] mt-2">Loading gallery archive...</p>
         </div>
       ) : images.length === 0 ? (
         /* Empty State */
-        <div className="p-16 text-center rounded-3xl border border-dashed border-[var(--border-subtle,#2e292a)] bg-[var(--surface-card,#0f0e0f)] max-w-lg mx-auto space-y-4">
-          <div className="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto text-zinc-500">
+        <div className="p-16 text-center rounded-3xl border border-dashed border-[var(--border-strong)] bg-[var(--surface-card)] max-w-lg mx-auto space-y-4">
+          <div className="w-14 h-14 rounded-2xl bg-[var(--surface-elevated)] border border-[var(--border-subtle)] flex items-center justify-center mx-auto text-[var(--text-muted)]">
             <Camera className="w-7 h-7" />
           </div>
           <div className="space-y-1">
-            <h3 className="text-base font-bold text-white">No Photos Found</h3>
-            <p className="text-xs text-zinc-400 max-w-sm mx-auto leading-relaxed">
+            <h3 className="text-base font-bold text-[var(--foreground)]">No Photos Found</h3>
+            <p className="text-xs text-[var(--text-muted)] max-w-sm mx-auto leading-relaxed">
               No photos currently match your selected filters. Try switching albums or clearing filters.
             </p>
           </div>
@@ -228,7 +228,7 @@ export function PublicGalleryClient({
               <div
                 key={photo.id}
                 onClick={() => setLightboxIndex(idx)}
-                className="group relative aspect-[4/3] rounded-2xl overflow-hidden border border-[var(--border-subtle,#272324)] bg-[var(--surface,#121112)] cursor-pointer transition-all duration-300 hover:border-[var(--brand,#931827)] hover:shadow-2xl hover:shadow-red-950/20"
+                className="group relative aspect-[4/3] rounded-2xl overflow-hidden border border-[var(--border-subtle)] bg-[var(--surface-card)] cursor-pointer transition-all duration-300 hover:border-[var(--brand)] hover:shadow-xl shadow-[var(--shadow-card)]"
               >
                 {/* Image */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -240,13 +240,13 @@ export function PublicGalleryClient({
                 />
 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-75 group-hover:opacity-95 transition-opacity" />
 
                 {/* Top Badges */}
                 <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 pointer-events-none">
                   {photo.album?.name && (
-                    <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-[10px] font-semibold text-zinc-200 border border-white/10 flex items-center gap-1">
-                      <Tag className="w-2.5 h-2.5 text-red-400" />
+                    <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-[10px] font-semibold text-white border border-white/20 flex items-center gap-1">
+                      <Tag className="w-2.5 h-2.5 text-blue-300" />
                       {photo.album.name}
                     </span>
                   )}
@@ -259,18 +259,18 @@ export function PublicGalleryClient({
                 {/* Bottom Meta */}
                 <div className="absolute bottom-3 left-3 right-3 space-y-1">
                   {photo.event && (
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-red-400 flex items-center gap-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-blue-300 flex items-center gap-1">
                       <Sparkles className="w-3 h-3" />
                       {photo.event.name}
                     </span>
                   )}
-                  <h3 className="text-xs sm:text-sm font-bold text-white line-clamp-1 group-hover:text-red-200 transition-colors">
+                  <h3 className="text-xs sm:text-sm font-bold text-white line-clamp-1 group-hover:text-blue-100 transition-colors">
                     {photo.title || "IZAZOV Moment"}
                   </h3>
                   {photo.photographer && (
-                    <p className="text-[10px] text-zinc-400 flex items-center gap-1">
-                      <Camera className="w-2.5 h-2.5 text-zinc-500" />
-                      {photo.photographer}
+                    <p className="text-[10px] text-zinc-300 flex items-center gap-1">
+                      <Camera className="w-2.5 h-2.5 text-zinc-400" />
+                      Photo: {photo.photographer}
                     </p>
                   )}
                 </div>
@@ -292,7 +292,7 @@ export function PublicGalleryClient({
           >
             {isLoadingMore ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin text-red-400" />
+                <Loader2 className="w-4 h-4 animate-spin text-[var(--brand)]" />
                 <span>Loading more moments...</span>
               </>
             ) : (

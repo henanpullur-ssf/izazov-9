@@ -133,10 +133,10 @@ export function AttendanceManagementClient({
   return (
     <div className="space-y-8">
       {/* Fast QR Scan Check-in Banner */}
-      <Card className="border-[#931827]/40 bg-gradient-to-r from-[#171112] via-[#141213] to-[#1a1113]">
+      <Card className="border-[var(--brand)]/30 bg-[var(--surface)]">
         <CardHeader className="py-4">
           <div className="flex items-center gap-2">
-            <Scan className="w-5 h-5 text-[#931827]" />
+            <Scan className="w-5 h-5 text-[var(--brand)]" />
             <CardTitle className="text-base">Fast QR Token / Gate Check-in</CardTitle>
           </div>
         </CardHeader>
@@ -146,7 +146,7 @@ export function AttendanceManagementClient({
               value={qrEventId}
               onChange={(e) => setQrEventId(e.target.value)}
               aria-label="Check-in Event"
-              className="rounded-xl border border-[#383334] bg-[#0c0b0c] px-3.5 py-2.5 text-xs text-white outline-none focus:border-[#931827]"
+              className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-raised)] px-3.5 py-2.5 text-xs text-[var(--foreground)] outline-none focus:border-[var(--brand)]"
               required
             >
               {events.map((e) => (

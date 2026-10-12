@@ -71,18 +71,18 @@ export default async function HomePage() {
   const festDates =
     settings.startDate && settings.endDate
       ? `${settings.startDate} - ${settings.endDate}`
-      : "MARCH 2026";
+      : "NOV 2026";
 
   return (
-    <div className="min-h-screen bg-[var(--background,#000000)] text-[var(--foreground,#FFFFFF)] flex flex-col selection:bg-[var(--brand,#931827)]">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex flex-col selection:bg-[var(--brand)] selection:text-white transition-colors">
       <PublicNavbar settings={settings} />
 
       <main className="flex-1">
         {/* 1. HERO SECTION */}
-        <section className="relative overflow-hidden border-b border-[var(--border-subtle,#242122)] py-20 sm:py-32 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(147,24,39,0.25),transparent)]">
+        <section className="relative overflow-hidden border-b border-[var(--border-subtle)] py-20 sm:py-32 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--brand-muted),transparent)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--brand,#931827)]/40 bg-[var(--brand,#931827)]/15 text-xs font-semibold text-red-300">
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--surface-elevated)] text-xs font-semibold text-[var(--brand)] shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-[var(--brand)] animate-ping" />
               <span>
                 THE {settings.edition || "9.0"} EDITION • {festDates}
               </span>
@@ -90,30 +90,30 @@ export default async function HomePage() {
 
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight uppercase max-w-4xl mx-auto leading-[1.05]">
               {settings.heroTitle ? (
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-[var(--brand,#931827)] to-red-400">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand)] via-[#8D4B26] to-[var(--brand)]">
                   {settings.heroTitle}
                 </span>
               ) : (
                 <>
-                  IGNITE THE{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-[#931827] to-red-400">
-                    ARENA
+                  FROM ROOTS TO{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand)] via-[#8D4B26] to-[var(--brand)]">
+                    HORIZON
                   </span>
                 </>
               )}
               <br />
-              <span className="text-white">{settings.siteName || "IZAZOV 9.0"}</span>
+              <span className="text-[var(--foreground)]">{settings.siteName || "IZAZOV 9.0"}</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg text-[var(--text-muted)] max-w-2xl mx-auto leading-relaxed">
               {settings.heroDescription ||
-                "The flagship campus festival uniting cultural spectacles, 24-hour hackathons, esports battles, literary arenas, and the four-house championship."}
+                "The flagship campus festival uniting cultural spectacles, 24-hour hackathons, esports battles, literary arenas, and the championship cup."}
             </p>
 
             {/* Quick Action Navigation Grid */}
             <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-4">
               <Link href={settings.heroButtonLink || "/events"}>
-                <Button size="lg" className="gap-2 shadow-xl shadow-red-950/30">
+                <Button size="lg" className="gap-2 shadow-lg shadow-[var(--brand)]/20">
                   <Sparkles className="w-4 h-4" />
                   <span>{settings.heroButtonText || "Explore Events"}</span>
                 </Button>
@@ -146,30 +146,30 @@ export default async function HomePage() {
 
             {/* Live Stats Strip */}
             {settings.showStats && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto pt-12 text-center border-t border-[var(--border-subtle,#232021)]/80">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto pt-12 text-center border-t border-[var(--border-subtle)]">
                 <div className="p-3">
-                  <p className="text-2xl sm:text-3xl font-black text-white font-mono">
+                  <p className="text-2xl sm:text-3xl font-black text-[var(--foreground)] font-mono">
                     {events.length > 0 ? `${events.length}+` : "15+"}
                   </p>
-                  <p className="text-xs text-zinc-400 mt-0.5">Competitions</p>
+                  <p className="text-xs text-[var(--text-muted)] mt-0.5">Competitions</p>
                 </div>
                 <div className="p-3">
-                  <p className="text-2xl sm:text-3xl font-black text-white font-mono">
+                  <p className="text-2xl sm:text-3xl font-black text-[var(--foreground)] font-mono">
                     {houses.length > 0 ? houses.length : "4"}
                   </p>
-                  <p className="text-xs text-zinc-400 mt-0.5">Fest Teams</p>
+                  <p className="text-xs text-[var(--text-muted)] mt-0.5">Fest Teams</p>
                 </div>
                 <div className="p-3">
-                  <p className="text-2xl sm:text-3xl font-black text-white font-mono">
+                  <p className="text-2xl sm:text-3xl font-black text-[var(--foreground)] font-mono">
                     {venues.length > 0 ? venues.length : "5+"}
                   </p>
-                  <p className="text-xs text-zinc-400 mt-0.5">Campus Stages</p>
+                  <p className="text-xs text-[var(--text-muted)] mt-0.5">Campus Stages</p>
                 </div>
                 <div className="p-3">
-                  <p className="text-2xl sm:text-3xl font-black text-red-500 font-mono">
+                  <p className="text-2xl sm:text-3xl font-black text-emerald-500 font-mono">
                     LIVE
                   </p>
-                  <p className="text-xs text-zinc-400 mt-0.5">Scoring & Portal</p>
+                  <p className="text-xs text-[var(--text-muted)] mt-0.5">Scoring & Portal</p>
                 </div>
               </div>
             )}
@@ -177,18 +177,18 @@ export default async function HomePage() {
         </section>
 
         {/* 2. FESTIVAL INTRODUCTION & TEAMS */}
-        <section className="py-16 sm:py-20 border-b border-[var(--border-subtle,#232021)] bg-[var(--surface-card,#0c0b0c)]">
+        <section className="py-16 sm:py-20 border-b border-[var(--border-subtle)] bg-[var(--surface-card)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-4">
-                <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
+                <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">
                   Championship Legacy
                 </span>
-                <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
-                  Four Teams. One Ultimate Trophy.
+                <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-[var(--foreground)]">
+                  Heritage Meets Glory.
                 </h2>
-                <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
-                  {settings.siteName || "IZAZOV 9.0"} is engineered around high-stakes inter-team and open campus rivalry. Every dance victory, coding breakthrough, debate win, and esports triumph contributes points toward the prestigious Fest Cup.
+                <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed">
+                  {settings.siteName || "IZAZOV 9.0"} is engineered around high-stakes inter-team and open campus rivalry. Every cultural victory, coding breakthrough, debate win, and esports triumph contributes points toward the prestigious Fest Cup.
                 </p>
                 <div className="pt-2">
                   <Link href="/results">
@@ -233,17 +233,17 @@ export default async function HomePage() {
                 ).map((h) => (
                   <div
                     key={h.id}
-                    className="p-4 rounded-2xl border border-[var(--border-subtle,#2a2627)] bg-[var(--surface,#141314)] hover:border-[var(--brand,#931827)] transition"
+                    className="p-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface)] hover:border-[var(--brand)] transition shadow-[var(--shadow-card)]"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-bold text-white text-base">{h.name}</h4>
+                      <h4 className="font-bold text-[var(--foreground)] text-base">{h.name}</h4>
                       {h.shortName && (
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--brand,#931827)]/20 border border-[var(--brand,#931827)]/40 text-red-300">
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--brand-muted)] border border-[var(--brand)]/30 text-[var(--brand)] font-bold">
                           {h.shortName}
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-zinc-400">
+                    <p className="text-xs text-[var(--text-muted)]">
                       {h.description || "Faction contender"}
                     </p>
                   </div>
@@ -254,20 +254,20 @@ export default async function HomePage() {
         </section>
 
         {/* 3. EVENT CATEGORIES */}
-        <section className="py-16 sm:py-20 border-b border-[var(--border-subtle,#232021)] bg-[var(--background,#000000)]">
+        <section className="py-16 sm:py-20 border-b border-[var(--border-subtle)] bg-[var(--background)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
+                <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">
                   Disciplines & Tracks
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mt-1">
+                <h2 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)] tracking-tight mt-1">
                   Explore Event Categories
                 </h2>
               </div>
               <Link
                 href="/events"
-                className="text-xs text-red-400 hover:text-red-300 font-semibold flex items-center gap-1"
+                className="text-xs text-[var(--brand)] hover:underline font-semibold flex items-center gap-1"
               >
                 View all events <ChevronRight className="w-4 h-4" />
               </Link>
@@ -278,12 +278,12 @@ export default async function HomePage() {
                 <Link
                   key={cat.id}
                   href={`/events?category=${encodeURIComponent(cat.name)}`}
-                  className="p-5 rounded-2xl border border-[var(--border-subtle,#272425)] bg-[var(--surface,#121112)] hover:border-[var(--brand,#931827)] hover:bg-[var(--surface-elevated,#181214)] transition group"
+                  className="p-5 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-card)] hover:border-[var(--brand)] hover:bg-[var(--surface-elevated)] transition group shadow-[var(--shadow-card)]"
                 >
                   <div className="flex items-center justify-between mb-3">
                     <Sparkles
                       className="w-5 h-5 group-hover:scale-110 transition-transform"
-                      style={{ color: cat.color || "var(--brand,#931827)" }}
+                      style={{ color: cat.color || "var(--brand)" }}
                     />
                     {cat.color && (
                       <span
@@ -292,10 +292,10 @@ export default async function HomePage() {
                       />
                     )}
                   </div>
-                  <h3 className="font-bold text-sm sm:text-base text-white">
+                  <h3 className="font-bold text-sm sm:text-base text-[var(--foreground)]">
                     {cat.name}
                   </h3>
-                  <p className="text-[11px] text-zinc-400 mt-1 line-clamp-1">
+                  <p className="text-[11px] text-[var(--text-muted)] mt-1 line-clamp-1">
                     {cat.description || "View competitions & rules"}
                   </p>
                 </Link>
@@ -306,27 +306,27 @@ export default async function HomePage() {
 
         {/* 4. UPCOMING / FEATURED EVENTS */}
         {settings.showFeaturedEvents && (
-          <section className="py-16 sm:py-20 border-b border-[var(--border-subtle,#232021)] bg-[var(--surface-card,#0e0d0e)]">
+          <section className="py-16 sm:py-20 border-b border-[var(--border-subtle)] bg-[var(--surface-card)]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
+                  <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">
                     Mainstage Showdowns
                   </span>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mt-1">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)] tracking-tight mt-1">
                     Featured Competitions
                   </h2>
                 </div>
                 <Link
                   href="/events"
-                  className="text-xs text-red-400 hover:text-red-300 font-semibold flex items-center gap-1"
+                  className="text-xs text-[var(--brand)] hover:underline font-semibold flex items-center gap-1"
                 >
                   Browse complete catalog <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
 
               {events.length === 0 ? (
-                <div className="p-8 text-center text-xs text-zinc-500 rounded-2xl border border-dashed border-[var(--border-subtle,#2d292a)]">
+                <div className="p-8 text-center text-xs text-[var(--text-muted)] rounded-2xl border border-dashed border-[var(--border-strong)]">
                   Events schedule being finalized by festival committee.
                 </div>
               ) : (
@@ -334,7 +334,7 @@ export default async function HomePage() {
                   {events.slice(0, 6).map((evt) => (
                     <Card
                       key={evt.id}
-                      className="flex flex-col justify-between hover:border-[var(--brand,#931827)] transition group"
+                      className="flex flex-col justify-between hover:border-[var(--brand)] transition group"
                     >
                       <CardHeader className="py-4">
                         <div className="flex items-center justify-between gap-2 mb-1">
@@ -343,24 +343,24 @@ export default async function HomePage() {
                           </Badge>
                           <StatusBadge status={evt.status} />
                         </div>
-                        <CardTitle className="text-base group-hover:text-red-400 transition-colors">
+                        <CardTitle className="text-base group-hover:text-[var(--brand)] transition-colors">
                           {evt.name}
                         </CardTitle>
                       </CardHeader>
 
                       <CardContent className="space-y-4 pt-0">
-                        <p className="text-xs text-zinc-400 line-clamp-2">
+                        <p className="text-xs text-[var(--text-muted)] line-clamp-2">
                           {evt.description ||
                             "Participate in this signature competition."}
                         </p>
 
-                        <div className="grid grid-cols-2 gap-2 text-xs text-zinc-400 pt-3 border-t border-[var(--border-subtle,#232021)]">
+                        <div className="grid grid-cols-2 gap-2 text-xs text-[var(--text-muted)] pt-3 border-t border-[var(--border-subtle)]">
                           <div className="flex items-center gap-1.5">
-                            <Users className="w-3.5 h-3.5 text-zinc-500" />
+                            <Users className="w-3.5 h-3.5 text-[var(--text-dim)]" />
                             <span>{evt.type}</span>
                           </div>
                           <div className="flex items-center gap-1.5">
-                            <MapPin className="w-3.5 h-3.5 text-zinc-500" />
+                            <MapPin className="w-3.5 h-3.5 text-[var(--text-dim)]" />
                             <span className="truncate">
                               {evt.venue?.name || "TBA"}
                             </span>
@@ -389,34 +389,34 @@ export default async function HomePage() {
 
         {/* 5. SCHEDULE PREVIEW */}
         {settings.showSchedule && (
-          <section className="py-16 sm:py-20 border-b border-[var(--border-subtle,#232021)] bg-[var(--background,#000000)]">
+          <section className="py-16 sm:py-20 border-b border-[var(--border-subtle)] bg-[var(--background)]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-[var(--brand,#931827)]" />
-                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                  <Calendar className="w-4 h-4 text-[var(--brand)]" />
+                  <h3 className="text-xl sm:text-2xl font-bold text-[var(--foreground)] tracking-tight">
                     Festival Schedule Preview
                   </h3>
                 </div>
                 <Link
                   href="/schedule"
-                  className="text-xs text-red-400 hover:underline font-medium"
+                  className="text-xs text-[var(--brand)] hover:underline font-medium"
                 >
                   Full timeline →
                 </Link>
               </div>
 
               <Card>
-                <CardContent className="p-0 divide-y divide-[var(--border-subtle,#231f20)]">
+                <CardContent className="p-0 divide-y divide-[var(--border-subtle)]">
                   {schedules.length === 0 ? (
-                    <p className="text-xs text-zinc-500 p-6 text-center">
+                    <p className="text-xs text-[var(--text-muted)] p-6 text-center">
                       Schedule slots will be released shortly.
                     </p>
                   ) : (
                     schedules.map((s) => (
                       <div
                         key={s.id}
-                        className="p-4 flex items-center justify-between hover:bg-[var(--surface-elevated,#161415)] transition"
+                        className="p-4 flex items-center justify-between hover:bg-[var(--surface-hover)] transition"
                       >
                         <div>
                           <div className="flex items-center gap-2">
@@ -426,11 +426,11 @@ export default async function HomePage() {
                             >
                               {s.event.code}
                             </Badge>
-                            <span className="text-xs font-semibold text-white">
+                            <span className="text-xs font-semibold text-[var(--foreground)]">
                               {s.event.name}
                             </span>
                           </div>
-                          <p className="text-[11px] text-zinc-400 mt-1">
+                          <p className="text-[11px] text-[var(--text-muted)] mt-1">
                             {formatDate(s.startTime)} •{" "}
                             {formatTime(s.startTime)} -{" "}
                             {formatTime(s.endTime)}
@@ -449,20 +449,20 @@ export default async function HomePage() {
 
         {/* 6. RESULTS LEADERBOARD TEASER */}
         {settings.showResults && results.length > 0 && (
-          <section className="py-16 sm:py-20 border-b border-[var(--border-subtle,#232021)] bg-[var(--surface-card,#0c0b0c)]">
+          <section className="py-16 sm:py-20 border-b border-[var(--border-subtle)] bg-[var(--surface-card)]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
+                  <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">
                     Live Standings
                   </span>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mt-1">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)] tracking-tight mt-1">
                     Latest Competition Results
                   </h2>
                 </div>
                 <Link
                   href="/results"
-                  className="text-xs text-red-400 hover:underline font-medium"
+                  className="text-xs text-[var(--brand)] hover:underline font-medium"
                 >
                   Full leaderboard →
                 </Link>
@@ -470,7 +470,7 @@ export default async function HomePage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {results.map((res) => (
-                  <Card key={res.id} className="p-4 border-[var(--border-subtle,#332e30)]">
+                  <Card key={res.id} className="p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-xs font-bold px-2 py-0.5 rounded bg-amber-500 text-black">
                         #{res.position || "—"}
@@ -479,13 +479,13 @@ export default async function HomePage() {
                         {res.event.code}
                       </Badge>
                     </div>
-                    <h4 className="font-bold text-white text-sm truncate">
+                    <h4 className="font-bold text-[var(--foreground)] text-sm truncate">
                       {res.participant?.name || "Participant / Team"}
                     </h4>
-                    <p className="text-xs text-zinc-400 mt-0.5 truncate">
+                    <p className="text-xs text-[var(--text-muted)] mt-0.5 truncate">
                       {res.event.name}
                     </p>
-                    <p className="text-xs font-mono font-bold text-white mt-2 pt-2 border-t border-[var(--border-subtle,#232021)]">
+                    <p className="text-xs font-mono font-bold text-[var(--foreground)] mt-2 pt-2 border-t border-[var(--border-subtle)]">
                       {res.totalMarks} Points
                     </p>
                   </Card>
@@ -497,20 +497,20 @@ export default async function HomePage() {
 
         {/* 7. VENUES PREVIEW */}
         {venues.length > 0 && (
-          <section className="py-16 sm:py-20 border-b border-[var(--border-subtle,#232021)] bg-[var(--background,#000000)]">
+          <section className="py-16 sm:py-20 border-b border-[var(--border-subtle)] bg-[var(--background)]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
+                  <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">
                     Campus Layout
                   </span>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mt-1">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)] tracking-tight mt-1">
                     Festival Arenas & Stages
                   </h2>
                 </div>
                 <Link
                   href="/venues"
-                  className="text-xs text-red-400 hover:underline font-medium"
+                  className="text-xs text-[var(--brand)] hover:underline font-medium"
                 >
                   View all venues →
                 </Link>
@@ -525,12 +525,12 @@ export default async function HomePage() {
                         Cap: {v.capacity || "N/A"}
                       </Badge>
                     </div>
-                    <p className="text-xs text-zinc-400 line-clamp-2">
+                    <p className="text-xs text-[var(--text-muted)] line-clamp-2">
                       {v.description ||
                         "Campus stage host for competitions."}
                     </p>
-                    <p className="text-xs text-zinc-500 flex items-center gap-1 pt-2 border-t border-[var(--border-subtle,#232021)]">
-                      <MapPin className="w-3.5 h-3.5 text-[var(--brand,#931827)]" />
+                    <p className="text-xs text-[var(--text-dim)] flex items-center gap-1 pt-2 border-t border-[var(--border-subtle)]">
+                      <MapPin className="w-3.5 h-3.5 text-[var(--brand)]" />
                       <span>{v.location || "Campus Grounds"}</span>
                     </p>
                   </Card>
@@ -542,30 +542,30 @@ export default async function HomePage() {
 
         {/* 8. LATEST ANNOUNCEMENTS */}
         {settings.showAnnouncements && (
-          <section className="py-16 sm:py-20 border-b border-[var(--border-subtle,#232021)] bg-[var(--surface-card,#0c0b0c)]">
+          <section className="py-16 sm:py-20 border-b border-[var(--border-subtle)] bg-[var(--surface-card)]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Megaphone className="w-5 h-5 text-[var(--brand,#931827)]" />
+                  <Megaphone className="w-5 h-5 text-[var(--brand)]" />
                   <div>
-                    <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
+                    <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">
                       Official Broadcasts
                     </span>
-                    <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)] tracking-tight">
                       Festival Bulletins & Notices
                     </h3>
                   </div>
                 </div>
                 <Link
                   href="/announcements"
-                  className="text-xs text-red-400 hover:underline font-medium"
+                  className="text-xs text-[var(--brand)] hover:underline font-medium"
                 >
                   View all notices →
                 </Link>
               </div>
 
               {announcements.length === 0 ? (
-                <div className="p-8 text-center text-xs text-zinc-500 rounded-2xl border border-dashed border-[var(--border-subtle,#2d292a)]">
+                <div className="p-8 text-center text-xs text-[var(--text-muted)] rounded-2xl border border-dashed border-[var(--border-strong)]">
                   No announcements posted yet.
                 </div>
               ) : (
@@ -573,18 +573,18 @@ export default async function HomePage() {
                   {announcements.map((a) => (
                     <Card
                       key={a.id}
-                      className="p-5 space-y-3 hover:border-[var(--brand,#931827)] transition"
+                      className="p-5 space-y-3 hover:border-[var(--brand)] transition"
                     >
                       <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs font-bold text-white line-clamp-1">
+                        <span className="text-xs font-bold text-[var(--foreground)] line-clamp-1">
                           {a.title}
                         </span>
                         <StatusBadge status={a.priority} />
                       </div>
-                      <p className="text-xs text-zinc-400 line-clamp-3 leading-relaxed">
+                      <p className="text-xs text-[var(--text-muted)] line-clamp-3 leading-relaxed">
                         {a.content}
                       </p>
-                      <p className="text-[10px] text-zinc-500 pt-2 border-t border-[var(--border-subtle,#232021)]">
+                      <p className="text-[10px] text-[var(--text-dim)] pt-2 border-t border-[var(--border-subtle)]">
                         {formatDate(a.createdAt)}
                       </p>
                     </Card>
@@ -606,18 +606,18 @@ export default async function HomePage() {
           />
         )}
 
-        {/* 8. CALL TO ACTION SECTION */}
-        <section className="py-20 bg-gradient-to-b from-[var(--surface-elevated,#141011)] to-[var(--background,#0a0809)] text-center border-b border-[var(--border-subtle,#232021)]">
+        {/* 10. CALL TO ACTION SECTION */}
+        <section className="py-20 bg-gradient-to-b from-[var(--surface-elevated)] to-[var(--background)] text-center border-b border-[var(--border-subtle)]">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-            <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-black text-[var(--foreground)] uppercase tracking-tight">
               Ready to Compete at {settings.siteName || "IZAZOV 9.0"}?
             </h2>
-            <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed">
               Explore competitions, coordinate with your Team Captains & Managers, and follow real-time schedule updates directly through the platform.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
               <Link href={settings.heroButtonLink || "/events"}>
-                <Button size="lg" className="shadow-lg shadow-red-950/30">
+                <Button size="lg" className="shadow-lg shadow-[var(--brand)]/20">
                   {settings.heroButtonText || "Explore Events"}
                 </Button>
               </Link>

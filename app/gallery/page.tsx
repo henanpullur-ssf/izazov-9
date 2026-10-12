@@ -57,23 +57,23 @@ export default async function GalleryPage() {
     "Moments that define IZAZOV 9.0. Relive the highlights, emotion, and triumph.";
 
   return (
-    <div className="min-h-screen bg-[var(--background,#000000)] text-[var(--foreground,#FFFFFF)] flex flex-col selection:bg-[var(--brand,#931827)]">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex flex-col selection:bg-[var(--brand)] selection:text-white transition-colors">
       <PublicNavbar settings={settings} />
 
       <main className="flex-1">
         {/* Gallery Hero Section */}
-        <section className="relative overflow-hidden border-b border-[var(--border-subtle,#242122)] py-16 sm:py-24 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(147,24,39,0.25),transparent)]">
+        <section className="relative overflow-hidden border-b border-[var(--border-subtle)] py-16 sm:py-24 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--brand-muted),transparent)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--brand,#931827)]/40 bg-[var(--brand,#931827)]/15 text-xs font-semibold text-red-300">
-              <Camera className="w-3.5 h-3.5 text-red-400" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--surface-elevated)] text-xs font-semibold text-[var(--brand)] shadow-xs">
+              <Camera className="w-3.5 h-3.5 text-[var(--brand)]" />
               <span>OFFICIAL FESTIVAL ARCHIVE</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white uppercase max-w-4xl mx-auto leading-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[var(--foreground)] uppercase max-w-4xl mx-auto leading-tight">
               {galleryTitle}
             </h1>
 
-            <p className="text-sm sm:text-base text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base text-[var(--text-muted)] max-w-2xl mx-auto leading-relaxed">
               {gallerySubtitle}
             </p>
           </div>

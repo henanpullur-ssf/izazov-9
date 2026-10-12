@@ -101,10 +101,10 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-8 pb-12">
       {/* Welcome Banner & Quick Action Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl border border-[#2e292a] bg-gradient-to-r from-[#171516] via-[#141213] to-[#1e1315]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface)] shadow-xs">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#931827]">
+            <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">
               IZAZOV 9.0 Operations Control
             </span>
             {superAdmin && (
@@ -113,10 +113,10 @@ export default async function AdminDashboardPage() {
               </span>
             )}
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)] tracking-tight">
             Festival Operations Dashboard
           </h1>
-          <p className="text-xs sm:text-sm text-zinc-400 mt-1">
+          <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-1">
             Real-time management for events, participants, scoring, and campus venues.
           </p>
         </div>
@@ -219,11 +219,11 @@ export default async function AdminDashboardPage() {
                 <Link
                   key={action.href}
                   href={action.href}
-                  className="flex flex-col items-center justify-center p-4 rounded-xl border border-[#2d292a] bg-[#161415] hover:border-[#931827] hover:bg-[#1f1618] transition text-center group"
+                  className="flex flex-col items-center justify-center p-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] hover:border-[var(--brand)] hover:bg-[var(--brand)]/5 transition text-center group"
                 >
                   <Icon className={`w-5 h-5 ${action.iconColor} mb-2 group-hover:scale-110 transition-transform`} />
-                  <span className="text-xs font-semibold text-white">{action.title}</span>
-                  <span className="text-[10px] text-zinc-500 mt-0.5">{action.subtitle}</span>
+                  <span className="text-xs font-semibold text-[var(--foreground)]">{action.title}</span>
+                  <span className="text-[10px] text-[var(--text-muted)] mt-0.5">{action.subtitle}</span>
                 </Link>
               );
             })}
@@ -249,9 +249,9 @@ export default async function AdminDashboardPage() {
                   View all <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </CardHeader>
-              <CardContent className="p-0 divide-y divide-[#231f20]">
+              <CardContent className="p-0 divide-y divide-[var(--border-subtle)]">
                 {stats.upcomingSchedules.length === 0 ? (
-                  <div className="p-6 text-center text-xs text-zinc-500">
+                  <div className="p-6 text-center text-xs text-[var(--text-muted)]">
                     No upcoming schedule slots configured yet.
                     {canCreateEvent && (
                       <div className="mt-3">
@@ -267,19 +267,19 @@ export default async function AdminDashboardPage() {
                   stats.upcomingSchedules.map((item) => (
                     <div
                       key={item.id}
-                      className="p-4 sm:px-6 flex items-center justify-between hover:bg-[#181617] transition"
+                      className="p-4 sm:px-6 flex items-center justify-between hover:bg-[var(--surface-raised)] transition"
                     >
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-semibold text-white">
+                          <span className="text-sm font-semibold text-[var(--foreground)]">
                             {item.event.name}
                           </span>
                           <Badge variant="primary">{item.event.code}</Badge>
                         </div>
-                        <div className="flex items-center gap-3 text-xs text-zinc-400">
+                        <div className="flex items-center gap-3 text-xs text-[var(--text-muted)]">
                           {item.venue && (
                             <span className="flex items-center gap-1">
-                              <MapPin className="w-3 h-3 text-zinc-500" />
+                              <MapPin className="w-3 h-3 text-[var(--text-muted)]" />
                               {item.venue.name}
                             </span>
                           )}
@@ -302,27 +302,27 @@ export default async function AdminDashboardPage() {
               </CardHeader>
               <CardContent className="p-5 sm:p-6 space-y-3">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="p-3 rounded-xl bg-[#181617] border border-[#2c2829] text-center">
-                    <p className="text-xs text-zinc-400 uppercase font-medium">Draft</p>
-                    <p className="text-lg font-bold text-white mt-1">
+                  <div className="p-3 rounded-xl bg-[var(--surface-raised)] border border-[var(--border-subtle)] text-center">
+                    <p className="text-xs text-[var(--text-muted)] uppercase font-medium">Draft</p>
+                    <p className="text-lg font-bold text-[var(--foreground)] mt-1">
                       {stats.eventsByStatus.find((s) => s.status === "DRAFT")?._count?.status || 0}
                     </p>
                   </div>
-                  <div className="p-3 rounded-xl bg-[#181617] border border-[#2c2829] text-center">
-                    <p className="text-xs text-amber-400 uppercase font-medium">Upcoming</p>
-                    <p className="text-lg font-bold text-white mt-1">
+                  <div className="p-3 rounded-xl bg-[var(--surface-raised)] border border-[var(--border-subtle)] text-center">
+                    <p className="text-xs text-amber-500 uppercase font-medium">Upcoming</p>
+                    <p className="text-lg font-bold text-[var(--foreground)] mt-1">
                       {stats.upcomingEventsCount}
                     </p>
                   </div>
-                  <div className="p-3 rounded-xl bg-[#181617] border border-[#2c2829] text-center">
-                    <p className="text-xs text-emerald-400 uppercase font-medium">Live</p>
-                    <p className="text-lg font-bold text-white mt-1">
+                  <div className="p-3 rounded-xl bg-[var(--surface-raised)] border border-[var(--border-subtle)] text-center">
+                    <p className="text-xs text-emerald-500 uppercase font-medium">Live</p>
+                    <p className="text-lg font-bold text-[var(--foreground)] mt-1">
                       {stats.liveEventsCount}
                     </p>
                   </div>
-                  <div className="p-3 rounded-xl bg-[#181617] border border-[#2c2829] text-center">
-                    <p className="text-xs text-cyan-400 uppercase font-medium">Completed</p>
-                    <p className="text-lg font-bold text-white mt-1">
+                  <div className="p-3 rounded-xl bg-[var(--surface-raised)] border border-[var(--border-subtle)] text-center">
+                    <p className="text-xs text-cyan-500 uppercase font-medium">Completed</p>
+                    <p className="text-lg font-bold text-[var(--foreground)] mt-1">
                       {stats.completedEventsCount}
                     </p>
                   </div>
@@ -338,19 +338,19 @@ export default async function AdminDashboardPage() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between py-4 px-5 sm:px-6">
                 <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-[#931827]" />
+                  <Users className="w-4 h-4 text-[var(--brand)]" />
                   <CardTitle className="text-base">Recent Registrations</CardTitle>
                 </div>
                 <Link
                   href="/admin/registrations"
-                  className="text-xs text-[#931827] hover:underline flex items-center gap-1 font-medium"
+                  className="text-xs text-[var(--brand)] hover:underline flex items-center gap-1 font-medium"
                 >
                   View all <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </CardHeader>
-              <CardContent className="p-0 divide-y divide-[#231f20]">
+              <CardContent className="p-0 divide-y divide-[var(--border-subtle)]">
                 {stats.recentRegistrations.length === 0 ? (
-                  <div className="p-6 text-center text-xs text-zinc-500">
+                  <div className="p-6 text-center text-xs text-[var(--text-muted)]">
                     No registrations recorded yet.
                     {canAddParticipant && (
                       <div className="mt-3">
@@ -366,21 +366,21 @@ export default async function AdminDashboardPage() {
                   stats.recentRegistrations.map((reg) => (
                     <div
                       key={reg.id}
-                      className="p-4 sm:px-6 flex items-center justify-between hover:bg-[#181617] transition"
+                      className="p-4 sm:px-6 flex items-center justify-between hover:bg-[var(--surface-raised)] transition"
                     >
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-mono text-zinc-400">
+                          <span className="text-xs font-mono text-[var(--text-muted)]">
                             {reg.registrationNumber}
                           </span>
-                          <span className="text-sm font-medium text-white">
+                          <span className="text-sm font-medium text-[var(--foreground)]">
                             {reg.teamName || reg.participants[0]?.participant?.name || "Participant"}
                           </span>
                         </div>
-                        <p className="text-xs text-zinc-400">
-                          Event: <span className="text-zinc-300">{reg.event.name}</span>
+                        <p className="text-xs text-[var(--text-muted)]">
+                          Event: <span className="text-[var(--foreground)]">{reg.event.name}</span>
                           {reg.participants[0]?.participant?.house && (
-                            <span className="ml-2 text-zinc-500">
+                            <span className="ml-2 text-[var(--text-muted)]">
                               • Team: {reg.participants[0]?.participant?.house.name}
                             </span>
                           )}
@@ -399,19 +399,19 @@ export default async function AdminDashboardPage() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between py-4 px-5 sm:px-6">
                 <div className="flex items-center gap-2">
-                  <Megaphone className="w-4 h-4 text-[#931827]" />
+                  <Megaphone className="w-4 h-4 text-[var(--brand)]" />
                   <CardTitle className="text-base">Latest Announcements</CardTitle>
                 </div>
                 <Link
                   href="/admin/announcements"
-                  className="text-xs text-[#931827] hover:underline flex items-center gap-1 font-medium"
+                  className="text-xs text-[var(--brand)] hover:underline flex items-center gap-1 font-medium"
                 >
                   Manage <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </CardHeader>
-              <CardContent className="p-0 divide-y divide-[#231f20]">
+              <CardContent className="p-0 divide-y divide-[var(--border-subtle)]">
                 {stats.latestAnnouncements.length === 0 ? (
-                  <div className="p-6 text-center text-xs text-zinc-500">
+                  <div className="p-6 text-center text-xs text-[var(--text-muted)]">
                     No announcements published yet.
                     {superAdmin && (
                       <div className="mt-3">
@@ -427,7 +427,7 @@ export default async function AdminDashboardPage() {
                   stats.latestAnnouncements.map((item) => (
                     <div
                       key={item.id}
-                      className="p-4 sm:px-6 space-y-1.5 hover:bg-[#181617] transition"
+                      className="p-4 sm:px-6 space-y-1.5 hover:bg-[var(--surface-raised)] transition"
                     >
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
@@ -436,16 +436,16 @@ export default async function AdminDashboardPage() {
                               PINNED
                             </Badge>
                           )}
-                          <span className="text-sm font-semibold text-white">
+                          <span className="text-sm font-semibold text-[var(--foreground)]">
                             {item.title}
                           </span>
                         </div>
                         <StatusBadge status={item.priority} />
                       </div>
-                      <p className="text-xs text-zinc-400 line-clamp-2">
+                      <p className="text-xs text-[var(--text-muted)] line-clamp-2">
                         {item.content}
                       </p>
-                      <p className="text-[10px] text-zinc-500">
+                      <p className="text-[10px] text-[var(--text-muted)]">
                         {formatDate(item.createdAt)}
                       </p>
                     </div>

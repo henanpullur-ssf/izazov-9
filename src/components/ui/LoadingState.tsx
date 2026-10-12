@@ -21,9 +21,9 @@ export function LoadingSpinner({
       className={`flex flex-col items-center justify-center gap-3 p-8 ${className}`}
     >
       <Loader2
-        className={`${sizeMap[size]} animate-spin text-[#931827]`}
+        className={`${sizeMap[size]} animate-spin text-[var(--brand)]`}
       />
-      {label && <p className="text-xs text-zinc-400">{label}</p>}
+      {label && <p className="text-xs text-[var(--text-muted)]">{label}</p>}
     </div>
   );
 }
@@ -35,7 +35,7 @@ export function Skeleton({
 }) {
   return (
     <div
-      className={`animate-pulse rounded-lg bg-[#201d1e] ${className}`}
+      className={`animate-pulse rounded-lg bg-[var(--surface-elevated)] ${className}`}
     />
   );
 }

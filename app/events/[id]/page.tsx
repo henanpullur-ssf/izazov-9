@@ -59,7 +59,7 @@ export default async function PublicEventDetailPage({
   const settings = settingsRes.data || DEFAULT_SITE_SETTINGS;
 
   return (
-    <div className="min-h-screen bg-[var(--background,#000000)] text-[var(--foreground,#FFFFFF)] flex flex-col selection:bg-[var(--brand,#931827)]">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex flex-col selection:bg-[var(--brand)] selection:text-white transition-colors">
       <PublicNavbar settings={settings} />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-8">
@@ -67,7 +67,7 @@ export default async function PublicEventDetailPage({
         <div>
           <Link
             href="/events"
-            className="inline-flex items-center gap-1 text-xs text-zinc-400 hover:text-white transition"
+            className="inline-flex items-center gap-1 text-xs text-[var(--text-muted)] hover:text-[var(--foreground)] transition font-medium"
           >
             <ChevronLeft className="w-4 h-4" />
             <span>Back to All Events</span>
@@ -75,10 +75,10 @@ export default async function PublicEventDetailPage({
         </div>
 
         {/* Hero Card */}
-        <div className="p-6 sm:p-8 rounded-3xl border border-[var(--border-subtle,#2e2a2b)] bg-gradient-to-br from-[var(--surface-card,#181315)] via-[var(--surface,#121112)] to-[var(--background,#151012)] space-y-6">
+        <div className="p-6 sm:p-8 rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-card)] shadow-[var(--shadow-card)] space-y-6">
           <div className="space-y-3">
             <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-[var(--brand,#931827)] text-white">
+              <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-[var(--brand)] text-[var(--brand-foreground)]">
                 {event.code}
               </span>
               <Badge variant="primary">{event.category || "Competition"}</Badge>
@@ -86,57 +86,57 @@ export default async function PublicEventDetailPage({
               <StatusBadge status={event.status} />
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase">
+            <h1 className="text-3xl sm:text-5xl font-black text-[var(--foreground)] tracking-tight uppercase">
               {event.name}
             </h1>
 
-            <p className="text-sm sm:text-base text-zinc-300 leading-relaxed max-w-3xl">
+            <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed max-w-3xl">
               {event.description ||
                 "Official guidelines and rules will be distributed by event coordinators prior to the competition round."}
             </p>
           </div>
 
           {/* Quick Stats Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-[var(--border-subtle,#262223)]">
-            <div className="p-3 rounded-xl bg-[var(--surface-card,#111011)] border border-[var(--border-subtle,#272425)]">
-              <p className="text-[10px] uppercase font-bold text-zinc-500">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-[var(--border-subtle)]">
+            <div className="p-3 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-subtle)]">
+              <p className="text-[10px] uppercase font-bold text-[var(--text-muted)]">
                 Participation Type
               </p>
-              <p className="text-sm font-semibold text-white mt-1 flex items-center gap-1.5">
-                <Users className="w-4 h-4 text-red-400" />
+              <p className="text-sm font-semibold text-[var(--foreground)] mt-1 flex items-center gap-1.5">
+                <Users className="w-4 h-4 text-[var(--brand)]" />
                 <span>
                   {event.type} (max {event.maxParticipants || 1})
                 </span>
               </p>
             </div>
 
-            <div className="p-3 rounded-xl bg-[var(--surface-card,#111011)] border border-[var(--border-subtle,#272425)]">
-              <p className="text-[10px] uppercase font-bold text-zinc-500">
+            <div className="p-3 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-subtle)]">
+              <p className="text-[10px] uppercase font-bold text-[var(--text-muted)]">
                 Estimated Duration
               </p>
-              <p className="text-sm font-semibold text-white mt-1 flex items-center gap-1.5">
-                <Clock className="w-4 h-4 text-amber-400" />
+              <p className="text-sm font-semibold text-[var(--foreground)] mt-1 flex items-center gap-1.5">
+                <Clock className="w-4 h-4 text-amber-500" />
                 <span>
                   {event.durationMinutes ? `${event.durationMinutes} mins` : "TBD"}
                 </span>
               </p>
             </div>
 
-            <div className="p-3 rounded-xl bg-[var(--surface-card,#111011)] border border-[var(--border-subtle,#272425)]">
-              <p className="text-[10px] uppercase font-bold text-zinc-500">
+            <div className="p-3 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-subtle)]">
+              <p className="text-[10px] uppercase font-bold text-[var(--text-muted)]">
                 Assigned Venue
               </p>
-              <p className="text-sm font-semibold text-white mt-1 flex items-center gap-1.5 truncate">
-                <MapPin className="w-4 h-4 text-cyan-400 shrink-0" />
+              <p className="text-sm font-semibold text-[var(--foreground)] mt-1 flex items-center gap-1.5 truncate">
+                <MapPin className="w-4 h-4 text-sky-500 shrink-0" />
                 <span className="truncate">{event.venue?.name || "TBA"}</span>
               </p>
             </div>
 
-            <div className="p-3 rounded-xl bg-[var(--surface-card,#111011)] border border-[var(--border-subtle,#272425)]">
-              <p className="text-[10px] uppercase font-bold text-zinc-500">
+            <div className="p-3 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-subtle)]">
+              <p className="text-[10px] uppercase font-bold text-[var(--text-muted)]">
                 Current Status
               </p>
-              <p className="text-sm font-semibold text-white mt-1">
+              <p className="text-sm font-semibold text-[var(--foreground)] mt-1">
                 {event.status}
               </p>
             </div>
@@ -150,23 +150,23 @@ export default async function PublicEventDetailPage({
             <Card>
               <CardHeader className="py-4">
                 <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-[var(--brand,#931827)]" />
+                  <Calendar className="w-4 h-4 text-[var(--brand)]" />
                   <CardTitle className="text-base">Event Schedule & Rounds</CardTitle>
                 </div>
               </CardHeader>
-              <CardContent className="p-0 divide-y divide-[var(--border-subtle,#231f20)]">
+              <CardContent className="p-0 divide-y divide-[var(--border-subtle)]">
                 {event.schedules.length === 0 ? (
-                  <p className="text-xs text-zinc-500 p-6 text-center">
+                  <p className="text-xs text-[var(--text-muted)] p-6 text-center">
                     Schedule slots will be published soon.
                   </p>
                 ) : (
                   event.schedules.map((s) => (
                     <div key={s.id} className="p-4 sm:px-6 space-y-1">
-                      <p className="text-sm font-semibold text-white">
+                      <p className="text-sm font-semibold text-[var(--foreground)]">
                         {formatDate(s.startTime)} • {formatTime(s.startTime)} -{" "}
                         {formatTime(s.endTime)}
                       </p>
-                      <p className="text-xs text-zinc-400">
+                      <p className="text-xs text-[var(--text-muted)]">
                         Venue: {s.venue?.name || event.venue?.name || "Main Campus"}
                         {s.notes && ` • ${s.notes}`}
                       </p>
@@ -178,10 +178,10 @@ export default async function PublicEventDetailPage({
 
             {/* Results / Podium if finalized */}
             {event.results.length > 0 && (
-              <Card className="border-amber-500/40 bg-gradient-to-r from-[#17130c] to-[#121112]">
+              <Card className="border-amber-500/40">
                 <CardHeader className="py-4">
                   <div className="flex items-center gap-2">
-                    <Award className="w-4 h-4 text-amber-400" />
+                    <Award className="w-4 h-4 text-amber-500" />
                     <CardTitle className="text-base">Official Results</CardTitle>
                   </div>
                 </CardHeader>
@@ -189,7 +189,7 @@ export default async function PublicEventDetailPage({
                   {event.results.map((res) => (
                     <div
                       key={res.id}
-                      className="p-3 rounded-xl border border-[var(--border-subtle,#332f30)] bg-[var(--surface,#141213)] flex items-center justify-between"
+                      className="p-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] flex items-center justify-between"
                     >
                       <div className="flex items-center gap-3">
                         <span
@@ -206,17 +206,17 @@ export default async function PublicEventDetailPage({
                           #{res.position}
                         </span>
                         <div>
-                          <p className="text-xs font-semibold text-white">
+                          <p className="text-xs font-semibold text-[var(--foreground)]">
                             {res.participant?.name || "Participant / Team"}
                           </p>
                           {res.participant?.house && (
-                            <p className="text-[10px] text-zinc-400">
+                            <p className="text-[10px] text-[var(--text-muted)]">
                               House: {res.participant.house.name}
                             </p>
                           )}
                         </div>
                       </div>
-                      <span className="text-xs font-mono font-bold text-white">
+                      <span className="text-xs font-mono font-bold text-[var(--foreground)]">
                         {String(res.totalMarks)} pts
                       </span>
                     </div>
@@ -228,15 +228,15 @@ export default async function PublicEventDetailPage({
 
           {/* Right Col: Registration Card */}
           <div className="space-y-6">
-            <Card className="p-6 space-y-4 border-[var(--border-subtle,#332e30)]">
+            <Card className="p-6 space-y-4">
               <CardTitle className="text-base">Registration Notice</CardTitle>
-              <p className="text-xs text-zinc-400 leading-relaxed">
+              <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                 Participation is organized through campus house nominations and registered attendee passes.
               </p>
 
-              <div className="p-3 rounded-xl bg-[var(--surface-card,#0e0d0e)] border border-[var(--border-subtle,#272425)] text-xs space-y-1.5">
-                <p className="font-semibold text-zinc-300">Rules & Eligibility</p>
-                <ul className="list-disc pl-4 text-zinc-400 space-y-1 text-[11px]">
+              <div className="p-3 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-xs space-y-1.5">
+                <p className="font-semibold text-[var(--foreground)]">Rules & Eligibility</p>
+                <ul className="list-disc pl-4 text-[var(--text-muted)] space-y-1 text-[11px]">
                   <li>Valid Student ID card required at gate.</li>
                   <li>Report 15 minutes before round time.</li>
                   <li>House points awarded to top 3 positions.</li>

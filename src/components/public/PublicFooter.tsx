@@ -18,6 +18,7 @@ interface PublicFooterProps {
 export function PublicFooter({ settings }: PublicFooterProps) {
   const siteName = settings?.siteName || FEST_NAME;
   const tagline = settings?.tagline || FEST_TAGLINE;
+  const logoUrl = settings?.logoUrl || "/logo.png";
   const festDates =
     settings?.startDate && settings?.endDate
       ? `${settings.startDate} - ${settings.endDate}`
@@ -44,45 +45,45 @@ export function PublicFooter({ settings }: PublicFooterProps) {
     Boolean(settings?.websiteUrl);
 
   return (
-    <footer className="border-t border-[var(--border-subtle,#232021)] bg-[var(--surface-card,#0c0b0c)] text-zinc-400 text-xs">
+    <footer className="border-t border-[var(--border-subtle)] bg-[var(--surface-card)] text-[var(--text-muted)] text-xs transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand Info */}
           <div className="space-y-3 md:col-span-1">
             <div className="flex items-center gap-2">
-              {settings?.logoUrl ? (
+              {logoUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={settings.logoUrl}
+                  src={logoUrl}
                   alt={siteName}
-                  className="h-7 w-auto max-w-[100px] object-contain rounded-md"
+                  className="h-8 w-auto max-w-[100px] object-contain rounded-md"
                 />
               ) : (
-                <div className="w-7 h-7 rounded-lg bg-[var(--brand,#931827)] flex items-center justify-center font-black text-white text-xs">
+                <div className="w-8 h-8 rounded-lg bg-[var(--brand)] flex items-center justify-center font-black text-white text-xs">
                   {settings?.shortName
                     ? settings.shortName.slice(0, 2).toUpperCase()
                     : siteName.slice(0, 2).toUpperCase()}
                 </div>
               )}
-              <span className="text-base font-bold text-white tracking-wide">
+              <span className="text-base font-bold text-[var(--foreground)] tracking-wide">
                 {siteName}
               </span>
             </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">{footerText}</p>
-            <div className="flex items-center gap-2 text-zinc-400 text-xs">
-              <Calendar className="w-3.5 h-3.5 text-[var(--brand,#931827)]" />
+            <p className="text-xs text-[var(--text-muted)] leading-relaxed">{footerText}</p>
+            <div className="flex items-center gap-2 text-[var(--text-muted)] text-xs">
+              <Calendar className="w-3.5 h-3.5 text-[var(--brand)]" />
               <span>{festDates}</span>
             </div>
 
             {/* Social Media Links */}
             {hasSocials && (
-              <div className="flex items-center gap-2.5 pt-2">
+              <div className="flex items-center gap-2 pt-2">
                 {settings?.instagramUrl && (
                   <a
                     href={settings.instagramUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 rounded-lg border border-[var(--border-subtle,#2a2728)] text-zinc-400 hover:text-white hover:border-[var(--brand,#931827)] transition"
+                    className="p-1.5 rounded-lg border border-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--foreground)] hover:border-[var(--brand)] transition"
                     aria-label="Instagram"
                   >
                     <svg className="w-3.5 h-3.5 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -97,7 +98,7 @@ export function PublicFooter({ settings }: PublicFooterProps) {
                     href={settings.facebookUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 rounded-lg border border-[var(--border-subtle,#2a2728)] text-zinc-400 hover:text-white hover:border-[var(--brand,#931827)] transition"
+                    className="p-1.5 rounded-lg border border-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--foreground)] hover:border-[var(--brand)] transition"
                     aria-label="Facebook"
                   >
                     <svg className="w-3.5 h-3.5 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -110,7 +111,7 @@ export function PublicFooter({ settings }: PublicFooterProps) {
                     href={settings.youtubeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 rounded-lg border border-[var(--border-subtle,#2a2728)] text-zinc-400 hover:text-white hover:border-[var(--brand,#931827)] transition"
+                    className="p-1.5 rounded-lg border border-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--foreground)] hover:border-[var(--brand)] transition"
                     aria-label="YouTube"
                   >
                     <svg className="w-3.5 h-3.5 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -124,7 +125,7 @@ export function PublicFooter({ settings }: PublicFooterProps) {
                     href={settings.whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 rounded-lg border border-[var(--border-subtle,#2a2728)] text-zinc-400 hover:text-white hover:border-[var(--brand,#931827)] transition"
+                    className="p-1.5 rounded-lg border border-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--foreground)] hover:border-[var(--brand)] transition"
                     aria-label="WhatsApp"
                   >
                     <svg className="w-3.5 h-3.5 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -137,7 +138,7 @@ export function PublicFooter({ settings }: PublicFooterProps) {
                     href={settings.websiteUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 rounded-lg border border-[var(--border-subtle,#2a2728)] text-zinc-400 hover:text-white hover:border-[var(--brand,#931827)] transition"
+                    className="p-1.5 rounded-lg border border-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--foreground)] hover:border-[var(--brand)] transition"
                     aria-label="Official Website"
                   >
                     <Globe className="w-3.5 h-3.5" />
@@ -149,41 +150,41 @@ export function PublicFooter({ settings }: PublicFooterProps) {
 
           {/* Quick Links */}
           <div className="space-y-3">
-            <p className="text-xs font-bold uppercase tracking-wider text-white">
+            <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">
               Explore
             </p>
             <ul className="space-y-2">
               {showEvents && (
                 <li>
-                  <Link href="/events" className="hover:text-white transition">
+                  <Link href="/events" className="hover:text-[var(--foreground)] transition">
                     Competitions & Events
                   </Link>
                 </li>
               )}
               {showSchedule && (
                 <li>
-                  <Link href="/schedule" className="hover:text-white transition">
+                  <Link href="/schedule" className="hover:text-[var(--foreground)] transition">
                     Festival Schedule
                   </Link>
                 </li>
               )}
               {showVenues && (
                 <li>
-                  <Link href="/venues" className="hover:text-white transition">
+                  <Link href="/venues" className="hover:text-[var(--foreground)] transition">
                     Campus Stages & Venues
                   </Link>
                 </li>
               )}
               {showResults && (
                 <li>
-                  <Link href="/results" className="hover:text-white transition">
+                  <Link href="/results" className="hover:text-[var(--foreground)] transition">
                     Live Leaderboard & Results
                   </Link>
                 </li>
               )}
               {showGallery && (
                 <li>
-                  <Link href="/gallery" className="hover:text-white transition">
+                  <Link href="/gallery" className="hover:text-[var(--foreground)] transition">
                     Photo Gallery Archive
                   </Link>
                 </li>
@@ -193,7 +194,7 @@ export function PublicFooter({ settings }: PublicFooterProps) {
 
           {/* Information & Rules */}
           <div className="space-y-3">
-            <p className="text-xs font-bold uppercase tracking-wider text-white">
+            <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">
               Information
             </p>
             <ul className="space-y-2">
@@ -201,7 +202,7 @@ export function PublicFooter({ settings }: PublicFooterProps) {
                 <li>
                   <Link
                     href="/announcements"
-                    className="hover:text-white transition"
+                    className="hover:text-[var(--foreground)] transition"
                   >
                     Official Bulletins
                   </Link>
@@ -209,7 +210,7 @@ export function PublicFooter({ settings }: PublicFooterProps) {
               )}
               {showAbout && (
                 <li>
-                  <Link href="/about" className="hover:text-white transition">
+                  <Link href="/about" className="hover:text-[var(--foreground)] transition">
                     House Championship System
                   </Link>
                 </li>
@@ -218,7 +219,7 @@ export function PublicFooter({ settings }: PublicFooterProps) {
                 <li>
                   <Link
                     href="/about#guidelines"
-                    className="hover:text-white transition"
+                    className="hover:text-[var(--foreground)] transition"
                   >
                     Code of Conduct
                   </Link>
@@ -227,7 +228,7 @@ export function PublicFooter({ settings }: PublicFooterProps) {
               <li>
                 <Link
                   href="/login"
-                  className="hover:text-white transition text-[var(--brand,#931827)]"
+                  className="hover:text-[var(--foreground)] transition text-[var(--brand)] font-medium"
                 >
                   Coordinator Portal
                 </Link>
@@ -237,37 +238,37 @@ export function PublicFooter({ settings }: PublicFooterProps) {
 
           {/* Campus Location & Contact */}
           <div className="space-y-3">
-            <p className="text-xs font-bold uppercase tracking-wider text-white">
+            <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">
               Campus Center
             </p>
-            <p className="text-xs text-zinc-400 leading-relaxed">
+            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
               {settings?.contactAddress ||
                 "Main Campus Arena, Grand Auditorium & Tech Hub."}
             </p>
             <div className="space-y-1.5 pt-1">
-              <div className="flex items-center gap-1.5 text-zinc-400 text-xs">
-                <MapPin className="w-3.5 h-3.5 text-[var(--brand,#931827)] flex-shrink-0" />
+              <div className="flex items-center gap-1.5 text-[var(--text-muted)] text-xs">
+                <MapPin className="w-3.5 h-3.5 text-[var(--brand)] flex-shrink-0" />
                 <span className="truncate">
                   {settings?.venueLocation || "Central Campus Grounds"}
                 </span>
               </div>
               {settings?.contactEmail && (
-                <div className="flex items-center gap-1.5 text-zinc-400 text-xs">
-                  <Mail className="w-3.5 h-3.5 text-[var(--brand,#931827)] flex-shrink-0" />
+                <div className="flex items-center gap-1.5 text-[var(--text-muted)] text-xs">
+                  <Mail className="w-3.5 h-3.5 text-[var(--brand)] flex-shrink-0" />
                   <a
                     href={`mailto:${settings.contactEmail}`}
-                    className="hover:text-white truncate"
+                    className="hover:text-[var(--foreground)] truncate"
                   >
                     {settings.contactEmail}
                   </a>
                 </div>
               )}
               {settings?.contactPhone && (
-                <div className="flex items-center gap-1.5 text-zinc-400 text-xs">
-                  <Phone className="w-3.5 h-3.5 text-[var(--brand,#931827)] flex-shrink-0" />
+                <div className="flex items-center gap-1.5 text-[var(--text-muted)] text-xs">
+                  <Phone className="w-3.5 h-3.5 text-[var(--brand)] flex-shrink-0" />
                   <a
                     href={`tel:${settings.contactPhone}`}
-                    className="hover:text-white truncate"
+                    className="hover:text-[var(--foreground)] truncate"
                   >
                     {settings.contactPhone}
                   </a>
@@ -278,24 +279,24 @@ export function PublicFooter({ settings }: PublicFooterProps) {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-[var(--border-subtle,#1f1c1d)] flex flex-col sm:flex-row items-center justify-between gap-4 text-zinc-400 text-[11px]">
+        <div className="pt-8 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4 text-[var(--text-muted)] text-[11px]">
           <p>{copyrightText}</p>
           <div className="flex items-center gap-4">
             {showAbout && (
-              <Link href="/about#guidelines" className="hover:text-white">
+              <Link href="/about#guidelines" className="hover:text-[var(--foreground)]">
                 Rules
               </Link>
             )}
             {showAbout && (
-              <Link href="/about" className="hover:text-white">
+              <Link href="/about" className="hover:text-[var(--foreground)]">
                 House Standings
               </Link>
             )}
             <Link
               href="/login"
-              className="hover:text-white flex items-center gap-1"
+              className="hover:text-[var(--foreground)] flex items-center gap-1 font-medium text-[var(--brand)]"
             >
-              <Shield className="w-3 h-3 text-[var(--brand,#931827)]" /> Admin
+              <Shield className="w-3 h-3 text-[var(--brand)]" /> Admin
             </Link>
           </div>
         </div>

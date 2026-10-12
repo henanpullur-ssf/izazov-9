@@ -16,10 +16,10 @@ export function PageHeader({
   children,
 }: PageHeaderProps) {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#242122] mb-6">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[var(--border-subtle)] mb-6">
       <div className="space-y-1">
         {breadcrumbs && breadcrumbs.length > 0 && (
-          <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-zinc-400 mb-2">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] mb-2">
             {breadcrumbs.map((crumb, i) => {
               const isLast = i === breadcrumbs.length - 1;
               return (
@@ -27,28 +27,28 @@ export function PageHeader({
                   {crumb.href && !isLast ? (
                     <Link
                       href={crumb.href}
-                      className="hover:text-white transition"
+                      className="hover:text-[var(--foreground)] transition"
                     >
                       {crumb.label}
                     </Link>
                   ) : (
-                    <span className={isLast ? "text-zinc-200 font-medium" : ""}>
+                    <span className={isLast ? "text-[var(--foreground)] font-semibold" : ""}>
                       {crumb.label}
                     </span>
                   )}
                   {!isLast && (
-                    <ChevronRight className="w-3.5 h-3.5 text-zinc-600" />
+                    <ChevronRight className="w-3.5 h-3.5 text-[var(--text-dim)]" />
                   )}
                 </React.Fragment>
               );
             })}
           </nav>
         )}
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--foreground)]">
           {title}
         </h1>
         {description && (
-          <p className="text-sm text-zinc-400 max-w-2xl">{description}</p>
+          <p className="text-sm text-[var(--text-muted)] max-w-2xl">{description}</p>
         )}
       </div>
 

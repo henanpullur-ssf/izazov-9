@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { getSiteSettings } from "@/actions/settings";
 import { DEFAULT_SITE_SETTINGS } from "@/lib/constants";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,27 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+// Inline blocking script to apply the theme instantly before first paint (zero FOUC)
+const themeInitializerScript = `(function(){
+  try {
+    var stored = localStorage.getItem('izazov-theme');
+    var theme = (stored === 'light' || stored === 'dark' || stored === 'system') ? stored : 'system';
+    var isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var root = document.documentElement;
+    if (isDark) {
+      root.classList.add('dark');
+      root.classList.remove('light');
+      root.setAttribute('data-theme', 'dark');
+      root.style.colorScheme = 'dark';
+    } else {
+      root.classList.add('light');
+      root.classList.remove('dark');
+      root.setAttribute('data-theme', 'light');
+      root.style.colorScheme = 'light';
+    }
+  } catch (e) {}
+})();`;
+
 export default async function RootLayout({
   children,
 }: {
@@ -45,38 +67,27 @@ export default async function RootLayout({
   const res = await getSiteSettings();
   const settings = res.data || DEFAULT_SITE_SETTINGS;
 
-  const dynamicStyles = {
-    "--brand": settings.primaryColor || "#931827",
-    "--background": settings.backgroundColor || "#000000",
-    "--surface": settings.cardColor || "#111011",
-    "--surface-card": settings.cardColor || "#111011",
-    "--surface-elevated": settings.surfaceColor || "#231f20",
-    "--foreground": settings.textColor || "#ffffff",
-    "--text-muted": settings.mutedTextColor || "#b8b8b8",
-    "--border-subtle": settings.borderColor || "#2d292a",
-    "--iz-primary": settings.primaryColor || "#931827",
-    "--iz-background": settings.backgroundColor || "#000000",
-    "--iz-surface": settings.surfaceColor || "#231f20",
-    "--iz-card": settings.cardColor || "#111011",
-    "--iz-text": settings.textColor || "#ffffff",
-    "--iz-muted": settings.mutedTextColor || "#b8b8b8",
-    "--iz-border": settings.borderColor || "#2d292a",
+  // Preserve SiteSettings branding while allowing dark/light theme tokens to govern surfaces and contrast
+  const customBrandStyles = {
+    ...(settings.primaryColor ? { "--brand-custom": settings.primaryColor } : {}),
   } as React.CSSProperties;
 
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-      style={dynamicStyles}
+      style={customBrandStyles}
     >
-      <body
-        className="min-h-full flex flex-col font-sans selection:bg-[var(--brand)] selection:text-white"
-        style={{
-          backgroundColor: "var(--background)",
-          color: "var(--foreground)",
-        }}
-      >
-        {children}
+      <head>
+        <script
+          dangerouslySetInnerHTML={{ __html: themeInitializerScript }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col font-sans selection:bg-[var(--brand)] selection:text-white bg-[var(--background)] text-[var(--foreground)]">
+        <ThemeProvider defaultTheme="system">
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

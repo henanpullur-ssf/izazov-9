@@ -23,25 +23,27 @@ export function StatCard({
 }: StatCardProps) {
   return (
     <Card
-      className={`p-5 relative overflow-hidden transition-all duration-200 hover:border-[#4a4244] ${
-        highlight ? "border-[#931827]/60 bg-gradient-to-br from-[#1c1315] to-[#121112]" : ""
+      className={`p-5 relative overflow-hidden transition-all duration-200 hover:border-[var(--brand)] ${
+        highlight
+          ? "border-[var(--brand)]/60 bg-[var(--surface-elevated)]"
+          : ""
       }`}
     >
       <div className="flex items-start justify-between">
         <div className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+          <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
             {title}
           </p>
-          <p className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <p className="text-2xl sm:text-3xl font-bold text-[var(--foreground)] tracking-tight">
             {value}
           </p>
           {subtitle && (
-            <p className="text-xs text-zinc-500 font-medium">{subtitle}</p>
+            <p className="text-xs text-[var(--text-dim)] font-medium">{subtitle}</p>
           )}
           {trend && (
             <p
               className={`text-xs font-medium ${
-                trend.isPositive ? "text-emerald-400" : "text-rose-400"
+                trend.isPositive ? "text-emerald-500" : "text-rose-500"
               }`}
             >
               {trend.value}
@@ -51,8 +53,8 @@ export function StatCard({
         <div
           className={`p-3 rounded-xl border ${
             highlight
-              ? "bg-[#931827]/20 border-[#931827]/40 text-red-400"
-              : "bg-[#201d1e] border-[#312b2d] text-zinc-300"
+              ? "bg-[var(--brand-muted)] border-[var(--brand)]/40 text-[var(--brand)]"
+              : "bg-[var(--surface-elevated)] border-[var(--border-subtle)] text-[var(--foreground)]"
           }`}
         >
           {icon}

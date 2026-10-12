@@ -32,13 +32,13 @@ export function SearchFilterBar({
       <div className="flex flex-1 flex-col sm:flex-row items-stretch sm:items-center gap-3">
         {/* Search Bar */}
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dim)]" />
           <input
             type="text"
             value={searchValue}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder={searchPlaceholder}
-            className="w-full rounded-xl border border-[#2d292a] bg-[#0f0e0f] pl-10 pr-4 py-2 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-[#931827] focus:ring-1 focus:ring-[#931827]"
+            className="w-full rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] pl-10 pr-4 py-2 text-sm text-[var(--foreground)] placeholder-[var(--text-dim)] outline-none transition focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]"
           />
         </div>
 
@@ -49,13 +49,13 @@ export function SearchFilterBar({
             value={filter.value}
             onChange={(e) => filter.onChange(e.target.value)}
             aria-label={filter.label}
-            className="rounded-xl border border-[#2d292a] bg-[#0f0e0f] px-3.5 py-2 text-sm text-zinc-300 outline-none transition focus:border-[#931827] cursor-pointer"
+            className="rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] px-3.5 py-2 text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--brand)] cursor-pointer"
           >
             {filter.options.map((opt) => (
               <option
                 key={opt.value}
                 value={opt.value}
-                className="bg-[#141314] text-white"
+                className="bg-[var(--surface)] text-[var(--foreground)]"
               >
                 {opt.label}
               </option>

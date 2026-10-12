@@ -3,11 +3,18 @@ import React from "react";
 export type BadgeVariant =
   | "default"
   | "primary"
+  | "secondary"
   | "success"
   | "warning"
   | "danger"
   | "info"
-  | "neutral";
+  | "neutral"
+  | "rose"
+  | "orange"
+  | "blue"
+  | "green"
+  | "teal"
+  | "amber";
 
 export interface BadgeProps {
   children: React.ReactNode;
@@ -23,23 +30,37 @@ export function Badge({
   dot = false,
 }: BadgeProps) {
   const variantStyles: Record<BadgeVariant, string> = {
-    default: "bg-zinc-800 text-zinc-300 border-zinc-700",
-    primary: "bg-[#931827]/20 text-red-300 border-[#931827]/50",
-    success: "bg-emerald-950/40 text-emerald-300 border-emerald-800/60",
-    warning: "bg-amber-950/40 text-amber-300 border-amber-800/60",
-    danger: "bg-rose-950/40 text-rose-300 border-rose-800/60",
-    info: "bg-cyan-950/40 text-cyan-300 border-cyan-800/60",
-    neutral: "bg-[#181718] text-zinc-400 border-[#2d292a]",
+    default: "bg-[var(--surface-elevated)] text-[var(--text-muted)] border-[var(--border-subtle)]",
+    primary: "bg-[var(--brand-muted)] text-[var(--brand)] border-[var(--brand)]/30 font-semibold",
+    secondary: "bg-[#8D4B26]/12 text-[#8D4B26] dark:text-[#E0A47B] border-[#8D4B26]/30",
+    success: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30",
+    warning: "bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30",
+    danger: "bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-500/30",
+    info: "bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-500/30",
+    neutral: "bg-[var(--surface-elevated)] text-[var(--text-muted)] border-[var(--border-subtle)]",
+    rose: "bg-[#E94769]/10 text-[#E94769] border-[#E94769]/30",
+    orange: "bg-[#F47738]/10 text-[#F47738] border-[#F47738]/30",
+    blue: "bg-[#5789C1]/10 text-[#5789C1] border-[#5789C1]/30",
+    green: "bg-[#4FA84A]/10 text-[#4FA84A] border-[#4FA84A]/30",
+    teal: "bg-[#16B2A9]/10 text-[#16B2A9] border-[#16B2A9]/30",
+    amber: "bg-[#D99A4E]/10 text-[#D99A4E] border-[#D99A4E]/30",
   };
 
   const dotColors: Record<BadgeVariant, string> = {
     default: "bg-zinc-400",
-    primary: "bg-red-500",
-    success: "bg-emerald-400",
-    warning: "bg-amber-400",
+    primary: "bg-[var(--brand)]",
+    secondary: "bg-[#8D4B26]",
+    success: "bg-emerald-500",
+    warning: "bg-amber-500",
     danger: "bg-rose-500",
-    info: "bg-cyan-400",
-    neutral: "bg-zinc-500",
+    info: "bg-sky-500",
+    neutral: "bg-zinc-400",
+    rose: "bg-[#E94769]",
+    orange: "bg-[#F47738]",
+    blue: "bg-[#5789C1]",
+    green: "bg-[#4FA84A]",
+    teal: "bg-[#16B2A9]",
+    amber: "bg-[#D99A4E]",
   };
 
   return (

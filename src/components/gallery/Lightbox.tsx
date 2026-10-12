@@ -103,15 +103,14 @@ export function Lightbox({
   }
 
   function handleTouchEnd() {
-    if (touchStartX === null || touchEndX === null) return;
+    if (!touchStartX || !touchEndX) return;
     const distance = touchStartX - touchEndX;
-    const minSwipeDistance = 50;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
 
-    if (distance > minSwipeDistance) {
-      // Swiped Left -> Next Photo
+    if (isLeftSwipe) {
       handleNext();
-    } else if (distance < -minSwipeDistance) {
-      // Swiped Right -> Prev Photo
+    } else if (isRightSwipe) {
       handlePrev();
     }
 
@@ -140,12 +139,12 @@ export function Lightbox({
       {/* Top Header Bar */}
       <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-zinc-800/80 bg-black/60 z-10">
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono font-medium text-red-400 bg-red-950/40 border border-red-900/50 px-2.5 py-1 rounded-full">
+          <span className="text-xs font-mono font-medium text-blue-300 bg-blue-950/40 border border-blue-900/50 px-2.5 py-1 rounded-full">
             {currentIndex + 1} / {photos.length}
           </span>
           {currentPhoto.album?.name && (
             <span className="hidden sm:inline-flex items-center gap-1 text-xs text-zinc-300 font-medium">
-              <Tag className="w-3 h-3 text-red-400" />
+              <Tag className="w-3 h-3 text-blue-400" />
               {currentPhoto.album.name}
             </span>
           )}
@@ -166,7 +165,7 @@ export function Lightbox({
         {hasMultiple && (
           <button
             onClick={handlePrev}
-            className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/60 hover:bg-zinc-900 text-white border border-zinc-800/80 hover:border-zinc-700 transition shadow-2xl backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/60 hover:bg-zinc-900 text-white border border-zinc-800/80 hover:border-zinc-700 transition shadow-2xl backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand)]"
             aria-label="Previous Photo (Left Arrow)"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -187,7 +186,7 @@ export function Lightbox({
         {hasMultiple && (
           <button
             onClick={handleNext}
-            className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/60 hover:bg-zinc-900 text-white border border-zinc-800/80 hover:border-zinc-700 transition shadow-2xl backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/60 hover:bg-zinc-900 text-white border border-zinc-800/80 hover:border-zinc-700 transition shadow-2xl backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand)]"
             aria-label="Next Photo (Right Arrow)"
           >
             <ChevronRight className="w-6 h-6" />
@@ -211,8 +210,8 @@ export function Lightbox({
 
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-zinc-400">
             {currentPhoto.event && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#191516] border border-[#332a2c] text-red-300 font-semibold">
-                <Sparkles className="w-3.5 h-3.5 text-red-400" />
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#192332] border border-[#344052] text-blue-200 font-semibold">
+                <Sparkles className="w-3.5 h-3.5 text-blue-400" />
                 {currentPhoto.event.name}
               </span>
             )}

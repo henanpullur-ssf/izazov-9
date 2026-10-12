@@ -38,14 +38,14 @@ export function ConfirmDialog({
       <div className="space-y-4">
         <div className="flex items-start gap-3">
           {isDestructive && (
-            <div className="p-2 rounded-xl bg-red-950/50 border border-red-800/60 text-red-400 shrink-0">
+            <div className="p-2 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-500 shrink-0">
               <AlertTriangle className="w-5 h-5" />
             </div>
           )}
-          <p className="text-sm text-zinc-300 leading-relaxed">{message}</p>
+          <p className="text-sm text-[var(--foreground)] leading-relaxed">{message}</p>
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
           <Button
             variant="outline"
             size="sm"

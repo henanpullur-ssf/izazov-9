@@ -9,7 +9,7 @@ export function TableContainer({
 }) {
   return (
     <div
-      className={`w-full overflow-x-auto rounded-2xl border border-[#272425] bg-[#121112] ${className}`}
+      className={`w-full overflow-x-auto rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-card)] shadow-[var(--shadow-card)] ${className}`}
     >
       {children}
     </div>
@@ -23,7 +23,7 @@ export function Table({
 }: TableHTMLAttributes<HTMLTableElement>) {
   return (
     <table
-      className={`w-full text-left text-sm text-zinc-300 border-collapse ${className}`}
+      className={`w-full text-left text-sm text-[var(--foreground)] border-collapse ${className}`}
       {...props}
     >
       {children}
@@ -38,7 +38,7 @@ export function TableHead({
 }: HTMLAttributes<HTMLTableSectionElement>) {
   return (
     <thead
-      className={`border-b border-[#272425] bg-[#191718] text-xs font-semibold uppercase tracking-wider text-zinc-400 ${className}`}
+      className={`border-b border-[var(--border-subtle)] bg-[var(--surface-elevated)] text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] ${className}`}
       {...props}
     >
       {children}
@@ -53,7 +53,7 @@ export function TableBody({
 }: HTMLAttributes<HTMLTableSectionElement>) {
   return (
     <tbody
-      className={`divide-y divide-[#221f20] ${className}`}
+      className={`divide-y divide-[var(--border-subtle)] ${className}`}
       {...props}
     >
       {children}
@@ -69,7 +69,7 @@ export function TableRow({
 }: HTMLAttributes<HTMLTableRowElement> & { clickable?: boolean }) {
   return (
     <tr
-      className={`transition-colors hover:bg-[#1c1a1b] ${
+      className={`transition-colors hover:bg-[var(--surface-hover)] ${
         clickable ? "cursor-pointer" : ""
       } ${className}`}
       {...props}
@@ -85,7 +85,7 @@ export function TableHeader({
   ...props
 }: HTMLAttributes<HTMLTableCellElement>) {
   return (
-    <th className={`px-4 py-3.5 sm:px-6 ${className}`} {...props}>
+    <th className={`px-4 py-3.5 sm:px-6 font-semibold ${className}`} {...props}>
       {children}
     </th>
   );
@@ -97,7 +97,7 @@ export function TableCell({
   ...props
 }: HTMLAttributes<HTMLTableCellElement>) {
   return (
-    <td className={`px-4 py-4 sm:px-6 text-zinc-300 ${className}`} {...props}>
+    <td className={`px-4 py-4 sm:px-6 text-[var(--foreground)] ${className}`} {...props}>
       {children}
     </td>
   );

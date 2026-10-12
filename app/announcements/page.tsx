@@ -30,25 +30,25 @@ export default async function PublicAnnouncementsPage() {
   const settings = settingsRes.data || DEFAULT_SITE_SETTINGS;
 
   return (
-    <div className="min-h-screen bg-[var(--background,#000000)] text-[var(--foreground,#FFFFFF)] flex flex-col selection:bg-[var(--brand,#931827)]">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex flex-col selection:bg-[var(--brand)] selection:text-white">
       <PublicNavbar settings={settings} />
 
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-8">
         <div className="space-y-2 text-center sm:text-left">
-          <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
+          <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">
             Official Updates & Alerts
           </span>
-          <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase">
+          <h1 className="text-3xl sm:text-5xl font-black text-[var(--foreground)] tracking-tight uppercase">
             Festival Announcements
           </h1>
-          <p className="text-xs sm:text-sm text-zinc-400 max-w-2xl">
+          <p className="text-xs sm:text-sm text-[var(--text-muted)] max-w-2xl">
             Live broadcasts from the fest committee, including schedule adjustments, round calls, and gate instructions.
           </p>
         </div>
 
         {announcements.length === 0 ? (
           <EmptyState
-            icon={<Megaphone className="w-6 h-6 text-zinc-500" />}
+            icon={<Megaphone className="w-6 h-6 text-[var(--text-muted)]" />}
             title="No active bulletins"
             description="Check back during festival hours for real-time announcements."
           />
@@ -59,33 +59,33 @@ export default async function PublicAnnouncementsPage() {
                 key={a.id}
                 className={`p-5 sm:p-6 transition ${
                   a.isPinned
-                    ? "border-amber-500/50 bg-gradient-to-r from-[#17140e] to-[#121112]"
+                    ? "border-amber-500/50 bg-amber-500/5 dark:bg-amber-950/20"
                     : a.priority === "URGENT"
-                    ? "border-red-600/50 bg-[#160f10]"
-                    : "hover:border-[var(--border-subtle,#383334)]"
+                    ? "border-red-600/50 bg-red-600/5 dark:bg-red-950/20"
+                    : "hover:border-[var(--brand)]"
                 }`}
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <div className="flex items-center gap-2">
                       {a.isPinned && (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-400 bg-amber-950/40 border border-amber-800/60 px-2 py-0.5 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800/60 px-2 py-0.5 rounded-full">
                           <Pin className="w-3 h-3" /> PINNED BULLETIN
                         </span>
                       )}
                       <StatusBadge status={a.priority} />
                     </div>
 
-                    <span className="text-xs text-zinc-400 font-medium">
+                    <span className="text-xs text-[var(--text-muted)] font-medium">
                       {formatDate(a.createdAt)} • {formatTime(a.createdAt)}
                     </span>
                   </div>
 
-                  <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+                  <h3 className="text-lg sm:text-xl font-bold text-[var(--foreground)] tracking-tight">
                     {a.title}
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed whitespace-pre-line">
+                  <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed whitespace-pre-line">
                     {a.content}
                   </p>
                 </div>

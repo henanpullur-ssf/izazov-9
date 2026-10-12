@@ -49,7 +49,7 @@ export function Modal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
       <div
         className="fixed inset-0"
         onClick={onClose}
@@ -58,18 +58,18 @@ export function Modal({
       <div
         role="dialog"
         aria-modal="true"
-        className={`relative z-10 w-full ${maxWidthStyles[maxWidth]} rounded-2xl border border-[#383334] bg-[#161415] shadow-2xl overflow-hidden`}
+        className={`relative z-10 w-full ${maxWidthStyles[maxWidth]} rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--foreground)] shadow-[var(--shadow-elevated)] overflow-hidden`}
       >
-        <div className="flex items-center justify-between border-b border-[#292526] px-6 py-4">
+        <div className="flex items-center justify-between border-b border-[var(--border-subtle)] px-6 py-4">
           <div>
-            <h2 className="text-lg font-semibold text-white">{title}</h2>
+            <h2 className="text-lg font-semibold text-[var(--foreground)]">{title}</h2>
             {description && (
-              <p className="text-xs text-zinc-400 mt-0.5">{description}</p>
+              <p className="text-xs text-[var(--text-muted)] mt-0.5">{description}</p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-1.5 text-zinc-400 hover:text-white hover:bg-[#282425] transition"
+            className="rounded-lg p-1.5 text-[var(--text-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-hover)] transition cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />

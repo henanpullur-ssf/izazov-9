@@ -43,18 +43,18 @@ export default async function PublicSchedulePage() {
   const settings = settingsRes.data || DEFAULT_SITE_SETTINGS;
 
   return (
-    <div className="min-h-screen bg-[var(--background,#000000)] text-[var(--foreground,#FFFFFF)] flex flex-col selection:bg-[var(--brand,#931827)]">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex flex-col selection:bg-[var(--brand)] selection:text-white transition-colors">
       <PublicNavbar settings={settings} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-8">
         <div className="space-y-2 text-center sm:text-left">
-          <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
+          <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">
             Timeline & Itinerary
           </span>
-          <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase">
+          <h1 className="text-3xl sm:text-5xl font-black text-[var(--foreground)] tracking-tight uppercase">
             Festival Schedule
           </h1>
-          <p className="text-xs sm:text-sm text-zinc-400 max-w-2xl">
+          <p className="text-xs sm:text-sm text-[var(--text-muted)] max-w-2xl">
             Live schedule of technical competitions, cultural performances, hackathons, and guest events across all campus venues.
           </p>
         </div>

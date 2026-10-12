@@ -227,23 +227,47 @@ export interface SiteSettingsData {
   ogImageUrl?: string | null;
 }
 
+export const BRAND_COLORS = {
+  navy: "#193763",
+  navyHover: "#12294A",
+  darkBg: "#101722",
+  lightBg: "#F7F5F0",
+  brown: "#8D4B26",
+  brownHover: "#733C1E",
+  primaryTextDark: "#F4F5F7",
+  primaryTextLight: "#19263A",
+  mutedTextDark: "#B8C1CF",
+  mutedTextLight: "#515B68",
+  darkSurface: "#192332",
+  lightSurface: "#FFFFFF",
+  darkBorder: "#344052",
+  lightBorder: "#E4E0D7",
+  // Logo accents
+  rose: "#E94769",
+  orange: "#F47738",
+  blue: "#5789C1",
+  green: "#4FA84A",
+  teal: "#16B2A9",
+  amber: "#D99A4E",
+} as const;
+
 export const DEFAULT_SITE_SETTINGS: SiteSettingsData = {
   siteName: "IZAZOV 9.0",
   shortName: "IZAZOV",
-  tagline: "Where Talent Meets Glory",
-  logoUrl: null,
+  tagline: "From Roots to Horizon",
+  logoUrl: "/logo.png",
   faviconUrl: null,
 
-  primaryColor: "#931827",
-  backgroundColor: "#000000",
-  surfaceColor: "#231F20",
-  cardColor: "#111011",
-  textColor: "#FFFFFF",
-  mutedTextColor: "#B8B8B8",
-  borderColor: "#2D292A",
+  primaryColor: "#193763",
+  backgroundColor: "#101722",
+  surfaceColor: "#192332",
+  cardColor: "#192332",
+  textColor: "#F4F5F7",
+  mutedTextColor: "#B8C1CF",
+  borderColor: "#344052",
 
-  heroTitle: "IGNITE THE ARENA",
-  heroSubtitle: "THE 9TH EDITION • MARCH 2026",
+  heroTitle: "FROM ROOTS TO HORIZON",
+  heroSubtitle: "THE 9TH EDITION • NOV 2026",
   heroDescription:
     "The flagship campus festival uniting cultural spectacles, 24-hour hackathons, esports battles, literary arenas, and the four-house championship.",
   heroButtonText: "Explore Events",

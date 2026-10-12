@@ -381,59 +381,59 @@ export function AdminGalleryClient({
 
       {/* Metric Cards Strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="p-4 rounded-2xl border border-[var(--border-subtle,#262223)] bg-[var(--surface-card,#111011)] space-y-1">
-          <div className="flex items-center justify-between text-zinc-400 text-xs">
+        <div className="p-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-card)] space-y-1">
+          <div className="flex items-center justify-between text-[var(--text-muted)] text-xs">
             <span>Total Photos</span>
-            <Camera className="w-4 h-4 text-zinc-500" />
+            <Camera className="w-4 h-4 text-[var(--text-muted)]" />
           </div>
-          <p className="text-2xl font-black text-white font-mono">
+          <p className="text-2xl font-black text-[var(--foreground)] font-mono">
             {stats.totalImages}
           </p>
         </div>
 
-        <div className="p-4 rounded-2xl border border-[var(--border-subtle,#262223)] bg-[var(--surface-card,#111011)] space-y-1">
-          <div className="flex items-center justify-between text-zinc-400 text-xs">
+        <div className="p-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-card)] space-y-1">
+          <div className="flex items-center justify-between text-[var(--text-muted)] text-xs">
             <span>Published</span>
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
           </div>
-          <p className="text-2xl font-black text-emerald-400 font-mono">
+          <p className="text-2xl font-black text-emerald-500 font-mono">
             {stats.publishedImages}
           </p>
         </div>
 
-        <div className="p-4 rounded-2xl border border-[var(--border-subtle,#262223)] bg-[var(--surface-card,#111011)] space-y-1">
-          <div className="flex items-center justify-between text-zinc-400 text-xs">
+        <div className="p-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-card)] space-y-1">
+          <div className="flex items-center justify-between text-[var(--text-muted)] text-xs">
             <span>Drafts / Review</span>
-            <Clock className="w-4 h-4 text-amber-400" />
+            <Clock className="w-4 h-4 text-amber-500" />
           </div>
-          <p className="text-2xl font-black text-amber-400 font-mono">
+          <p className="text-2xl font-black text-amber-500 font-mono">
             {stats.draftImages}
           </p>
         </div>
 
-        <div className="p-4 rounded-2xl border border-[var(--border-subtle,#262223)] bg-[var(--surface-card,#111011)] space-y-1">
-          <div className="flex items-center justify-between text-zinc-400 text-xs">
+        <div className="p-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-card)] space-y-1">
+          <div className="flex items-center justify-between text-[var(--text-muted)] text-xs">
             <span>Albums</span>
-            <Layers className="w-4 h-4 text-red-400" />
+            <Layers className="w-4 h-4 text-[var(--brand)]" />
           </div>
-          <p className="text-2xl font-black text-white font-mono">
+          <p className="text-2xl font-black text-[var(--foreground)] font-mono">
             {albums.length}
           </p>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="p-4 rounded-2xl border border-[var(--border-subtle,#262223)] bg-[var(--surface-card,#111011)] space-y-3">
+      <div className="p-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-card)] space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {/* Search Input */}
           <div className="relative lg:col-span-2">
-            <Search className="w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search title, caption, photographer..."
               value={searchQuery}
               onChange={(e) => handleFilterChange(selectedAlbum, selectedStatus, selectedEvent, e.target.value)}
-              className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[var(--brand,#931827)]"
+              className="w-full bg-[var(--surface-raised)] border border-[var(--border-subtle)] rounded-xl pl-9 pr-3 py-2 text-xs text-[var(--foreground)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--brand)]"
             />
           </div>
 
@@ -442,7 +442,7 @@ export function AdminGalleryClient({
             <select
               value={selectedAlbum}
               onChange={(e) => handleFilterChange(e.target.value, selectedStatus, selectedEvent, searchQuery)}
-              className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--brand,#931827)] cursor-pointer"
+              className="w-full bg-[var(--surface-raised)] border border-[var(--border-subtle)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--brand)] cursor-pointer"
             >
               <option value="all">All Albums</option>
               {albums.map((a) => (
@@ -458,7 +458,7 @@ export function AdminGalleryClient({
             <select
               value={selectedStatus}
               onChange={(e) => handleFilterChange(selectedAlbum, e.target.value, selectedEvent, searchQuery)}
-              className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--brand,#931827)] cursor-pointer"
+              className="w-full bg-[var(--surface-raised)] border border-[var(--border-subtle)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--brand)] cursor-pointer"
             >
               <option value="all">All Statuses</option>
               <option value="true">Published</option>
@@ -472,8 +472,8 @@ export function AdminGalleryClient({
               onClick={() => setViewMode("grid")}
               className={`p-2 rounded-lg border transition cursor-pointer ${
                 viewMode === "grid"
-                  ? "bg-[var(--brand,#931827)] text-white border-red-500/40"
-                  : "bg-[var(--surface,#181516)] text-zinc-400 border-[var(--border-subtle,#2e282a)] hover:text-white"
+                  ? "bg-[var(--brand)] text-white border-[var(--brand)]"
+                  : "bg-[var(--surface-raised)] text-[var(--text-muted)] border-[var(--border-subtle)] hover:text-[var(--foreground)]"
               }`}
               title="Grid View"
             >
@@ -483,8 +483,8 @@ export function AdminGalleryClient({
               onClick={() => setViewMode("table")}
               className={`p-2 rounded-lg border transition cursor-pointer ${
                 viewMode === "table"
-                  ? "bg-[var(--brand,#931827)] text-white border-red-500/40"
-                  : "bg-[var(--surface,#181516)] text-zinc-400 border-[var(--border-subtle,#2e282a)] hover:text-white"
+                  ? "bg-[var(--brand)] text-white border-[var(--brand)]"
+                  : "bg-[var(--surface-raised)] text-[var(--text-muted)] border-[var(--border-subtle)] hover:text-[var(--foreground)]"
               }`}
               title="Table View"
             >
@@ -528,13 +528,13 @@ export function AdminGalleryClient({
         </div>
       ) : images.length === 0 ? (
         /* Empty State */
-        <div className="p-16 text-center rounded-3xl border border-dashed border-[var(--border-subtle,#2e292a)] bg-[var(--surface-card,#111011)] max-w-lg mx-auto space-y-4">
-          <div className="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto text-zinc-500">
+        <div className="p-16 text-center rounded-3xl border border-dashed border-[var(--border-subtle)] bg-[var(--surface-card)] max-w-lg mx-auto space-y-4">
+          <div className="w-14 h-14 rounded-2xl bg-[var(--surface-raised)] border border-[var(--border-subtle)] flex items-center justify-center mx-auto text-[var(--text-muted)]">
             <Camera className="w-7 h-7" />
           </div>
           <div className="space-y-1">
-            <h3 className="text-base font-bold text-white">No gallery photos yet.</h3>
-            <p className="text-xs text-zinc-400 max-w-sm mx-auto leading-relaxed">
+            <h3 className="text-base font-bold text-[var(--foreground)]">No gallery photos yet.</h3>
+            <p className="text-xs text-[var(--text-muted)] max-w-sm mx-auto leading-relaxed">
               Upload your first IZAZOV 9.0 photo to get started, or refine your search filters.
             </p>
           </div>
@@ -542,7 +542,7 @@ export function AdminGalleryClient({
             <Button
               size="sm"
               onClick={() => setShowUploadModal(true)}
-              className="gap-2 shadow-lg shadow-red-950/30"
+              className="gap-2 shadow-lg shadow-[var(--brand)]/20"
             >
               <UploadCloud className="w-4 h-4" />
               <span>Upload Photos</span>
@@ -555,7 +555,7 @@ export function AdminGalleryClient({
           {images.map((photo, idx) => (
             <div
               key={photo.id}
-              className="group rounded-2xl border border-[var(--border-subtle,#262223)] bg-[var(--surface-card,#111011)] overflow-hidden flex flex-col justify-between hover:border-[var(--brand,#931827)] transition-all"
+              className="group rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-card)] overflow-hidden flex flex-col justify-between hover:border-[var(--brand)] transition-all"
             >
               {/* Thumbnail Container */}
               <div className="relative aspect-[4/3] bg-black/60 overflow-hidden">
@@ -597,17 +597,17 @@ export function AdminGalleryClient({
               {/* Card Meta & Info */}
               <div className="p-3.5 space-y-2 flex-1 flex flex-col justify-between">
                 <div className="space-y-1">
-                  <h4 className="text-xs font-bold text-white truncate">
+                  <h4 className="text-xs font-bold text-[var(--foreground)] truncate">
                     {photo.title || "Untitled Photo"}
                   </h4>
-                  <div className="flex flex-wrap items-center gap-1.5 text-[10px] text-zinc-400">
+                  <div className="flex flex-wrap items-center gap-1.5 text-[10px] text-[var(--text-muted)]">
                     {photo.album?.name && (
-                      <span className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">
+                      <span className="px-1.5 py-0.5 rounded bg-[var(--surface-raised)] border border-[var(--border-subtle)] text-[var(--foreground)]">
                         {photo.album.name}
                       </span>
                     )}
                     {photo.event && (
-                      <span className="px-1.5 py-0.5 rounded bg-red-950/30 border border-red-900/40 text-red-300">
+                      <span className="px-1.5 py-0.5 rounded bg-[var(--brand)]/10 border border-[var(--brand)]/30 text-[var(--brand)] font-semibold">
                         {photo.event.code}
                       </span>
                     )}
@@ -657,10 +657,10 @@ export function AdminGalleryClient({
         </div>
       ) : (
         /* Table View */
-        <div className="rounded-2xl border border-[var(--border-subtle,#262223)] bg-[var(--surface-card,#111011)] overflow-hidden">
+        <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-card)] overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-zinc-300">
-              <thead className="bg-[var(--surface,#181516)] text-zinc-400 border-b border-[var(--border-subtle,#242021)] text-[11px] uppercase tracking-wider font-semibold">
+            <table className="w-full text-left text-xs text-[var(--foreground)]">
+              <thead className="bg-[var(--surface-raised)] text-[var(--text-muted)] border-b border-[var(--border-subtle)] text-[11px] uppercase tracking-wider font-semibold">
                 <tr>
                   <th className="px-4 py-3">Photo</th>
                   <th className="px-4 py-3">Title & Caption</th>
@@ -671,13 +671,13 @@ export function AdminGalleryClient({
                   <th className="px-4 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[var(--border-subtle,#231f20)]">
+              <tbody className="divide-y divide-[var(--border-subtle)]">
                 {images.map((photo, idx) => (
-                  <tr key={photo.id} className="hover:bg-[var(--surface,#181516)] transition">
+                  <tr key={photo.id} className="hover:bg-[var(--surface-raised)] transition">
                     <td className="px-4 py-3">
                       <div
                         onClick={() => setLightboxIndex(idx)}
-                        className="w-12 h-12 rounded-lg bg-zinc-900 overflow-hidden cursor-pointer shrink-0 border border-zinc-800"
+                        className="w-12 h-12 rounded-lg bg-[var(--surface-raised)] overflow-hidden cursor-pointer shrink-0 border border-[var(--border-subtle)]"
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -688,23 +688,23 @@ export function AdminGalleryClient({
                       </div>
                     </td>
                     <td className="px-4 py-3">
-                      <p className="font-bold text-white">{photo.title || "Untitled"}</p>
+                      <p className="font-bold text-[var(--foreground)]">{photo.title || "Untitled"}</p>
                       {photo.caption && (
-                        <p className="text-[11px] text-zinc-400 line-clamp-1 max-w-xs">{photo.caption}</p>
+                        <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 max-w-xs">{photo.caption}</p>
                       )}
                     </td>
                     <td className="px-4 py-3">
-                      <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-300 text-[10px]">
+                      <span className="px-2 py-0.5 rounded bg-[var(--surface-raised)] border border-[var(--border-subtle)] text-[var(--foreground)] text-[10px]">
                         {photo.album?.name || "—"}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       {photo.event ? (
-                        <span className="text-red-300 text-[11px] font-semibold">
+                        <span className="text-[var(--brand)] text-[11px] font-semibold">
                           {photo.event.code}
                         </span>
                       ) : (
-                        <span className="text-zinc-600">—</span>
+                        <span className="text-[var(--text-muted)]">—</span>
                       )}
                     </td>
                     <td className="px-4 py-3">

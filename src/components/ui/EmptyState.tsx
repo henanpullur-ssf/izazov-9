@@ -22,12 +22,12 @@ export function EmptyState({
   actionElement,
 }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center rounded-2xl border border-dashed border-[#2f2b2c] bg-[#121112]">
-      <div className="w-12 h-12 rounded-2xl bg-[#231f20] border border-[#383334] flex items-center justify-center text-zinc-400 mb-4">
-        {icon || <FolderOpen className="w-6 h-6 text-zinc-500" />}
+    <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center rounded-2xl border border-dashed border-[var(--border-strong)] bg-[var(--surface-card)]">
+      <div className="w-12 h-12 rounded-2xl bg-[var(--surface-elevated)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--text-muted)] mb-4">
+        {icon || <FolderOpen className="w-6 h-6 text-[var(--text-dim)]" />}
       </div>
-      <h3 className="text-base font-semibold text-white mb-1">{title}</h3>
-      <p className="text-sm text-zinc-400 max-w-sm mb-6">{description}</p>
+      <h3 className="text-base font-semibold text-[var(--foreground)] mb-1">{title}</h3>
+      <p className="text-sm text-[var(--text-muted)] max-w-sm mb-6">{description}</p>
       {actionElement}
       {!actionElement && actionLabel && onAction && (
         <Button onClick={onAction} size="sm">

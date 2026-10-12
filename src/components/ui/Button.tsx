@@ -21,25 +21,25 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "inline-flex items-center justify-center font-medium transition-colors duration-150 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#931827]/40 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.98]";
+      "inline-flex items-center justify-center font-medium transition-all duration-150 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/40 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.98]";
 
     const sizeStyles = {
       sm: "px-3 py-1.5 text-xs gap-1.5",
-      md: "px-4 py-2.5 text-sm gap-2",
-      lg: "px-6 py-3.5 text-base gap-2.5 font-semibold",
+      md: "px-4 py-2 text-sm gap-2",
+      lg: "px-6 py-3 text-base gap-2.5 font-semibold",
     };
 
     const variantStyles = {
       primary:
-        "bg-[#931827] text-white hover:bg-[#ab1d2f] shadow-md shadow-[#931827]/20 border border-[#ab1d2f]/40",
+        "bg-[var(--brand)] text-[var(--brand-foreground)] hover:bg-[var(--brand-hover)] shadow-md shadow-[var(--brand)]/20 border border-[var(--brand-hover)]/40",
       secondary:
-        "bg-[#231f20] text-zinc-100 hover:bg-[#2d292a] border border-[#3f393b]/60",
+        "bg-[var(--surface-elevated)] text-[var(--foreground)] hover:bg-[var(--surface-hover)] border border-[var(--border-subtle)]",
       outline:
-        "border border-[#3f393b] text-zinc-300 hover:text-white hover:bg-[#181718] hover:border-zinc-600",
+        "border border-[var(--border-strong)] text-[var(--foreground)] hover:text-[var(--foreground)] hover:bg-[var(--surface-hover)] hover:border-[var(--brand)]",
       danger:
-        "bg-red-950/60 text-red-300 border border-red-800/80 hover:bg-red-900/60 hover:text-red-200",
+        "bg-rose-500/10 text-rose-600 dark:text-rose-300 border border-rose-500/40 hover:bg-rose-500/20 hover:text-rose-700 dark:hover:text-rose-200",
       ghost:
-        "text-zinc-400 hover:text-white hover:bg-[#231f20]/60",
+        "text-[var(--text-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-hover)]",
     };
 
     return (

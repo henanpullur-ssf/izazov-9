@@ -1368,13 +1368,13 @@ export function SettingsManagementClient({
           </div>
 
           {/* Demo Data Seeder Banner */}
-          <div className="p-6 rounded-2xl bg-gradient-to-r from-[#170e10] to-[#121112] border border-[#3b171c] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="p-6 rounded-2xl bg-[var(--surface)] border border-[var(--border-subtle)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
             <div className="space-y-1">
-              <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                <Database className="w-4 h-4 text-[#931827]" />
+              <h4 className="text-sm font-bold text-[var(--foreground)] flex items-center gap-2">
+                <Database className="w-4 h-4 text-[var(--brand)]" />
                 <span>Initialize Demonstration Datasets</span>
               </h4>
-              <p className="text-xs text-zinc-400 max-w-xl">
+              <p className="text-xs text-[var(--text-muted)] max-w-xl">
                 Populates default venues, sample competitions, preliminary schedules, and announcements if database tables are unpopulated.
               </p>
             </div>

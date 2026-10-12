@@ -103,14 +103,13 @@ export function PublicResultsClient({
   }, [categories, results]);
 
   const filteredResults = useMemo(() => {
-    const q = search.toLowerCase().trim();
-
     return results.filter((r) => {
       const matchEvent =
         selectedEventId === "ALL" || r.eventId === selectedEventId;
       const matchCat =
         selectedCategory === "ALL" || r.event.category === selectedCategory;
 
+      const q = search.toLowerCase();
       const participantName =
         r.registration.teamName ||
         r.participant?.name ||
@@ -159,25 +158,25 @@ export function PublicResultsClient({
       <div className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <Flame className="w-5 h-5 text-[#931827]" />
-            <h2 className="text-xl font-bold text-white tracking-wide">
+            <Flame className="w-5 h-5 text-[var(--brand)]" />
+            <h2 className="text-xl font-bold text-[var(--foreground)] tracking-wide">
               Team Championship Standings
             </h2>
           </div>
 
           {/* Checkpoint Status Pill */}
           {championship && (
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#181516] border border-[#332e30] text-xs">
-              <Clock className="w-3.5 h-3.5 text-amber-400" />
-              <span className="text-zinc-300">
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-xs shadow-2xs">
+              <Clock className="w-3.5 h-3.5 text-amber-500" />
+              <span className="text-[var(--text-muted)]">
                 {championship.checkpointCount > 0 ? (
                   <>
                     Updated after{" "}
-                    <strong className="text-amber-400">
+                    <strong className="text-amber-500">
                       {championship.checkpointCount} results
                     </strong>{" "}
                     • Next update at{" "}
-                    <strong className="text-zinc-100">
+                    <strong className="text-[var(--foreground)]">
                       {championship.nextCheckpoint} results
                     </strong>{" "}
                     ({championship.resultsUntilNextCheckpoint} remaining)
@@ -185,7 +184,7 @@ export function PublicResultsClient({
                 ) : (
                   <>
                     Standing updates after first{" "}
-                    <strong className="text-amber-400">5 results</strong> (
+                    <strong className="text-amber-500">5 results</strong> (
                     {championship.totalPublishedCount} published so far)
                   </>
                 )}
@@ -201,36 +200,36 @@ export function PublicResultsClient({
                 key={team.id || team.name}
                 className={`p-5 relative overflow-hidden transition ${
                   team.rank === 1
-                    ? "border-amber-500/60 bg-gradient-to-b from-[#1c160c] to-[#121112]"
-                    : "hover:border-[#383334]"
+                    ? "border-amber-500/60 shadow-lg shadow-amber-500/10"
+                    : "hover:border-[var(--brand)]"
                 }`}
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="text-xs font-mono font-bold text-[#931827]">
+                    <span className="text-xs font-mono font-bold text-[var(--brand)]">
                       RANK #{team.rank}
                     </span>
-                    <h3 className="text-lg font-bold text-white mt-0.5">
+                    <h3 className="text-lg font-bold text-[var(--foreground)] mt-0.5">
                       Team {team.name}
                     </h3>
                   </div>
                   <div
                     className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-base ${
                       team.rank === 1
-                        ? "bg-amber-500 text-black shadow-lg shadow-amber-500/30"
-                        : "bg-[#201d1e] text-zinc-300 border border-[#332f30]"
+                        ? "bg-amber-500 text-black shadow-md shadow-amber-500/30 font-black"
+                        : "bg-[var(--surface-elevated)] text-[var(--text-muted)] border border-[var(--border-subtle)]"
                     }`}
                   >
                     {team.rank === 1 ? "👑" : `#${team.rank}`}
                   </div>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-[#232021] flex items-center justify-between">
-                  <div className="text-xs text-zinc-400">
+                <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between">
+                  <div className="text-xs text-[var(--text-muted)]">
                     <span>🥇 {team.gold}</span> • <span>🥈 {team.silver}</span> •{" "}
                     <span>🥉 {team.bronze}</span>
                   </div>
-                  <span className="text-base font-mono font-black text-white">
+                  <span className="text-base font-mono font-black text-[var(--foreground)]">
                     {team.points} pts
                   </span>
                 </div>
@@ -244,22 +243,22 @@ export function PublicResultsClient({
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Trophy className="w-5 h-5 text-[#931827]" />
-            <h2 className="text-xl font-bold text-white tracking-wide">
+            <Trophy className="w-5 h-5 text-[var(--brand)]" />
+            <h2 className="text-xl font-bold text-[var(--foreground)] tracking-wide">
               Official Competition Results
             </h2>
           </div>
         </div>
 
-        <div className="p-4 sm:p-5 rounded-2xl border border-[#2d292a] bg-[#121112] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div className="p-4 sm:p-5 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-card)] shadow-[var(--shadow-card)] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dim)]" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search participant, roll no, team, or event..."
-              className="w-full rounded-xl border border-[#332f30] bg-[#0c0b0c] pl-10 pr-4 py-2 text-xs text-white placeholder-zinc-500 outline-none focus:border-[#931827]"
+              className="w-full rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] pl-10 pr-4 py-2 text-xs text-[var(--foreground)] placeholder-[var(--text-dim)] outline-none focus:border-[var(--brand)]"
             />
           </div>
 
@@ -268,7 +267,7 @@ export function PublicResultsClient({
               value={selectedEventId}
               onChange={(e) => setSelectedEventId(e.target.value)}
               aria-label="Filter Results by Event"
-              className="rounded-xl border border-[#332f30] bg-[#181617] px-3 py-2 text-xs text-zinc-300 outline-none focus:border-[#931827] cursor-pointer"
+              className="rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--foreground)] outline-none focus:border-[var(--brand)] cursor-pointer"
             >
               <option value="ALL">All Events</option>
               {events.map((e) => (
@@ -282,7 +281,7 @@ export function PublicResultsClient({
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               aria-label="Filter Results by Category"
-              className="rounded-xl border border-[#332f30] bg-[#181617] px-3 py-2 text-xs text-zinc-300 outline-none focus:border-[#931827] cursor-pointer"
+              className="rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--foreground)] outline-none focus:border-[var(--brand)] cursor-pointer"
             >
               <option value="ALL">All Categories</option>
               {categoryOptions.map((c) => (
@@ -296,7 +295,7 @@ export function PublicResultsClient({
 
         {filteredResults.length === 0 ? (
           <EmptyState
-            icon={<Trophy className="w-6 h-6 text-zinc-500" />}
+            icon={<Trophy className="w-6 h-6 text-[var(--text-dim)]" />}
             title="No results match your filters"
             description="Results are published in real-time as officials submit verified event scores."
           />
@@ -342,66 +341,69 @@ export function PublicResultsClient({
                               r.position === 1 || r.prizeLevel === "1st Prize"
                                 ? "bg-amber-500 text-black font-extrabold"
                                 : r.position === 2 || r.prizeLevel === "2nd Prize"
-                                ? "bg-zinc-300 text-black"
+                                ? "bg-zinc-300 text-black font-bold"
                                 : r.position === 3 || r.prizeLevel === "3rd Prize"
-                                ? "bg-amber-800 text-white"
-                                : "bg-[#231f20] text-zinc-400"
+                                ? "bg-amber-800 text-white font-bold"
+                                : "bg-[var(--surface-elevated)] text-[var(--text-muted)]"
                             }`}
                           >
-                            {r.position ? `#${r.position}` : "—"}
+                            {r.position || "—"}
                           </span>
                         </TableCell>
                         <TableCell>
                           <div className="space-y-0.5">
-                            <span className="font-bold text-white text-sm">
+                            <p className="font-semibold text-[var(--foreground)] text-sm">
                               {participantName}
-                            </span>
-                            <div className="flex items-center gap-1.5">
-                              {rollNo && (
-                                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#201d1e] text-zinc-300 border border-[#332f30]">
-                                  Roll: {rollNo}
-                                </span>
-                              )}
-                              {r.isWinner && (
-                                <Badge variant="warning" className="text-[10px]">
-                                  CHAMPION
-                                </Badge>
-                              )}
-                            </div>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div>
-                            <span className="text-xs font-semibold text-white">
-                              {r.event.name}
-                            </span>
-                            <p className="text-[10px] text-zinc-500 font-mono">
-                              {r.event.code} {r.event.category ? `• ${r.event.category}` : ""}
                             </p>
+                            {rollNo && (
+                              <p className="text-[11px] text-[var(--text-muted)] font-mono">
+                                {rollNo}
+                              </p>
+                            )}
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="info">Team {teamName}</Badge>
+                          <div className="space-y-0.5">
+                            <p className="font-medium text-[var(--foreground)] text-xs">
+                              {r.event.name}
+                            </p>
+                            <Badge variant="primary" className="text-[10px]">
+                              {r.event.code}
+                            </Badge>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <span className="text-xs font-semibold text-[var(--foreground)]">
+                            {teamName}
+                          </span>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1.5 flex-wrap">
-                            {r.prizeLevel && r.prizeLevel !== "No Prize" && (
-                              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30">
+                            {r.prizeLevel && (
+                              <Badge
+                                variant={
+                                  r.prizeLevel.includes("1st")
+                                    ? "warning"
+                                    : r.prizeLevel.includes("2nd")
+                                    ? "neutral"
+                                    : "primary"
+                                }
+                                className="text-[10px]"
+                              >
                                 {r.prizeLevel}
-                              </span>
+                              </Badge>
                             )}
                             {r.grade && (
-                              <span className="text-[11px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950/60 text-emerald-400 border border-emerald-800">
-                                {r.grade}
+                              <span className="text-xs font-bold text-emerald-500 font-mono">
+                                Grade {r.grade}
                               </span>
-                            )}
-                            {!r.prizeLevel && !r.grade && (
-                              <span className="text-xs text-zinc-500">—</span>
                             )}
                           </div>
                         </TableCell>
-                        <TableCell className="text-right font-mono font-black text-white text-sm">
-                          {pts} pts
+                        <TableCell className="text-right">
+                          <span className="font-mono font-bold text-sm text-[var(--foreground)]">
+                            {pts} pts
+                          </span>
                         </TableCell>
                       </TableRow>
                     );

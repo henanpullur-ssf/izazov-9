@@ -132,20 +132,20 @@ export function EventDetailClient({
   return (
     <div className="space-y-8">
       {/* Event Header Banner */}
-      <div className="p-6 rounded-2xl border border-[#2f2b2c] bg-gradient-to-r from-[#171516] to-[#121112] flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="p-6 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface)] flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-xs">
         <div className="space-y-2">
           <div className="flex items-center gap-2.5 flex-wrap">
-            <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#931827] text-white">
+            <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-[var(--brand)] text-white">
               {event.code}
             </span>
             <Badge variant="primary">{event.category || "General"}</Badge>
             <Badge variant="neutral">{event.type}</Badge>
             <StatusBadge status={event.status} />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)] tracking-tight">
             {event.name}
           </h1>
-          <p className="text-xs sm:text-sm text-zinc-400 max-w-2xl">
+          <p className="text-xs sm:text-sm text-[var(--text-muted)] max-w-2xl">
             {event.description || "No description provided for this event."}
           </p>
         </div>
@@ -157,7 +157,7 @@ export function EventDetailClient({
             onChange={(e) => handleStatusChange(e.target.value as EventStatus)}
             disabled={statusUpdating}
             aria-label="Event Status"
-            className="rounded-xl border border-[#3f393b] bg-[#201d1e] px-3 py-2 text-xs font-semibold text-white outline-none focus:border-[#931827] cursor-pointer"
+            className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-raised)] px-3 py-2 text-xs font-semibold text-[var(--foreground)] outline-none focus:border-[var(--brand)] cursor-pointer"
           >
             {EVENT_STATUSES.map((st) => (
               <option key={st} value={st}>

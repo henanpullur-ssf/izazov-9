@@ -14,8 +14,8 @@ export function Card({
     <div
       className={`rounded-2xl border transition-all duration-150 ${
         elevated
-          ? "bg-[#1c1a1b] border-[#3f393b]/70 shadow-lg shadow-black/40"
-          : "bg-[#141314] border-[#2a2627]"
+          ? "bg-[var(--surface-elevated)] border-[var(--border-strong)] shadow-[var(--shadow-elevated)]"
+          : "bg-[var(--surface-card)] border-[var(--border-subtle)] shadow-[var(--shadow-card)]"
       } ${className}`}
       {...props}
     >
@@ -31,7 +31,7 @@ export function CardHeader({
 }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={`p-5 sm:p-6 border-b border-[#252223] flex flex-col gap-1.5 ${className}`}
+      className={`p-5 sm:p-6 border-b border-[var(--border-subtle)] flex flex-col gap-1.5 ${className}`}
       {...props}
     >
       {children}
@@ -46,7 +46,7 @@ export function CardTitle({
 }: HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h3
-      className={`text-lg font-semibold text-white tracking-tight ${className}`}
+      className={`text-lg font-semibold text-[var(--foreground)] tracking-tight ${className}`}
       {...props}
     >
       {children}
@@ -60,7 +60,7 @@ export function CardDescription({
   ...props
 }: HTMLAttributes<HTMLParagraphElement>) {
   return (
-    <p className={`text-sm text-zinc-400 ${className}`} {...props}>
+    <p className={`text-sm text-[var(--text-muted)] ${className}`} {...props}>
       {children}
     </p>
   );
@@ -85,7 +85,7 @@ export function CardFooter({
 }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={`p-5 sm:p-6 pt-0 border-t border-[#252223] mt-auto flex items-center ${className}`}
+      className={`p-5 sm:p-6 pt-0 border-t border-[var(--border-subtle)] mt-auto flex items-center ${className}`}
       {...props}
     >
       {children}

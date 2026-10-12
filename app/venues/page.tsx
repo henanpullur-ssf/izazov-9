@@ -32,25 +32,25 @@ export default async function PublicVenuesPage() {
   const settings = settingsRes.data || DEFAULT_SITE_SETTINGS;
 
   return (
-    <div className="min-h-screen bg-[var(--background,#000000)] text-[var(--foreground,#FFFFFF)] flex flex-col selection:bg-[var(--brand,#931827)]">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex flex-col selection:bg-[var(--brand)] selection:text-white">
       <PublicNavbar settings={settings} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-8">
         <div className="space-y-2 text-center sm:text-left">
-          <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#931827)]">
+          <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">
             Campus Stages & Arenas
           </span>
-          <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase">
+          <h1 className="text-3xl sm:text-5xl font-black text-[var(--foreground)] tracking-tight uppercase">
             Festival Venues
           </h1>
-          <p className="text-xs sm:text-sm text-zinc-400 max-w-2xl">
+          <p className="text-xs sm:text-sm text-[var(--text-muted)] max-w-2xl">
             State-of-the-art concert halls, computing labs, amphitheaters, and indoor arenas hosting {settings.siteName || "IZAZOV 9.0"} competitions.
           </p>
         </div>
 
         {venues.length === 0 ? (
           <EmptyState
-            icon={<MapPin className="w-6 h-6 text-zinc-500" />}
+            icon={<MapPin className="w-6 h-6 text-[var(--text-muted)]" />}
             title="Venues being configured"
             description="The campus facilities map will be released shortly."
           />
@@ -59,11 +59,11 @@ export default async function PublicVenuesPage() {
             {venues.map((v) => (
               <Card
                 key={v.id}
-                className="flex flex-col justify-between hover:border-[var(--brand,#931827)] transition group"
+                className="flex flex-col justify-between hover:border-[var(--brand)] transition group"
               >
                 <CardHeader className="py-4">
                   <div className="flex items-center justify-between gap-2 mb-1.5">
-                    <span className="text-xs font-semibold text-[var(--brand,#931827)] flex items-center gap-1">
+                    <span className="text-xs font-semibold text-[var(--brand)] flex items-center gap-1">
                       <MapPin className="w-3.5 h-3.5" />
                       <span>{v.location || "Campus"}</span>
                     </span>
@@ -77,31 +77,31 @@ export default async function PublicVenuesPage() {
                       </Badge>
                     )}
                   </div>
-                  <CardTitle className="text-lg group-hover:text-red-400 transition-colors">
+                  <CardTitle className="text-lg group-hover:text-[var(--brand)] transition-colors">
                     {v.name}
                   </CardTitle>
                 </CardHeader>
 
                 <CardContent className="space-y-4 pt-0">
-                  <p className="text-xs text-zinc-300 leading-relaxed">
+                  <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                     {v.description ||
                       "Equipped with staging, acoustic sound systems, and tournament projection."}
                   </p>
 
-                  <div className="flex items-center justify-between pt-3 border-t border-[var(--border-subtle,#232021)] text-xs text-zinc-400">
+                  <div className="flex items-center justify-between pt-3 border-t border-[var(--border-subtle)] text-xs text-[var(--text-muted)]">
                     <span className="flex items-center gap-1.5">
-                      <Users className="w-3.5 h-3.5 text-zinc-500" />
+                      <Users className="w-3.5 h-3.5" />
                       <span>Capacity: {v.capacity || "Open"}</span>
                     </span>
-                    <span className="flex items-center gap-1.5 text-zinc-300">
-                      <Calendar className="w-3.5 h-3.5 text-zinc-500" />
+                    <span className="flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5" />
                       <span>{v.events?.length || 0} Events Hosted</span>
                     </span>
                   </div>
 
                   {v.events && v.events.length > 0 && (
                     <div className="space-y-1.5 pt-2">
-                      <p className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider">
+                      <p className="text-[10px] uppercase font-bold text-[var(--text-muted)] tracking-wider">
                         Hosted Events
                       </p>
                       <div className="flex flex-wrap gap-1.5">
@@ -109,7 +109,7 @@ export default async function PublicVenuesPage() {
                           <Link key={e.id} href={`/events/${e.id}`}>
                             <Badge
                               variant="neutral"
-                              className="text-[10px] hover:border-[var(--brand,#931827)] hover:text-white transition"
+                              className="text-[10px] hover:border-[var(--brand)] transition"
                             >
                               {e.code}
                             </Badge>
