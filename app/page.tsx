@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Sparkles,
   Calendar,
@@ -79,101 +80,180 @@ export default async function HomePage() {
 
       <main className="flex-1">
         {/* 1. HERO SECTION */}
-        <section className="relative overflow-hidden border-b border-[var(--border-subtle)] py-20 sm:py-32 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--brand-muted),transparent)]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--surface-elevated)] text-xs font-semibold text-[var(--brand)] shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-[var(--brand)] animate-ping" />
-              <span>
-                THE {settings.edition || "9.0"} EDITION • {festDates}
-              </span>
-            </div>
+        <section className="relative overflow-hidden border-b border-[var(--border-subtle)] min-h-[90vh] flex flex-col justify-center">
 
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight uppercase max-w-4xl mx-auto leading-[1.05]">
-              {settings.heroTitle ? (
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand)] via-[#8D4B26] to-[var(--brand)]">
-                  {settings.heroTitle}
-                </span>
-              ) : (
-                <>
-                  FROM ROOTS TO{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand)] via-[#8D4B26] to-[var(--brand)]">
-                    HORIZON
+          {/* ─── Photographic background ─── */}
+          <div className="absolute inset-0 z-0" aria-hidden="true">
+            <Image
+              src="/hero-bg-1.png"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-[center_30%]"
+            />
+            {/* Layered dark-navy gradient overlay – keeps collage visible but text readable */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#101722]/72 via-[#193763]/45 to-[#101722]/92" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#101722]/85 via-[#101722]/30 to-[#101722]/60" />
+          </div>
+
+          {/* ─── Content layer ─── */}
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-28 sm:py-36">
+            <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+
+              {/* Hero copy – always white text since overlay makes bg dark */}
+              <div className="flex-1 space-y-6 text-center lg:text-left min-w-0">
+
+                {/* Live badge */}
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-xs font-semibold text-white/90 shadow-sm">
+                  <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+                  <span>
+                    THE {settings.edition || "9.0"} EDITION • {festDates}
                   </span>
-                </>
-              )}
-              <br />
-              <span className="text-[var(--foreground)]">{settings.siteName || "IZAZOV 9.0"}</span>
-            </h1>
-
-            <p className="text-base sm:text-lg text-[var(--text-muted)] max-w-2xl mx-auto leading-relaxed">
-              {settings.heroDescription ||
-                "The flagship campus festival uniting cultural spectacles, 24-hour hackathons, esports battles, literary arenas, and the championship cup."}
-            </p>
-
-            {/* Quick Action Navigation Grid */}
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-4">
-              <Link href={settings.heroButtonLink || "/events"}>
-                <Button size="lg" className="gap-2 shadow-lg shadow-[var(--brand)]/20">
-                  <Sparkles className="w-4 h-4" />
-                  <span>{settings.heroButtonText || "Explore Events"}</span>
-                </Button>
-              </Link>
-              {settings.showScheduleNav && (
-                <Link href="/schedule">
-                  <Button variant="secondary" size="lg" className="gap-2">
-                    <Calendar className="w-4 h-4" />
-                    <span>Schedule</span>
-                  </Button>
-                </Link>
-              )}
-              {settings.showResultsNav && (
-                <Link href="/results">
-                  <Button variant="outline" size="lg" className="gap-2">
-                    <Trophy className="w-4 h-4" />
-                    <span>Leaderboard</span>
-                  </Button>
-                </Link>
-              )}
-              {settings.showAnnouncementsNav && (
-                <Link href="/announcements">
-                  <Button variant="outline" size="lg" className="gap-2">
-                    <Megaphone className="w-4 h-4" />
-                    <span>Announcements</span>
-                  </Button>
-                </Link>
-              )}
-            </div>
-
-            {/* Live Stats Strip */}
-            {settings.showStats && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto pt-12 text-center border-t border-[var(--border-subtle)]">
-                <div className="p-3">
-                  <p className="text-2xl sm:text-3xl font-black text-[var(--foreground)] font-mono">
-                    {events.length > 0 ? `${events.length}+` : "15+"}
-                  </p>
-                  <p className="text-xs text-[var(--text-muted)] mt-0.5">Competitions</p>
                 </div>
-                <div className="p-3">
-                  <p className="text-2xl sm:text-3xl font-black text-[var(--foreground)] font-mono">
-                    {houses.length > 0 ? houses.length : "4"}
-                  </p>
-                  <p className="text-xs text-[var(--text-muted)] mt-0.5">Fest Teams</p>
+
+                {/* Headline */}
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight uppercase max-w-4xl leading-[1.05]">
+                  {settings.heroTitle ? (
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#D99A4E] to-[#5789C1]">
+                      {settings.heroTitle}
+                    </span>
+                  ) : (
+                    <>
+                      FROM ROOTS TO{" "}
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5789C1] via-[#D99A4E] to-[#8D4B26]">
+                        HORIZON
+                      </span>
+                    </>
+                  )}
+                  <br />
+                  <span className="text-white drop-shadow">
+                    {settings.siteName || "IZAZOV 9.0"}
+                  </span>
+                </h1>
+
+                {/* Description */}
+                <p className="text-base sm:text-lg text-white/70 max-w-2xl leading-relaxed mx-auto lg:mx-0">
+                  {settings.heroDescription ||
+                    "The flagship campus festival uniting cultural spectacles, 24-hour hackathons, esports battles, literary arenas, and the championship cup."}
+                </p>
+
+                {/* CTA buttons */}
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
+                  <Link href={settings.heroButtonLink || "/events"}>
+                    <Button size="lg" className="gap-2 shadow-lg shadow-[var(--brand)]/30">
+                      <Sparkles className="w-4 h-4" />
+                      <span>{settings.heroButtonText || "Explore Events"}</span>
+                    </Button>
+                  </Link>
+                  {settings.showScheduleNav && (
+                    <Link href="/schedule">
+                      <Button variant="secondary" size="lg" className="gap-2">
+                        <Calendar className="w-4 h-4" />
+                        <span>Schedule</span>
+                      </Button>
+                    </Link>
+                  )}
+                  {settings.showResultsNav && (
+                    <Link href="/results">
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="gap-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50"
+                      >
+                        <Trophy className="w-4 h-4" />
+                        <span>Leaderboard</span>
+                      </Button>
+                    </Link>
+                  )}
+                  {settings.showAnnouncementsNav && (
+                    <Link href="/announcements">
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="gap-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50"
+                      >
+                        <Megaphone className="w-4 h-4" />
+                        <span>Announcements</span>
+                      </Button>
+                    </Link>
+                  )}
                 </div>
-                <div className="p-3">
-                  <p className="text-2xl sm:text-3xl font-black text-[var(--foreground)] font-mono">
-                    {venues.length > 0 ? venues.length : "5+"}
-                  </p>
-                  <p className="text-xs text-[var(--text-muted)] mt-0.5">Campus Stages</p>
+
+                {/* Live Stats Strip */}
+                {settings.showStats && (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto lg:mx-0 pt-10 text-center border-t border-white/15">
+                    <div className="p-3">
+                      <p className="text-2xl sm:text-3xl font-black text-white font-mono">
+                        {events.length > 0 ? `${events.length}+` : "15+"}
+                      </p>
+                      <p className="text-xs text-white/55 mt-0.5">Competitions</p>
+                    </div>
+                    <div className="p-3">
+                      <p className="text-2xl sm:text-3xl font-black text-white font-mono">
+                        {houses.length > 0 ? houses.length : "4"}
+                      </p>
+                      <p className="text-xs text-white/55 mt-0.5">Fest Teams</p>
+                    </div>
+                    <div className="p-3">
+                      <p className="text-2xl sm:text-3xl font-black text-white font-mono">
+                        {venues.length > 0 ? venues.length : "5+"}
+                      </p>
+                      <p className="text-xs text-white/55 mt-0.5">Campus Stages</p>
+                    </div>
+                    <div className="p-3">
+                      <p className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
+                        LIVE
+                      </p>
+                      <p className="text-xs text-white/55 mt-0.5">Scoring & Portal</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* ─── Decorative right panel: hero-bg-2 (lg+ only) ─── */}
+              <div
+                className="hidden lg:flex flex-col gap-3 flex-shrink-0 w-[300px] xl:w-[360px]"
+                aria-hidden="true"
+              >
+                {/* Primary panel */}
+                <div className="relative h-[290px] xl:h-[340px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 ring-1 ring-white/5">
+                  <Image
+                    src="/hero-bg-2.png"
+                    alt="Festival stage highlights"
+                    fill
+                    sizes="360px"
+                    className="object-cover object-top"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#101722]/80 via-[#101722]/10 to-transparent" />
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <p className="text-[10px] font-bold tracking-widest text-white/65 uppercase">Stage Moments</p>
+                  </div>
                 </div>
-                <div className="p-3">
-                  <p className="text-2xl sm:text-3xl font-black text-emerald-500 font-mono">
-                    LIVE
-                  </p>
-                  <p className="text-xs text-[var(--text-muted)] mt-0.5">Scoring & Portal</p>
+                {/* Secondary panel – crops hero-bg-1 to a fresh angle */}
+                <div className="relative h-[140px] xl:h-[160px] rounded-xl overflow-hidden shadow-xl border border-white/10 ring-1 ring-white/5">
+                  <Image
+                    src="/hero-bg-1.png"
+                    alt="Festival awards and celebrations"
+                    fill
+                    sizes="360px"
+                    className="object-cover object-[center_65%]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#193763]/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <p className="text-[10px] font-bold tracking-widest text-white/65 uppercase">IZAZOV 9.0 · From Roots to Horizon</p>
+                  </div>
                 </div>
               </div>
-            )}
+
+            </div>
           </div>
+
+          {/* ─── Bottom fade into page background ─── */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F7F5F0] dark:from-[#101722] to-transparent z-10 pointer-events-none"
+            aria-hidden="true"
+          />
         </section>
 
         {/* 2. FESTIVAL INTRODUCTION & TEAMS */}
