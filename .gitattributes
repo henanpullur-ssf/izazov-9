@@ -1,2 +1,5 @@
-public/hero-bg-1.png filter=lfs diff=lfs merge=lfs -text
-public/hero-bg-2.png filter=lfs diff=lfs merge=lfs -text
+# hero-bg WebP variants are committed directly (no LFS) - see scripts/convert-hero-images.mjs
+# Original PNGs are local only and listed in .gitignore
+# Explicitly ensure WebP hero images are NOT handled by LFS
+public/hero-bg-1.webp -filter -diff -merge text=auto
+public/hero-bg-2.webp -filter -diff -merge text=auto

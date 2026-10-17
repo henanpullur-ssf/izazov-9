@@ -85,7 +85,7 @@ export default async function HomePage() {
           {/* ─── Photographic background ─── */}
           <div className="absolute inset-0 z-0" aria-hidden="true">
             <Image
-              src="/hero-bg-1.png"
+              src="/hero-bg-1.webp"
               alt=""
               fill
               priority
@@ -219,7 +219,7 @@ export default async function HomePage() {
                 {/* Primary panel */}
                 <div className="relative h-[290px] xl:h-[340px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 ring-1 ring-white/5">
                   <Image
-                    src="/hero-bg-2.png"
+                    src="/hero-bg-2.webp"
                     alt="Festival stage highlights"
                     fill
                     sizes="360px"
@@ -233,7 +233,7 @@ export default async function HomePage() {
                 {/* Secondary panel – crops hero-bg-1 to a fresh angle */}
                 <div className="relative h-[140px] xl:h-[160px] rounded-xl overflow-hidden shadow-xl border border-white/10 ring-1 ring-white/5">
                   <Image
-                    src="/hero-bg-1.png"
+                    src="/hero-bg-1.webp"
                     alt="Festival awards and celebrations"
                     fill
                     sizes="360px"

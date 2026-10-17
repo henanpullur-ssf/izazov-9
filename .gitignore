@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Hero background originals (large PNGs – local only, WebP variants committed instead)
+public/hero-bg-1.png
+public/hero-bg-2.png
+public/logo.png
+public/logo.png.png
