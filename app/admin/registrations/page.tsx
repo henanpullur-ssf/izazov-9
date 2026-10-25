@@ -31,6 +31,16 @@ export default async function AdminRegistrationsPage() {
     houseName: p.house?.name,
   }));
 
+  // Derive per-event registration count from the already-fetched data.
+  // Counts all statuses, consistent with server-side validateRegistrationInput().
+  const registrationCountByEvent = registrations.reduce<Record<string, number>>(
+    (acc, r) => {
+      acc[r.eventId] = (acc[r.eventId] || 0) + 1;
+      return acc;
+    },
+    {}
+  );
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -46,6 +56,7 @@ export default async function AdminRegistrationsPage() {
         registrations={registrations}
         events={events}
         participants={participants}
+        registrationCountByEvent={registrationCountByEvent}
       />
     </div>
   );

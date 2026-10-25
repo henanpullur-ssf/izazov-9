@@ -6,7 +6,11 @@ import {
   ClipboardList,
   PlusCircle,
   Trash2,
+  Pencil,
+  Users,
+  Search,
 } from "lucide-react";
+
 import { Button } from "@/components/ui/Button";
 import { Input, Select } from "@/components/ui/Input";
 import { Modal } from "@/components/ui/Modal";
@@ -27,7 +31,9 @@ import {
   createRegistration,
   updateRegistrationStatus,
   deleteRegistration,
+  updateRegistration,
 } from "@/actions/registrations";
+
 import { formatDate, REGISTRATION_STATUSES, RegistrationStatus } from "@/lib/constants";
 
 export interface RegistrationItem {
@@ -51,16 +57,23 @@ export interface RegistrationItem {
       house: { name: string } | null;
     };
   }[];
+  /** Judging-data protection: participant changes are locked when non-empty. */
+  scores: { id: string }[];
+  /** Judging-data protection: participant changes are locked when non-empty. */
+  results: { id: string }[];
 }
 
 export function RegistrationManagementClient({
   registrations,
   events = [],
   participants = [],
+  registrationCountByEvent = {},
 }: {
   registrations: RegistrationItem[];
   events: { id: string; name: string; code: string; maxParticipants: number | null }[];
   participants: { id: string; name: string; participantId: string; houseName?: string }[];
+  /** Per-event registration count derived server-side. Used for slot display (Req C). */
+  registrationCountByEvent?: Record<string, number>;
 }) {
   const router = useRouter();
 
@@ -68,35 +81,127 @@ export function RegistrationManagementClient({
   const [selectedEvent, setSelectedEvent] = useState("ALL");
   const [selectedStatus, setSelectedStatus] = useState("ALL");
 
+  // Modal visibility
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editTarget, setEditTarget] = useState<RegistrationItem | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<RegistrationItem | null>(null);
 
-  // Form State
+  // Create form state
   const [formEventId, setFormEventId] = useState(events[0]?.id || "");
   const [formTeamName, setFormTeamName] = useState("");
   const [selectedParticipantIds, setSelectedParticipantIds] = useState<string[]>([]);
-  const [formStatus, setFormStatus] = useState<RegistrationStatus>(
-    RegistrationStatus.CONFIRMED
-  );
+  const [formStatus, setFormStatus] = useState<RegistrationStatus>(RegistrationStatus.CONFIRMED);
+  const [participantSearch, setParticipantSearch] = useState("");
+
+  // Edit form state
+  const [editTeamName, setEditTeamName] = useState("");
+  const [editSelectedParticipantIds, setEditSelectedParticipantIds] = useState<string[]>([]);
+  const [editStatus, setEditStatus] = useState<RegistrationStatus>(RegistrationStatus.CONFIRMED);
+  const [editParticipantSearch, setEditParticipantSearch] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [editError, setEditError] = useState("");
+
+  // --- Derived values ---
+
+  // Req C: registration slot counter for the currently selected event
+  const createEventData = useMemo(
+    () => events.find((e) => e.id === formEventId) ?? null,
+    [events, formEventId]
+  );
+  const createEventRegCount = formEventId ? (registrationCountByEvent[formEventId] ?? 0) : 0;
+  const createEventAtCap = createEventRegCount >= 3;
+
+  // Req A: participant list filtered by create-modal search
+  const createFilteredParticipants = useMemo(() => {
+    const q = participantSearch.trim().toLowerCase();
+    if (!q) return participants;
+    return participants.filter(
+      (p) =>
+        p.name.toLowerCase().includes(q) ||
+        p.participantId.toLowerCase().includes(q) ||
+        (p.houseName && p.houseName.toLowerCase().includes(q))
+    );
+  }, [participants, participantSearch]);
+
+  // Req D: event data and judging lock for edit modal
+  const editEventData = useMemo(
+    () => (editTarget ? events.find((e) => e.id === editTarget.eventId) ?? null : null),
+    [events, editTarget]
+  );
+  const editHasJudgingData = useMemo(
+    () =>
+      editTarget
+        ? editTarget.scores.length > 0 || editTarget.results.length > 0
+        : false,
+    [editTarget]
+  );
+
+  // Req A: participant list filtered by edit-modal search
+  const editFilteredParticipants = useMemo(() => {
+    const q = editParticipantSearch.trim().toLowerCase();
+    if (!q) return participants;
+    return participants.filter(
+      (p) =>
+        p.name.toLowerCase().includes(q) ||
+        p.participantId.toLowerCase().includes(q) ||
+        (p.houseName && p.houseName.toLowerCase().includes(q))
+    );
+  }, [participants, editParticipantSearch]);
 
   function openCreate() {
     setFormEventId(events[0]?.id || "");
     setFormTeamName("");
     setSelectedParticipantIds([]);
     setFormStatus(RegistrationStatus.CONFIRMED);
+    setParticipantSearch("");
     setError("");
     setIsCreateOpen(true);
   }
 
+  function openEdit(r: RegistrationItem) {
+    setEditTarget(r);
+    setEditTeamName(r.teamName ?? "");
+    setEditSelectedParticipantIds(r.participants.map((p) => p.participant.id));
+    setEditStatus(r.status);
+    setEditParticipantSearch("");
+    setEditError("");
+    setIsEditOpen(true);
+  }
+
+  function closeEdit() {
+    setIsEditOpen(false);
+    setEditTarget(null);
+  }
+
+  /** Reset participant selections when the event changes (limits may differ). */
+  function handleFormEventChange(newEventId: string) {
+    setFormEventId(newEventId);
+    setSelectedParticipantIds([]);
+  }
+
+  /** Req B: enforce maxParticipants in Create modal. */
   function toggleParticipantSelection(id: string) {
     if (selectedParticipantIds.includes(id)) {
-      setSelectedParticipantIds(selectedParticipantIds.filter((p) => p !== id));
-    } else {
-      setSelectedParticipantIds([...selectedParticipantIds, id]);
+      setSelectedParticipantIds((prev) => prev.filter((p) => p !== id));
+      return;
     }
+    const cap = createEventData?.maxParticipants;
+    if (cap != null && selectedParticipantIds.length >= cap) return; // at limit
+    setSelectedParticipantIds((prev) => [...prev, id]);
+  }
+
+  /** Req B: enforce maxParticipants in Edit modal. */
+  function toggleEditParticipantSelection(id: string) {
+    if (editSelectedParticipantIds.includes(id)) {
+      setEditSelectedParticipantIds((prev) => prev.filter((p) => p !== id));
+      return;
+    }
+    const cap = editEventData?.maxParticipants;
+    if (cap != null && editSelectedParticipantIds.length >= cap) return;
+    setEditSelectedParticipantIds((prev) => [...prev, id]);
   }
 
   async function handleCreate(e: React.FormEvent) {
@@ -151,6 +256,35 @@ export function RegistrationManagementClient({
       router.refresh();
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  /** Req D: update existing registration in place (preserves id, registrationNumber, registeredAt, scores, results). */
+  async function handleEdit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!editTarget) return;
+    if (editSelectedParticipantIds.length === 0) {
+      setEditError("Please select at least one participant");
+      return;
+    }
+    setLoading(true);
+    setEditError("");
+    try {
+      const res = await updateRegistration(editTarget.id, {
+        teamName: editTeamName,
+        participantIds: editSelectedParticipantIds,
+        status: editStatus,
+      });
+      if (!res.success) {
+        setEditError(res.error || "Failed to update registration");
+      } else {
+        closeEdit();
+        router.refresh();
+      }
+    } catch {
+      setEditError("An unexpected error occurred");
     } finally {
       setLoading(false);
     }
@@ -307,13 +441,23 @@ export function RegistrationManagementClient({
                         </select>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button
-                          variant="danger"
-                          size="sm"
-                          onClick={() => setDeleteTarget(r)}
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </Button>
+                        <div className="flex items-center justify-end gap-1.5">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => openEdit(r)}
+                            aria-label={`Edit registration ${r.registrationNumber}`}
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                          </Button>
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => setDeleteTarget(r)}
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -351,32 +495,42 @@ export function RegistrationManagementClient({
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between gap-2 pt-2 border-t border-[#232021]">
-                  <select
-                    value={r.status}
-                    onChange={(e) =>
-                      handleStatusChange(
-                        r.id,
-                        e.target.value as RegistrationStatus
-                      )
-                    }
-                    aria-label="Change registration status"
-                    className="rounded-lg border border-[#383334] bg-[#1a1819] px-2 py-1 text-xs text-white outline-none focus:border-[#931827]"
-                  >
-                    {REGISTRATION_STATUSES.map((st) => (
-                      <option key={st} value={st}>
-                        {st}
-                      </option>
-                    ))}
-                  </select>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => setDeleteTarget(r)}
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </Button>
-                </div>
+                  <div className="flex items-center justify-between gap-2 pt-2 border-t border-[#232021]">
+                    <select
+                      value={r.status}
+                      onChange={(e) =>
+                        handleStatusChange(
+                          r.id,
+                          e.target.value as RegistrationStatus
+                        )
+                      }
+                      aria-label="Change registration status"
+                      className="rounded-lg border border-[#383334] bg-[#1a1819] px-2 py-1 text-xs text-white outline-none focus:border-[#931827]"
+                    >
+                      {REGISTRATION_STATUSES.map((st) => (
+                        <option key={st} value={st}>
+                          {st}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="flex items-center gap-1.5">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => openEdit(r)}
+                        aria-label={`Edit registration ${r.registrationNumber}`}
+                      >
+                        <Pencil className="w-3.5 h-3.5" />
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => setDeleteTarget(r)}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                  </div>
               </div>
             ))}
           </div>
@@ -397,65 +551,165 @@ export function RegistrationManagementClient({
             </div>
           )}
 
+          {/* Event selector — uses handleFormEventChange to reset participant selections */}
           <Select
             label="Target Event"
             value={formEventId}
-            onChange={(e) => setFormEventId(e.target.value)}
+            onChange={(e) => handleFormEventChange(e.target.value)}
             required
           >
             {events.map((e) => (
               <option key={e.id} value={e.id}>
-                {e.code} - {e.name} (Max: {e.maxParticipants || 1})
+                {e.code} - {e.name}
+                {e.maxParticipants != null ? ` (Max ${e.maxParticipants} per reg)` : ""}
               </option>
             ))}
           </Select>
 
-          <Input
-            label="Team Name (Optional for Solo)"
-            value={formTeamName}
-            onChange={(e) => setFormTeamName(e.target.value)}
-            placeholder="e.g. CyberKnights or leave blank for individual"
-          />
-
-          <div className="space-y-2">
-            <label className="block text-xs font-medium text-zinc-300 uppercase tracking-wider">
-              Select Registered Participants ({selectedParticipantIds.length} selected)
-            </label>
-            <div className="max-h-48 overflow-y-auto rounded-xl border border-[#2d292a] bg-[#0c0b0c] p-3 divide-y divide-[#1f1c1d]">
-              {participants.length === 0 ? (
-                <p className="text-xs text-zinc-500 text-center py-2">
-                  No participants available. Add participants first.
-                </p>
-              ) : (
-                participants.map((p) => {
-                  const isSelected = selectedParticipantIds.includes(p.id);
-                  return (
-                    <div
-                      key={p.id}
-                      onClick={() => toggleParticipantSelection(p.id)}
-                      className={`py-2 px-2 flex items-center justify-between cursor-pointer rounded-lg transition ${
-                        isSelected ? "bg-[#251517] text-white" : "hover:bg-[#181617]"
-                      }`}
-                    >
-                      <div>
-                        <p className="text-xs font-semibold">{p.name}</p>
-                        <p className="text-[10px] text-zinc-400">
-                          {p.participantId} {p.houseName ? `• Team ${p.houseName}` : ""}
-                        </p>
-                      </div>
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        onChange={() => {}}
-                        aria-label={`Select ${p.name}`}
-                        className="rounded border-[#383334] text-[#931827] focus:ring-[#931827]"
-                      />
-                    </div>
-                  );
-                })
-              )}
+          {/* Req C: registration slot indicator */}
+          {formEventId && (
+            <div
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs border ${
+                createEventAtCap
+                  ? "bg-red-950/40 border-red-800 text-red-300"
+                  : "bg-emerald-950/30 border-emerald-900 text-emerald-400"
+              }`}
+            >
+              <span className="font-semibold">{createEventRegCount} / 3 registrations</span>
+              <span className="opacity-70">
+                {createEventAtCap ? "— no slots remaining" : "used for this event"}
+              </span>
             </div>
-          </div>
+          )}
+
+          {createEventAtCap ? (
+            <div className="p-4 rounded-xl bg-red-950/40 border border-red-800 text-xs text-red-300 text-center">
+              This event already has 3 registrations and cannot accept any more.
+              Select a different event.
+            </div>
+          ) : (
+            <>
+              <Input
+                label="Team Name (Optional for Solo)"
+                value={formTeamName}
+                onChange={(e) => setFormTeamName(e.target.value)}
+                placeholder="e.g. CyberKnights or leave blank for individual"
+              />
+
+              {/* Req A + B: participant picker with search and limit display */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-medium text-zinc-300 uppercase tracking-wider">
+                    Select Participants
+                  </label>
+                  {/* Req B: X / Y counter */}
+                  <span
+                    className={`text-xs font-semibold px-2 py-0.5 rounded-md border ${
+                      createEventData?.maxParticipants != null &&
+                      selectedParticipantIds.length >= createEventData.maxParticipants
+                        ? "bg-red-950/50 text-red-300 border-red-800"
+                        : "bg-[#1e1c1d] text-zinc-300 border-[#2e2a2b]"
+                    }`}
+                  >
+                    {selectedParticipantIds.length}
+                    {createEventData?.maxParticipants != null
+                      ? ` / ${createEventData.maxParticipants}`
+                      : ""}{" "}
+                    selected
+                  </span>
+                </div>
+
+                {/* Req B: limit-reached warning */}
+                {createEventData?.maxParticipants != null &&
+                  selectedParticipantIds.length >= createEventData.maxParticipants && (
+                    <p className="text-xs text-amber-400 bg-amber-950/30 border border-amber-800/50 rounded-lg px-3 py-2">
+                      Participant limit reached ({createEventData.maxParticipants} max). Deselect a
+                      participant to choose a different one.
+                    </p>
+                  )}
+
+                {/* Req A: participant search */}
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={participantSearch}
+                    onChange={(e) => setParticipantSearch(e.target.value)}
+                    placeholder="Search by name, ID, or house..."
+                    className="w-full rounded-xl border border-[#2d292a] bg-[#0c0b0c] pl-9 pr-3 py-2 text-xs text-white placeholder-zinc-600 outline-none focus:border-[#931827] focus:ring-1 focus:ring-[#931827]/30 transition"
+                    aria-label="Search participants"
+                  />
+                </div>
+
+                <div className="max-h-48 overflow-y-auto rounded-xl border border-[#2d292a] bg-[#0c0b0c] p-3 divide-y divide-[#1f1c1d]">
+                  {participants.length === 0 ? (
+                    <p className="text-xs text-zinc-500 text-center py-2">
+                      No participants available. Add participants first.
+                    </p>
+                  ) : createFilteredParticipants.length === 0 ? (
+                    <p className="text-xs text-zinc-500 text-center py-4">
+                      No participants match &ldquo;{participantSearch}&rdquo;
+                    </p>
+                  ) : (
+                    createFilteredParticipants.map((p) => {
+                      const isSelected = selectedParticipantIds.includes(p.id);
+                      const isAtLimit =
+                        !isSelected &&
+                        createEventData?.maxParticipants != null &&
+                        selectedParticipantIds.length >= createEventData.maxParticipants;
+                      const disabled = isAtLimit;
+                      return (
+                        <div
+                          key={p.id}
+                          onClick={disabled ? undefined : () => toggleParticipantSelection(p.id)}
+                          title={
+                            isAtLimit
+                              ? `Participant limit of ${createEventData?.maxParticipants} reached`
+                              : undefined
+                          }
+                          className={`py-2 px-2 flex items-center justify-between rounded-lg transition ${
+                            isSelected
+                              ? "bg-[#251517] text-white cursor-pointer"
+                              : disabled
+                              ? "opacity-40 cursor-not-allowed"
+                              : "hover:bg-[#181617] cursor-pointer"
+                          }`}
+                        >
+                          <div>
+                            <p className="text-xs font-semibold">{p.name}</p>
+                            <p className="text-[10px] text-zinc-400">
+                              {p.participantId}
+                              {p.houseName ? ` • ${p.houseName}` : ""}
+                            </p>
+                          </div>
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => {}}
+                            disabled={disabled}
+                            aria-label={`Select ${p.name}`}
+                            className="rounded border-[#383334] text-[#931827] focus:ring-[#931827] disabled:opacity-50"
+                          />
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              </div>
+
+              <Select
+                label="Initial Status"
+                value={formStatus}
+                onChange={(e) => setFormStatus(e.target.value as RegistrationStatus)}
+              >
+                {REGISTRATION_STATUSES.map((st) => (
+                  <option key={st} value={st}>
+                    {st}
+                  </option>
+                ))}
+              </Select>
+            </>
+          )}
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
             <Button
@@ -467,11 +721,218 @@ export function RegistrationManagementClient({
             >
               Cancel
             </Button>
-            <Button type="submit" size="sm" isLoading={loading}>
+            <Button type="submit" size="sm" isLoading={loading} disabled={createEventAtCap}>
               Create Registration
             </Button>
           </div>
         </form>
+      </Modal>
+
+      {/* Edit Registration Modal — Req D */}
+      <Modal
+        isOpen={isEditOpen}
+        onClose={closeEdit}
+        title="Edit Registration"
+        maxWidth="lg"
+      >
+        {editTarget && (
+          <form onSubmit={handleEdit} className="space-y-4">
+            {/* Read-only identity banner */}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2.5 rounded-xl border border-[#2d292a] bg-[#0c0b0c]">
+              <span className="text-xs text-zinc-500 uppercase tracking-wider">Reg #</span>
+              <span className="font-mono text-xs font-bold text-[#931827]">
+                {editTarget.registrationNumber}
+              </span>
+              <span className="text-zinc-600">·</span>
+              <span className="text-xs text-zinc-400">
+                {editTarget.event.code} — {editTarget.event.name}
+              </span>
+              <span className="text-zinc-600">·</span>
+              <span className="text-xs text-zinc-500">
+                Registered {formatDate(editTarget.registeredAt)}
+              </span>
+            </div>
+
+            {editError && (
+              <div className="p-3 rounded-xl bg-red-950/40 border border-red-800 text-xs text-red-300">
+                {editError}
+              </div>
+            )}
+
+            <Input
+              label="Team Name (Optional for Solo)"
+              value={editTeamName}
+              onChange={(e) => setEditTeamName(e.target.value)}
+              placeholder="e.g. CyberKnights or leave blank for individual"
+            />
+
+            <Select
+              label="Status"
+              value={editStatus}
+              onChange={(e) => setEditStatus(e.target.value as RegistrationStatus)}
+            >
+              {REGISTRATION_STATUSES.map((st) => (
+                <option key={st} value={st}>
+                  {st}
+                </option>
+              ))}
+            </Select>
+
+            {/* Participants section */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-medium text-zinc-300 uppercase tracking-wider">
+                  Participants
+                </label>
+                {/* Req B: X / Y counter */}
+                <span
+                  className={`text-xs font-semibold px-2 py-0.5 rounded-md border ${
+                    editEventData?.maxParticipants != null &&
+                    editSelectedParticipantIds.length >= editEventData.maxParticipants
+                      ? "bg-red-950/50 text-red-300 border-red-800"
+                      : "bg-[#1e1c1d] text-zinc-300 border-[#2e2a2b]"
+                  }`}
+                >
+                  {editSelectedParticipantIds.length}
+                  {editEventData?.maxParticipants != null
+                    ? ` / ${editEventData.maxParticipants}`
+                    : ""}{" "}
+                  selected
+                </span>
+              </div>
+
+              {/* Judging-data protection notice */}
+              {editHasJudgingData && (
+                <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-amber-950/30 border border-amber-800/50 text-xs text-amber-300">
+                  <Users className="w-4 h-4 mt-0.5 shrink-0" />
+                  <span>
+                    Participants cannot be changed — this registration has existing scores or
+                    results. Team name and status can still be updated.
+                  </span>
+                </div>
+              )}
+
+              {!editHasJudgingData && (
+                <>
+                  {/* Req B: limit-reached warning */}
+                  {editEventData?.maxParticipants != null &&
+                    editSelectedParticipantIds.length >= editEventData.maxParticipants && (
+                      <p className="text-xs text-amber-400 bg-amber-950/30 border border-amber-800/50 rounded-lg px-3 py-2">
+                        Participant limit reached ({editEventData.maxParticipants} max). Deselect a
+                        participant to choose a different one.
+                      </p>
+                    )}
+
+                  {/* Req A: participant search for edit */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500 pointer-events-none" />
+                    <input
+                      type="text"
+                      value={editParticipantSearch}
+                      onChange={(e) => setEditParticipantSearch(e.target.value)}
+                      placeholder="Search by name, ID, or house..."
+                      className="w-full rounded-xl border border-[#2d292a] bg-[#0c0b0c] pl-9 pr-3 py-2 text-xs text-white placeholder-zinc-600 outline-none focus:border-[#931827] focus:ring-1 focus:ring-[#931827]/30 transition"
+                      aria-label="Search participants"
+                    />
+                  </div>
+                </>
+              )}
+
+              <div className="max-h-48 overflow-y-auto rounded-xl border border-[#2d292a] bg-[#0c0b0c] p-3 divide-y divide-[#1f1c1d]">
+                {editHasJudgingData ? (
+                  // Read-only participant list when judging data exists
+                  editTarget.participants.map((p) => (
+                    <div
+                      key={p.participant.id}
+                      className="py-2 px-2 flex items-center justify-between rounded-lg bg-[#251517] text-white"
+                    >
+                      <div>
+                        <p className="text-xs font-semibold">{p.participant.name}</p>
+                        <p className="text-[10px] text-zinc-400">
+                          {p.participant.participantId}
+                          {p.participant.house ? ` • ${p.participant.house.name}` : ""}
+                        </p>
+                      </div>
+                      <input
+                        type="checkbox"
+                        checked
+                        readOnly
+                        disabled
+                        className="rounded border-[#383334] text-[#931827] opacity-50"
+                      />
+                    </div>
+                  ))
+                ) : participants.length === 0 ? (
+                  <p className="text-xs text-zinc-500 text-center py-2">
+                    No participants available.
+                  </p>
+                ) : editFilteredParticipants.length === 0 ? (
+                  <p className="text-xs text-zinc-500 text-center py-4">
+                    No participants match &ldquo;{editParticipantSearch}&rdquo;
+                  </p>
+                ) : (
+                  editFilteredParticipants.map((p) => {
+                    const isSelected = editSelectedParticipantIds.includes(p.id);
+                    const isAtLimit =
+                      !isSelected &&
+                      editEventData?.maxParticipants != null &&
+                      editSelectedParticipantIds.length >= editEventData.maxParticipants;
+                    const disabled = isAtLimit;
+                    return (
+                      <div
+                        key={p.id}
+                        onClick={disabled ? undefined : () => toggleEditParticipantSelection(p.id)}
+                        title={
+                          isAtLimit
+                            ? `Participant limit of ${editEventData?.maxParticipants} reached`
+                            : undefined
+                        }
+                        className={`py-2 px-2 flex items-center justify-between rounded-lg transition ${
+                          isSelected
+                            ? "bg-[#251517] text-white cursor-pointer"
+                            : disabled
+                            ? "opacity-40 cursor-not-allowed"
+                            : "hover:bg-[#181617] cursor-pointer"
+                        }`}
+                      >
+                        <div>
+                          <p className="text-xs font-semibold">{p.name}</p>
+                          <p className="text-[10px] text-zinc-400">
+                            {p.participantId}
+                            {p.houseName ? ` • ${p.houseName}` : ""}
+                          </p>
+                        </div>
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => {}}
+                          disabled={disabled}
+                          aria-label={`Select ${p.name}`}
+                          className="rounded border-[#383334] text-[#931827] focus:ring-[#931827] disabled:opacity-50"
+                        />
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={closeEdit}
+                disabled={loading}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" size="sm" isLoading={loading}>
+                Save Changes
+              </Button>
+            </div>
+          </form>
+        )}
       </Modal>
 
       {/* Delete Confirmation */}

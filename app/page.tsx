@@ -191,6 +191,12 @@ export default async function HomePage() {
                     </div>
                     <div className="p-3">
                       <p className="text-2xl sm:text-3xl font-black text-white font-mono">
+                        60+
+                      </p>
+                      <p className="text-xs text-white/55 mt-0.5">Participants</p>
+                    </div>
+                    <div className="p-3">
+                      <p className="text-2xl sm:text-3xl font-black text-white font-mono">
                         {houses.length > 0 ? houses.length : "4"}
                       </p>
                       <p className="text-xs text-white/55 mt-0.5">Fest Teams</p>
@@ -201,51 +207,9 @@ export default async function HomePage() {
                       </p>
                       <p className="text-xs text-white/55 mt-0.5">Campus Stages</p>
                     </div>
-                    <div className="p-3">
-                      <p className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
-                        LIVE
-                      </p>
-                      <p className="text-xs text-white/55 mt-0.5">Scoring & Portal</p>
-                    </div>
                   </div>
                 )}
               </div>
-
-              {/* ─── Decorative right panel: hero-bg-2 (lg+ only) ─── */}
-              <div
-                className="hidden lg:flex flex-col gap-3 flex-shrink-0 w-[300px] xl:w-[360px]"
-                aria-hidden="true"
-              >
-                {/* Primary panel */}
-                <div className="relative h-[290px] xl:h-[340px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 ring-1 ring-white/5">
-                  <Image
-                    src="/hero-bg-2.webp"
-                    alt="Festival stage highlights"
-                    fill
-                    sizes="360px"
-                    className="object-cover object-top"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#101722]/80 via-[#101722]/10 to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <p className="text-[10px] font-bold tracking-widest text-white/65 uppercase">Stage Moments</p>
-                  </div>
-                </div>
-                {/* Secondary panel – crops hero-bg-1 to a fresh angle */}
-                <div className="relative h-[140px] xl:h-[160px] rounded-xl overflow-hidden shadow-xl border border-white/10 ring-1 ring-white/5">
-                  <Image
-                    src="/hero-bg-1.webp"
-                    alt="Festival awards and celebrations"
-                    fill
-                    sizes="360px"
-                    className="object-cover object-[center_65%]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#193763]/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <p className="text-[10px] font-bold tracking-widest text-white/65 uppercase">IZAZOV 9.0 · From Roots to Horizon</p>
-                  </div>
-                </div>
-              </div>
-
             </div>
           </div>
 
