@@ -14,6 +14,7 @@ import {
   Info,
   Shield,
   Camera,
+  Users,
 } from "lucide-react";
 import type { SiteSettingsData } from "@/lib/constants";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
@@ -36,6 +37,12 @@ export function PublicNavbar({ settings }: PublicNavbarProps) {
       label: "Events",
       href: "/events",
       icon: Sparkles,
+    },
+    {
+      show: true,
+      label: "Teams",
+      href: "/teams",
+      icon: Users,
     },
     {
       show: settings ? settings.showScheduleNav : true,
