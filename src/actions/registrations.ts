@@ -148,11 +148,33 @@ export async function createRegistration(data: {
       return { success: false, error: validationError };
     }
 
-    // Generate unique registration number
-    const count = await prisma.registration.count();
-    const regNumber = `REG-${new Date().getFullYear()}-${String(count + 1).padStart(4, "0")}`;
+   // Generate a unique registration number
+const year = new Date().getFullYear();
+let registration: any;
 
-    const registration = await prisma.registration.create({
+for (let attempt = 0; attempt < 5; attempt++) {
+  const latestRegistration = await prisma.registration.findFirst({
+    where: {
+      registrationNumber: {
+        startsWith: `REG-${year}-`,
+      },
+    },
+    orderBy: {
+      registrationNumber: "desc",
+    },
+    select: {
+      registrationNumber: true,
+    },
+  });
+
+  const lastNumber = latestRegistration
+    ? Number(latestRegistration.registrationNumber.split("-").pop())
+    : 0;
+
+  const regNumber = `REG-${year}-${String(lastNumber + 1).padStart(4, "0")}`;
+
+  try {
+    registration = await prisma.registration.create({
       data: {
         registrationNumber: regNumber,
         eventId: data.eventId,
@@ -171,6 +193,19 @@ export async function createRegistration(data: {
         },
       },
     });
+
+    break;
+  } catch (error: any) {
+    if (error.code === "P2002" && attempt < 4) {
+      continue;
+    }
+    throw error;
+  }
+}
+
+if (!registration) {
+  throw new Error("Could not generate a unique registration number");
+}
 
     revalidatePath("/admin/registrations");
     revalidatePath("/admin/events");
