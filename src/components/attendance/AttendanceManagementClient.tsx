@@ -27,6 +27,7 @@ import {
   checkInByQrToken,
 } from "@/actions/attendance";
 import { formatDate, formatTime, ATTENDANCE_STATUSES, AttendanceStatus } from "@/lib/constants";
+import { ManualCheckInSection } from "@/components/attendance/ManualCheckInSection";
 
 export interface AttendanceRecord {
   id: string;
@@ -183,6 +184,9 @@ export function AttendanceManagementClient({
           )}
         </CardContent>
       </Card>
+
+      {/* Manual Individual Check-in */}
+      <ManualCheckInSection events={events} />
 
       {/* Manual Quick Entry & Filter Controls */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
