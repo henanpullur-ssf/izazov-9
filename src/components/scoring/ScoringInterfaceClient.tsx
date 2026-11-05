@@ -218,7 +218,7 @@ export function ScoringInterfaceClient({
 
       {!currentEvent || currentEvent.registrations.length === 0 ? (
         <EmptyState
-          icon={<Award className="w-6 h-6 text-zinc-500" />}
+          icon={<Award className="w-6 h-6 text-[var(--text-dim)]" />}
           title="No registered participants for this event"
           description="Participants must be registered before scores can be entered."
           actionLabel="Go to Registrations"
@@ -227,7 +227,7 @@ export function ScoringInterfaceClient({
       ) : (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)]">
               Score Entry Form ({currentEvent.registrations.length} Participants/Teams)
             </h3>
             <Button
@@ -252,17 +252,17 @@ export function ScoringInterfaceClient({
                   key={reg.id}
                   className={`p-4 sm:p-5 transition ${
                     score.status === ScoreStatus.SUBMITTED
-                      ? "border-emerald-800/40 bg-[#121714]"
+                      ? "border-emerald-800/40 bg-[var(--surface)]"
                       : isLocked
-                      ? "border-zinc-700/40 opacity-80"
-                      : "hover:border-[#383334]"
+                      ? "border-[var(--border-strong)]/40 opacity-80"
+                      : "hover:border-[var(--border-subtle)]"
                   }`}
                 >
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     {/* Participant Details */}
                     <div className="space-y-1 lg:w-1/3">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-mono font-bold text-zinc-400">
+                        <span className="text-xs font-mono font-bold text-[var(--text-muted)]">
                           #{index + 1}
                         </span>
                         <span className="font-semibold text-white text-sm">
@@ -270,10 +270,10 @@ export function ScoringInterfaceClient({
                         </span>
                         <StatusBadge status={score.status} />
                       </div>
-                      <p className="text-xs text-zinc-400">
+                      <p className="text-xs text-[var(--text-muted)]">
                         Reg No: {reg.registrationNumber}
                       </p>
-                      <div className="flex flex-wrap gap-1 text-[11px] text-zinc-400">
+                      <div className="flex flex-wrap gap-1 text-[11px] text-[var(--text-muted)]">
                         {reg.participants.map((p) => (
                           <span key={p.participant.id}>
                             {p.participant.name}
@@ -330,7 +330,7 @@ export function ScoringInterfaceClient({
 
                     {/* Actions */}
                     {!isLocked && (
-                      <div className="flex items-center gap-2 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-[#232021]">
+                      <div className="flex items-center gap-2 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-[var(--border-subtle)]">
                         <Button
                           variant="secondary"
                           size="sm"

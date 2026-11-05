@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -147,10 +147,10 @@ export function AnnouncementsManagementClient({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)]">
             Festival Bulletins & Alerts
           </h2>
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-[var(--text-dim)]">
             {announcements.length} notices broadcasted to public portal
           </p>
         </div>
@@ -163,7 +163,7 @@ export function AnnouncementsManagementClient({
 
       {announcements.length === 0 ? (
         <EmptyState
-          icon={<Megaphone className="w-6 h-6 text-zinc-500" />}
+          icon={<Megaphone className="w-6 h-6 text-[var(--text-dim)]" />}
           title="No announcements published"
           description="Broadcast schedule changes, gate openings, result notifications, and guest arrivals."
           actionLabel="Publish Announcement"
@@ -175,7 +175,7 @@ export function AnnouncementsManagementClient({
             <Card
               key={a.id}
               className={`p-4 sm:p-5 transition ${
-                a.isPinned ? "border-amber-500/40 bg-[#161411]" : "hover:border-[#383334]"
+                a.isPinned ? "border-[var(--accent-gold)]/40 bg-[var(--surface-card)]" : "hover:border-[var(--border-strong)]"
               }`}
             >
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
@@ -192,21 +192,21 @@ export function AnnouncementsManagementClient({
                         Draft / Hidden
                       </Badge>
                     )}
-                    <span className="text-[11px] text-zinc-500">
+                    <span className="text-[11px] text-[var(--text-dim)]">
                       {formatDate(a.createdAt)}
                     </span>
                   </div>
 
-                  <h3 className="text-base font-bold text-white tracking-tight">
+                  <h3 className="text-base font-bold text-[var(--foreground)] tracking-tight">
                     {a.title}
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
                     {a.content}
                   </p>
                 </div>
 
-                <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#242122]">
+                <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[var(--border-subtle)]">
                   <Button
                     variant="outline"
                     size="sm"
@@ -216,7 +216,7 @@ export function AnnouncementsManagementClient({
                     {a.isPublished ? (
                       <Eye className="w-3.5 h-3.5 text-emerald-400 mr-1" />
                     ) : (
-                      <EyeOff className="w-3.5 h-3.5 text-zinc-500 mr-1" />
+                      <EyeOff className="w-3.5 h-3.5 text-[var(--text-dim)] mr-1" />
                     )}
                     <span className="hidden sm:inline">
                       {a.isPublished ? "Published" : "Draft"}
@@ -302,9 +302,9 @@ export function AnnouncementsManagementClient({
                   id="isPinnedCheck"
                   checked={isPinned}
                   onChange={(e) => setIsPinned(e.target.checked)}
-                  className="rounded border-[#383334] text-[#931827] focus:ring-[#931827]"
+                  className="rounded border-[var(--border-subtle)] text-[var(--brand)] focus:ring-[var(--brand)]"
                 />
-                <label htmlFor="isPinnedCheck" className="text-xs text-zinc-300">
+                <label htmlFor="isPinnedCheck" className="text-xs text-[var(--text-muted)]">
                   Pin to top of feed
                 </label>
               </div>
@@ -315,16 +315,16 @@ export function AnnouncementsManagementClient({
                   id="isPublishedCheck"
                   checked={isPublished}
                   onChange={(e) => setIsPublished(e.target.checked)}
-                  className="rounded border-[#383334] text-[#931827] focus:ring-[#931827]"
+                  className="rounded border-[var(--border-subtle)] text-[var(--brand)] focus:ring-[var(--brand)]"
                 />
-                <label htmlFor="isPublishedCheck" className="text-xs text-zinc-300">
+                <label htmlFor="isPublishedCheck" className="text-xs text-[var(--text-muted)]">
                   Publish immediately to public portal
                 </label>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
             <Button
               type="button"
               variant="outline"

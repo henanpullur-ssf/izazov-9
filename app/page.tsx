@@ -92,9 +92,9 @@ export default async function HomePage() {
               sizes="100vw"
               className="object-cover object-[center_30%]"
             />
-            {/* Layered dark-navy gradient overlay – keeps collage visible but text readable */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#101722]/72 via-[#193763]/45 to-[#101722]/92" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#101722]/85 via-[#101722]/30 to-[#101722]/60" />
+            {/* Layered warm-ember gradient overlay – keeps collage visible but text readable */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#171311]/75 via-[#38271F]/40 to-[#171311]/92" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#171311]/88 via-[#171311]/30 to-[#171311]/60" />
           </div>
 
           {/* ─── Content layer ─── */}
@@ -115,14 +115,14 @@ export default async function HomePage() {
                 {/* Headline */}
                 <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight uppercase max-w-4xl leading-[1.05]">
                   {settings.heroTitle ? (
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#D99A4E] to-[#5789C1]">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#D49A4A] to-[#C7B8A7]">
                       {settings.heroTitle}
                     </span>
                   ) : (
                     <>
-                      FROM ROOTS TO{" "}
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5789C1] via-[#D99A4E] to-[#8D4B26]">
-                        HORIZON
+                      ANCIENT ROOTS.{" "}
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D49A4A] via-[#F0E4D1] to-[#A94F2B]">
+                        LIVING ART.
                       </span>
                     </>
                   )}
@@ -215,7 +215,7 @@ export default async function HomePage() {
 
           {/* ─── Bottom fade into page background ─── */}
           <div
-            className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F7F5F0] dark:from-[#101722] to-transparent z-10 pointer-events-none"
+            className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F2E9DC] dark:from-[#171311] to-transparent z-10 pointer-events-none"
             aria-hidden="true"
           />
         </section>

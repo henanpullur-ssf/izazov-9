@@ -107,9 +107,9 @@ export function ChampionshipDashboardClient({
             <span className="text-3xl sm:text-4xl font-mono font-black text-white">
               {data.totalPublishedCount}
             </span>
-            <span className="text-xs text-zinc-400 font-semibold">competitions</span>
+            <span className="text-xs text-[var(--text-muted)] font-semibold">competitions</span>
           </div>
-          <p className="text-[11px] text-zinc-500 mt-1">
+          <p className="text-[11px] text-[var(--text-dim)] mt-1">
             Contributing to live championship totals
           </p>
         </Card>
@@ -117,7 +117,7 @@ export function ChampionshipDashboardClient({
         {/* Public Checkpoint Standings */}
         <Card className="p-5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+            <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
               Public Checkpoint
             </span>
             <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
@@ -128,9 +128,9 @@ export function ChampionshipDashboardClient({
             <span className="text-3xl sm:text-4xl font-mono font-black text-emerald-400">
               {data.checkpointCount}
             </span>
-            <span className="text-xs text-zinc-400">results locked</span>
+            <span className="text-xs text-[var(--text-muted)]">results locked</span>
           </div>
-          <p className="text-[11px] text-zinc-500 mt-1">
+          <p className="text-[11px] text-[var(--text-dim)] mt-1">
             Public scoreboard updates at 5-result milestones
           </p>
         </Card>
@@ -138,10 +138,10 @@ export function ChampionshipDashboardClient({
         {/* Next Checkpoint Target */}
         <Card className="p-5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+            <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
               Next Public Checkpoint
             </span>
-            <div className="w-8 h-8 rounded-xl bg-[#231f20] border border-[#383334] flex items-center justify-center text-zinc-300">
+            <div className="w-8 h-8 rounded-xl bg-[#231f20] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--text-muted)]">
               <Clock className="w-4 h-4" />
             </div>
           </div>
@@ -149,9 +149,9 @@ export function ChampionshipDashboardClient({
             <span className="text-3xl sm:text-4xl font-mono font-black text-white">
               {data.nextCheckpoint}
             </span>
-            <span className="text-xs text-zinc-400">results target</span>
+            <span className="text-xs text-[var(--text-muted)]">results target</span>
           </div>
-          <p className="text-[11px] text-zinc-500 mt-1">
+          <p className="text-[11px] text-[var(--text-dim)] mt-1">
             Next public standings update threshold
           </p>
         </Card>
@@ -159,7 +159,7 @@ export function ChampionshipDashboardClient({
         {/* Results Until Next Update */}
         <Card className="p-5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+            <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
               Results Until Update
             </span>
             <div className="w-8 h-8 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400">
@@ -170,22 +170,22 @@ export function ChampionshipDashboardClient({
             <span className="text-3xl sm:text-4xl font-mono font-black text-red-400">
               {data.resultsUntilNextCheckpoint}
             </span>
-            <span className="text-xs text-zinc-400">more needed</span>
+            <span className="text-xs text-[var(--text-muted)]">more needed</span>
           </div>
-          <p className="text-[11px] text-zinc-500 mt-1">
+          <p className="text-[11px] text-[var(--text-dim)] mt-1">
             Publish {data.resultsUntilNextCheckpoint} more to trigger public update
           </p>
         </Card>
       </div>
 
       {/* Tabs Switcher */}
-      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-[#131112] border border-[#272425] max-w-fit">
+      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-[var(--surface)] border border-[#272425] max-w-fit">
         <button
           onClick={() => setActiveTab("teams")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-2 ${
             activeTab === "teams"
-              ? "bg-[#931827] text-white shadow-md shadow-[#931827]/30"
-              : "text-zinc-400 hover:text-white"
+              ? "bg-[var(--brand)] text-white shadow-md shadow-[var(--brand)]/30"
+              : "text-[var(--text-muted)] hover:text-[var(--foreground)]"
           }`}
         >
           <Flame className="w-4 h-4" />
@@ -196,8 +196,8 @@ export function ChampionshipDashboardClient({
           onClick={() => setActiveTab("individual")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-2 ${
             activeTab === "individual"
-              ? "bg-[#931827] text-white shadow-md shadow-[#931827]/30"
-              : "text-zinc-400 hover:text-white"
+              ? "bg-[var(--brand)] text-white shadow-md shadow-[var(--brand)]/30"
+              : "text-[var(--text-muted)] hover:text-[var(--foreground)]"
           }`}
         >
           <Lock className="w-3.5 h-3.5 text-amber-400" />
@@ -208,8 +208,8 @@ export function ChampionshipDashboardClient({
           onClick={() => setActiveTab("public_preview")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-2 ${
             activeTab === "public_preview"
-              ? "bg-[#931827] text-white shadow-md shadow-[#931827]/30"
-              : "text-zinc-400 hover:text-white"
+              ? "bg-[var(--brand)] text-white shadow-md shadow-[var(--brand)]/30"
+              : "text-[var(--text-muted)] hover:text-[var(--foreground)]"
           }`}
         >
           <Eye className="w-4 h-4" />
@@ -223,10 +223,10 @@ export function ChampionshipDashboardClient({
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                <Flame className="w-5 h-5 text-[#931827]" />
+                <Flame className="w-5 h-5 text-[var(--brand)]" />
                 <span>Admin Live Team Championship Leaderboard</span>
               </h2>
-              <p className="text-xs text-zinc-400 mt-0.5">
+              <p className="text-xs text-[var(--text-muted)] mt-0.5">
                 Real-time scoreboard calculating cumulative points from all {data.totalPublishedCount} published competition results.
               </p>
             </div>
@@ -245,12 +245,12 @@ export function ChampionshipDashboardClient({
                 className={`p-5 relative overflow-hidden transition ${
                   team.rank === 1
                     ? "border-amber-500/60 bg-gradient-to-b from-[#1c160c] to-[#121112]"
-                    : "hover:border-[#383334]"
+                    : "hover:border-[var(--border-subtle)]"
                 }`}
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="text-xs font-mono font-bold text-[#931827]">
+                    <span className="text-xs font-mono font-bold text-[var(--brand)]">
                       RANK #{team.rank}
                     </span>
                     <h3 className="text-xl font-black text-white mt-0.5">
@@ -261,27 +261,27 @@ export function ChampionshipDashboardClient({
                     className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-base ${
                       team.rank === 1
                         ? "bg-amber-500 text-black shadow-lg shadow-amber-500/30"
-                        : "bg-[#201d1e] text-zinc-300 border border-[#332f30]"
+                        : "bg-[var(--surface-card)] text-[var(--text-muted)] border border-[var(--border-subtle)]"
                     }`}
                   >
                     {team.rank === 1 ? "👑" : `#${team.rank}`}
                   </div>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-[#232021] space-y-2">
+                <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-zinc-400">Total Points:</span>
+                    <span className="text-xs text-[var(--text-muted)]">Total Points:</span>
                     <span className="text-lg font-mono font-black text-white">
                       {team.points} pts
                     </span>
                   </div>
-                  <div className="flex items-center justify-between text-xs text-zinc-400">
+                  <div className="flex items-center justify-between text-xs text-[var(--text-muted)]">
                     <span>🥇 {team.gold}</span> • <span>🥈 {team.silver}</span> •{" "}
                     <span>🥉 {team.bronze}</span>
                   </div>
                 </div>
 
-                <div className="mt-3 pt-3 border-t border-[#232021]">
+                <div className="mt-3 pt-3 border-t border-[var(--border-subtle)]">
                   <Link href={`/admin/teams/${team.id}`}>
                     <Button variant="outline" size="sm" className="w-full text-xs">
                       Manage Team
@@ -316,7 +316,7 @@ export function ChampionshipDashboardClient({
                             ? "bg-zinc-300 text-black"
                             : t.rank === 3
                             ? "bg-amber-800 text-white"
-                            : "bg-[#201d1e] text-zinc-400 border border-[#332f30]"
+                            : "bg-[var(--surface-card)] text-[var(--text-muted)] border border-[var(--border-subtle)]"
                         }`}
                       >
                         {t.rank === 1 ? "👑" : `#${t.rank}`}
@@ -331,20 +331,20 @@ export function ChampionshipDashboardClient({
                       </Link>
                     </TableCell>
                     <TableCell>
-                      <div className="text-xs text-zinc-400 space-y-0.5">
-                        <p>Manager: <strong className="text-zinc-200">{t.managerName || "Unassigned"}</strong></p>
-                        <p>Asst: <span className="text-zinc-400">{t.assistantManagerName || "Unassigned"}</span></p>
+                      <div className="text-xs text-[var(--text-muted)] space-y-0.5">
+                        <p>Manager: <strong className="text-[var(--foreground)]">{t.managerName || "Unassigned"}</strong></p>
+                        <p>Asst: <span className="text-[var(--text-muted)]">{t.assistantManagerName || "Unassigned"}</span></p>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <span className="text-xs text-zinc-300">
+                      <span className="text-xs text-[var(--text-muted)]">
                         {t.memberCount} members
                       </span>
                     </TableCell>
                     <TableCell>
-                      <div className="text-xs text-zinc-300 space-x-2">
+                      <div className="text-xs text-[var(--text-muted)] space-x-2">
                         <span>🥇 <strong className="text-amber-400">{t.gold}</strong></span>
-                        <span>🥈 <strong className="text-zinc-200">{t.silver}</strong></span>
+                        <span>🥈 <strong className="text-[var(--foreground)]">{t.silver}</strong></span>
                         <span>🥉 <strong className="text-amber-600">{t.bronze}</strong></span>
                       </div>
                     </TableCell>
@@ -380,25 +380,25 @@ export function ChampionshipDashboardClient({
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#131213] p-4 rounded-2xl border border-[#272425]">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[var(--surface)] p-4 rounded-2xl border border-[#272425]">
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
               <input
                 type="text"
                 value={individualSearch}
                 onChange={(e) => setIndividualSearch(e.target.value)}
                 placeholder="Search ranked participants by name, roll no, ID, or team..."
-                className="w-full rounded-xl border border-[#332f30] bg-[#0c0b0c] pl-10 pr-4 py-2 text-xs text-white placeholder-zinc-500 outline-none focus:border-[#931827]"
+                className="w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] pl-10 pr-4 py-2 text-xs text-white placeholder-zinc-500 outline-none focus:border-[#931827]"
               />
             </div>
-            <div className="text-xs text-zinc-400">
-              <span>Total Ranked: <strong className="text-white">{data.individualStandings.length}</strong> participants</span>
+            <div className="text-xs text-[var(--text-muted)]">
+              <span>Total Ranked: <strong className="text-[var(--foreground)]">{data.individualStandings.length}</strong> participants</span>
             </div>
           </div>
 
           {filteredIndividuals.length === 0 ? (
             <EmptyState
-              icon={<Award className="w-6 h-6 text-zinc-500" />}
+              icon={<Award className="w-6 h-6 text-[var(--text-dim)]" />}
               title="No individual results recorded"
               description="Individual participant rankings will appear here automatically as results are published."
             />
@@ -429,7 +429,7 @@ export function ChampionshipDashboardClient({
                               ? "bg-zinc-300 text-black font-bold"
                               : p.rank === 3
                               ? "bg-amber-800 text-white font-bold"
-                              : "bg-[#201d1e] text-zinc-400 border border-[#332f30]"
+                              : "bg-[var(--surface-card)] text-[var(--text-muted)] border border-[var(--border-subtle)]"
                           }`}
                         >
                           {p.rank === 1 ? "🥇" : `#${p.rank}`}
@@ -444,7 +444,7 @@ export function ChampionshipDashboardClient({
                         </Link>
                       </TableCell>
                       <TableCell>
-                        <span className="font-mono font-bold text-xs text-zinc-300">
+                        <span className="font-mono font-bold text-xs text-[var(--text-muted)]">
                           {p.rollNumber || "—"}
                         </span>
                       </TableCell>
@@ -457,16 +457,16 @@ export function ChampionshipDashboardClient({
                         {p.teamName ? (
                           <Badge variant="info">Team {p.teamName}</Badge>
                         ) : (
-                          <span className="text-xs text-zinc-500">—</span>
+                          <span className="text-xs text-[var(--text-dim)]">—</span>
                         )}
                       </TableCell>
                       <TableCell>
-                        <span className="text-xs text-zinc-400">
+                        <span className="text-xs text-[var(--text-muted)]">
                           {p.resultCount} events
                         </span>
                       </TableCell>
                       <TableCell>
-                        <div className="text-xs text-zinc-300 space-x-1.5">
+                        <div className="text-xs text-[var(--text-muted)] space-x-1.5">
                           <span>🥇 {p.gold}</span>
                           <span>🥈 {p.silver}</span>
                           <span>🥉 {p.bronze}</span>
@@ -489,12 +489,12 @@ export function ChampionshipDashboardClient({
       {/* Tab 3: Public 5-Checkpoint Preview */}
       {activeTab === "public_preview" && (
         <div className="space-y-6">
-          <div className="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-700/50 space-y-1">
+          <div className="p-4 rounded-2xl bg-[var(--surface-elevated)]/60 border border-[var(--border-strong)]/50 space-y-1">
             <h3 className="text-sm font-bold text-white flex items-center gap-2">
               <Eye className="w-4 h-4 text-emerald-400" />
               <span>Public Scoreboard Mirror</span>
             </h3>
-            <p className="text-xs text-zinc-400">
+            <p className="text-xs text-[var(--text-muted)]">
               This preview shows the Team Championship standings as currently seen by visitors on the public website. Public scores are calculated strictly from the first <strong>{data.checkpointCount}</strong> published results.
             </p>
           </div>
@@ -511,7 +511,7 @@ export function ChampionshipDashboardClient({
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="text-xs font-mono font-bold text-[#931827]">
+                    <span className="text-xs font-mono font-bold text-[var(--brand)]">
                       RANK #{team.rank}
                     </span>
                     <h3 className="text-xl font-black text-white mt-0.5">
@@ -522,15 +522,15 @@ export function ChampionshipDashboardClient({
                     className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-base ${
                       team.rank === 1
                         ? "bg-amber-500 text-black font-black"
-                        : "bg-[#201d1e] text-zinc-300 border border-[#332f30]"
+                        : "bg-[var(--surface-card)] text-[var(--text-muted)] border border-[var(--border-subtle)]"
                     }`}
                   >
                     {team.rank === 1 ? "👑" : `#${team.rank}`}
                   </div>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-[#232021] flex items-center justify-between">
-                  <div className="text-xs text-zinc-400">
+                <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between">
+                  <div className="text-xs text-[var(--text-muted)]">
                     <span>🥇 {team.gold}</span> • <span>🥈 {team.silver}</span> •{" "}
                     <span>🥉 {team.bronze}</span>
                   </div>

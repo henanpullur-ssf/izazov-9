@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import Link from "next/link";
 import {
   Users,
@@ -42,7 +42,7 @@ export default async function AdminDashboardPage() {
       subtitle: "Code & rules",
       href: "/admin/events/new",
       icon: Sparkles,
-      iconColor: "text-[#931827]",
+      iconColor: "text-[var(--brand)]",
       permission: "events.create",
     },
     {
@@ -144,10 +144,10 @@ export default async function AdminDashboardPage() {
       {/* Top Summary Stat Cards Grid */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)]">
             Overview Statistics
           </h2>
-          <span className="text-xs text-zinc-500">Live Database Feed</span>
+          <span className="text-xs text-[var(--text-dim)]">Live Database Feed</span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -208,7 +208,7 @@ export default async function AdminDashboardPage() {
       {quickActions.length > 0 && (
         <Card>
           <CardHeader className="py-4 px-5 sm:px-6">
-            <CardTitle className="text-sm uppercase tracking-wider text-zinc-400 font-semibold">
+            <CardTitle className="text-sm uppercase tracking-wider text-[var(--text-muted)] font-semibold">
               Quick Operational Actions
             </CardTitle>
           </CardHeader>
@@ -239,12 +239,12 @@ export default async function AdminDashboardPage() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between py-4 px-5 sm:px-6">
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-[#931827]" />
+                  <Clock className="w-4 h-4 text-[var(--brand)]" />
                   <CardTitle className="text-base">Upcoming Schedule Timeline</CardTitle>
                 </div>
                 <Link
                   href="/admin/schedule"
-                  className="text-xs text-[#931827] hover:underline flex items-center gap-1 font-medium"
+                  className="text-xs text-[var(--brand)] hover:underline flex items-center gap-1 font-medium"
                 >
                   View all <ArrowRight className="w-3.5 h-3.5" />
                 </Link>

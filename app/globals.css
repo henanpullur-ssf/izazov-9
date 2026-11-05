@@ -2,102 +2,129 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ============================================================
+   IZAZOV 9.0 — EMBER HERITAGE (DARK) & SANDSTONE HERITAGE (LIGHT)
+   Official Design System — Global CSS Token Layer
+   ============================================================ */
+
 :root {
   --theme: light;
   color-scheme: light;
 
-  /* Official Brand Palette - From Roots to Horizon */
-  --brand-navy: #193763;
-  --brand-navy-hover: #12294A;
-  --brand-brown: #8D4B26;
-  --brand-brown-hover: #733C1E;
+  /* ── SANDSTONE HERITAGE — Light Mode ───────────────────── */
 
-  /* Primary Brand Tokens (Light: Rich Navy) */
-  --brand: #193763;
-  --brand-hover: #12294A;
-  --brand-muted: rgba(25, 55, 99, 0.1);
-  --brand-foreground: #FFFFFF;
+  /* Brand Actions */
+  --brand: #A94F2B;           /* Burnt Copper — primary buttons & actions */
+  --brand-hover: #8B3F21;     /* Darker Copper — hover state */
+  --brand-muted: rgba(169, 79, 43, 0.10); /* Copper tint for selected states */
+  --brand-foreground: #FAF6EF; /* Light Cream — text on brand bg */
 
-  /* Backgrounds & Canvas (Light: Warm Alabaster/Parchment #F7F5F0) */
-  --background: #F7F5F0;
-  --foreground: #19263A;
+  /* Legacy palette references (kept for compatibility) */
+  --brand-navy: #753B28;
+  --brand-navy-hover: #5C2D1C;
+  --brand-brown: #A94F2B;
+  --brand-brown-hover: #8B3F21;
 
-  /* Surfaces & Cards (Light: Crisp White & Cream) */
-  --surface: #FFFFFF;
-  --surface-card: #FFFFFF;
-  --surface-elevated: #EDE8DE;
-  --surface-hover: #F2EFE8;
+  /* Backgrounds & Canvas */
+  --background: #F2E9DC;      /* Warm Ivory — main page background */
+  --foreground: #39251C;      /* Dark Walnut — primary text */
 
-  /* Borders (Light: Restrained Sand/Stone #E4E0D7) */
-  --border-subtle: #E4E0D7;
-  --border-strong: #CDC7B9;
+  /* Surfaces & Cards */
+  --surface: #FAF6EF;         /* Light Cream — inputs, cards */
+  --surface-card: #FAF6EF;    /* Light Cream — card backgrounds */
+  --surface-elevated: #D8C3A6; /* Sandstone — elevated surfaces */
+  --surface-hover: #EFE6D6;   /* Warm hover state */
 
-  /* Typography (Light: Deep Slate Navy & Charcoal Muted) */
-  --text-primary: #19263A;
-  --text-muted: #515B68;
-  --text-dim: #7B8594;
+  /* Borders */
+  --border-subtle: #D7C7B3;   /* Border Sand — dividers */
+  --border-strong: #C4B09A;   /* Stronger border */
 
-  /* Official Logo Accents */
-  --accent-rose: #E94769;
-  --accent-orange: #F47738;
-  --accent-blue: #5789C1;
-  --accent-green: #4FA84A;
-  --accent-teal: #16B2A9;
-  --accent-amber: #D99A4E;
+  /* Typography */
+  --text-primary: #39251C;    /* Dark Walnut — main text */
+  --text-muted: #69594B;      /* Muted Brown — secondary text */
+  --text-dim: #96806E;        /* Dimmed text */
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(25, 38, 58, 0.05);
-  --shadow-card: 0 1px 3px 0 rgba(25, 38, 58, 0.06), 0 1px 2px -1px rgba(25, 38, 58, 0.04);
-  --shadow-elevated: 0 10px 25px -5px rgba(25, 38, 58, 0.08), 0 8px 10px -6px rgba(25, 38, 58, 0.04);
+  /* Accent Tokens */
+  --accent-gold: #D49A4A;     /* Antique Gold */
+  --accent-terracotta: #753B28; /* Terracotta — headings highlight */
+  --accent-ember: #A82F24;    /* Ember Red — important states */
+
+  /* Legacy accent compatibility */
+  --accent-rose: #A82F24;
+  --accent-orange: #A94F2B;
+  --accent-blue: #69594B;
+  --accent-green: #5A7A3A;
+  --accent-teal: #4A7A6A;
+  --accent-amber: #D49A4A;
+
+  /* Shadows — warm and controlled */
+  --shadow-sm: 0 1px 2px 0 rgba(57, 37, 28, 0.06);
+  --shadow-card: 0 1px 4px 0 rgba(57, 37, 28, 0.08), 0 1px 2px -1px rgba(57, 37, 28, 0.04);
+  --shadow-elevated: 0 8px 20px -4px rgba(57, 37, 28, 0.12), 0 4px 8px -4px rgba(57, 37, 28, 0.06);
 
   /* Scrollbars */
-  --scrollbar-track: #EDE8DE;
-  --scrollbar-thumb: #CDC7B9;
+  --scrollbar-track: #EFE6D6;
+  --scrollbar-thumb: #C4B09A;
 }
 
 .dark {
   --theme: dark;
   color-scheme: dark;
 
-  /* Official Brand Palette */
-  --brand-navy: #193763;
-  --brand-navy-hover: #23487D;
-  --brand-brown: #8D4B26;
-  --brand-brown-hover: #A85B30;
+  /* ── EMBER HERITAGE — Dark Mode ────────────────────────── */
 
-  /* Primary Brand Tokens (Dark: Luminous Steel-Navy #2A548E for optimal contrast) */
-  --brand: #2A548E;
-  --brand-hover: #3667AC;
-  --brand-muted: rgba(42, 84, 142, 0.22);
-  --brand-foreground: #FFFFFF;
+  /* Brand Actions */
+  --brand: #A94F2B;           /* Burnt Copper — primary buttons & actions */
+  --brand-hover: #C45F35;     /* Lighter Copper — hover (better contrast on dark) */
+  --brand-muted: rgba(169, 79, 43, 0.18); /* Copper tint for selected states */
+  --brand-foreground: #F0E4D1; /* Warm Ivory — text on brand bg */
 
-  /* Backgrounds & Canvas (Dark: Deep Obsidian Navy #101722) */
-  --background: #101722;
-  --foreground: #F4F5F7;
+  /* Legacy palette references */
+  --brand-navy: #A94F2B;
+  --brand-navy-hover: #C45F35;
+  --brand-brown: #A82F24;
+  --brand-brown-hover: #C43A2D;
 
-  /* Surfaces & Cards (Dark: Midnight Surface #192332) */
-  --surface: #192332;
-  --surface-card: #192332;
-  --surface-elevated: #222F42;
-  --surface-hover: #1E2B3D;
+  /* Backgrounds & Canvas */
+  --background: #171311;      /* Obsidian — main page background */
+  --foreground: #F0E4D1;      /* Warm Ivory — primary text */
 
-  /* Borders (Dark: Slate Steel #344052) */
-  --border-subtle: #344052;
-  --border-strong: #45556C;
+  /* Surfaces & Cards */
+  --surface: #241A16;         /* Deep Brown — inputs, secondary surfaces */
+  --surface-card: #38271F;    /* Dark Walnut — card backgrounds */
+  --surface-elevated: #2E1F18; /* Slightly elevated surface */
+  --surface-hover: #432D22;   /* Warm hover state */
 
-  /* Typography (Dark: Platinum White & Steel Muted) */
-  --text-primary: #F4F5F7;
-  --text-muted: #B8C1CF;
-  --text-dim: #7D8C9F;
+  /* Borders */
+  --border-subtle: #5A4032;   /* Border Bronze — dividers */
+  --border-strong: #7A5544;   /* Stronger border */
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-  --shadow-card: 0 2px 4px 0 rgba(0, 0, 0, 0.35);
-  --shadow-elevated: 0 12px 30px -8px rgba(0, 0, 0, 0.55);
+  /* Typography */
+  --text-primary: #F0E4D1;    /* Warm Ivory — main text */
+  --text-muted: #C7B8A7;      /* Muted Sand — secondary text */
+  --text-dim: #9A8070;        /* Dimmed text */
+
+  /* Accent Tokens */
+  --accent-gold: #D49A4A;     /* Antique Gold */
+  --accent-terracotta: #A82F24; /* Ember Red — highlights */
+  --accent-ember: #A82F24;    /* Ember Red */
+
+  /* Legacy accent compatibility */
+  --accent-rose: #A82F24;
+  --accent-orange: #A94F2B;
+  --accent-blue: #9A8070;
+  --accent-green: #6A8A4A;
+  --accent-teal: #5A8A7A;
+  --accent-amber: #D49A4A;
+
+  /* Shadows — cinematic depth */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 2px 6px 0 rgba(0, 0, 0, 0.45);
+  --shadow-elevated: 0 12px 30px -6px rgba(0, 0, 0, 0.65);
 
   /* Scrollbars */
-  --scrollbar-track: #101722;
-  --scrollbar-thumb: #344052;
+  --scrollbar-track: #171311;
+  --scrollbar-thumb: #5A4032;
 }
 
 @theme inline {

@@ -195,7 +195,7 @@ export function AttendanceManagementClient({
             value={selectedEvent}
             onChange={(e) => setSelectedEvent(e.target.value)}
             aria-label="Filter Attendance Event"
-            className="rounded-xl border border-[#2f2b2c] bg-[#121112] px-3.5 py-2 text-xs text-zinc-300 outline-none focus:border-[#931827] cursor-pointer"
+            className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] px-3.5 py-2 text-xs text-[var(--foreground)] outline-none focus:border-[var(--brand)] cursor-pointer"
           >
             <option value="ALL">All Events Attendance</option>
             {events.map((e) => (
@@ -206,13 +206,13 @@ export function AttendanceManagementClient({
           </select>
 
           <div className="relative flex-1 min-w-[200px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--text-dim)]" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Filter by participant name / ID..."
-              className="w-full rounded-xl border border-[#2f2b2c] bg-[#121112] pl-9 pr-3 py-1.5 text-xs text-white placeholder-zinc-500 outline-none focus:border-[#931827]"
+              className="w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] pl-9 pr-3 py-1.5 text-xs text-[var(--foreground)] placeholder-[var(--text-dim)] outline-none focus:border-[var(--brand)]"
             />
           </div>
         </div>
@@ -221,7 +221,7 @@ export function AttendanceManagementClient({
       {/* Attendance Records Table */}
       {filteredRecords.length === 0 ? (
         <EmptyState
-          icon={<Users className="w-6 h-6 text-zinc-500" />}
+          icon={<Users className="w-6 h-6 text-[var(--text-dim)]" />}
           title="No attendance records found"
           description="Scan participant QR tokens at the gate or record attendance manually."
         />
@@ -244,10 +244,10 @@ export function AttendanceManagementClient({
                     <TableRow key={r.id}>
                       <TableCell>
                         <div>
-                          <p className="font-semibold text-white text-xs">
+                          <p className="font-semibold text-[var(--foreground)] text-xs">
                             {r.participant.name}
                           </p>
-                          <p className="text-[11px] text-zinc-400">
+                          <p className="text-[11px] text-[var(--text-muted)]">
                             {r.participant.participantId}
                             {r.participant.house && ` • Team ${r.participant.house.name}`}
                           </p>
@@ -255,7 +255,7 @@ export function AttendanceManagementClient({
                       </TableCell>
                       <TableCell>
                         <div className="space-y-0.5">
-                          <p className="text-xs font-semibold text-white">
+                          <p className="text-xs font-semibold text-[var(--foreground)]">
                             {r.event.name}
                           </p>
                           <Badge variant="primary" className="text-[10px]">
@@ -264,12 +264,12 @@ export function AttendanceManagementClient({
                         </div>
                       </TableCell>
                       <TableCell>
-                        <span className="text-xs text-zinc-300">
+                        <span className="text-xs text-[var(--text-muted)]">
                           {formatDate(r.scannedAt)} • {formatTime(r.scannedAt)}
                         </span>
                       </TableCell>
                       <TableCell>
-                        <span className="text-xs text-zinc-400">
+                        <span className="text-xs text-[var(--text-muted)]">
                           {r.checkedBy?.name || "Gate Scanner"}
                         </span>
                       </TableCell>
@@ -284,7 +284,7 @@ export function AttendanceManagementClient({
                             )
                           }
                           aria-label="Attendance Status"
-                          className="rounded-lg border border-[#383334] bg-[#1a1819] px-2 py-1 text-xs text-white outline-none focus:border-[#931827] cursor-pointer"
+                          className="rounded-lg border border-[var(--border-subtle)] bg-[var(--surface)] px-2 py-1 text-xs text-[var(--foreground)] outline-none focus:border-[var(--brand)] cursor-pointer"
                         >
                           {ATTENDANCE_STATUSES.map((st) => (
                             <option key={st} value={st}>
@@ -304,20 +304,20 @@ export function AttendanceManagementClient({
             {filteredRecords.map((r) => (
               <div
                 key={r.id}
-                className="p-4 rounded-xl border border-[#2d292a] bg-[#141314] space-y-2"
+                className="p-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-card)] space-y-2"
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="text-xs font-bold text-white">
+                    <h3 className="text-xs font-bold text-[var(--foreground)]">
                       {r.participant.name}
                     </h3>
-                    <p className="text-[10px] text-zinc-400">
+                    <p className="text-[10px] text-[var(--text-muted)]">
                       {r.participant.participantId} • {r.event.code}
                     </p>
                   </div>
                   <StatusBadge status={r.status} />
                 </div>
-                <p className="text-[11px] text-zinc-400">
+                <p className="text-[11px] text-[var(--text-muted)]">
                   {formatDate(r.scannedAt)} at {formatTime(r.scannedAt)}
                 </p>
               </div>

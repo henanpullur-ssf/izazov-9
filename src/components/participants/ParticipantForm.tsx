@@ -201,7 +201,7 @@ export function ParticipantForm({
         rows={2}
       />
 
-      <div className="flex items-center gap-3 pt-4 border-t border-[#292526]">
+      <div className="flex items-center gap-3 pt-4 border-t border-[var(--border-subtle)]">
         <Button type="submit" isLoading={loading}>
           {isEdit ? "Update Participant" : "Add Participant"}
         </Button>

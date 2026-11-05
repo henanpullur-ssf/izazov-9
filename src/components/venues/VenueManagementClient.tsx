@@ -131,10 +131,10 @@ export function VenueManagementClient({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)]">
             Campus Stages & Halls
           </h2>
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-[var(--text-dim)]">
             {venues.length} venues registered for fest operations
           </p>
         </div>
@@ -146,7 +146,7 @@ export function VenueManagementClient({
 
       {venues.length === 0 ? (
         <EmptyState
-          icon={<MapPin className="w-6 h-6 text-zinc-500" />}
+          icon={<MapPin className="w-6 h-6 text-[var(--text-dim)]" />}
           title="No venues registered"
           description="Add campus auditoriums, labs, open stages, and seminar halls."
           actionLabel="Add Venue"
@@ -157,15 +157,15 @@ export function VenueManagementClient({
           {venues.map((v) => (
             <Card
               key={v.id}
-              className="flex flex-col justify-between hover:border-[#3f393b] transition"
+              className="flex flex-col justify-between hover:border-[var(--border-strong)] transition"
             >
               <CardHeader className="py-4">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-1">
                     <CardTitle className="text-base">{v.name}</CardTitle>
                     {v.location && (
-                      <p className="text-xs text-zinc-400 flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
+                      <p className="text-xs text-[var(--text-muted)] flex items-center gap-1">
+                        <MapPin className="w-3.5 h-3.5 text-[var(--text-dim)] shrink-0" />
                         <span>{v.location}</span>
                       </p>
                     )}
@@ -183,22 +183,22 @@ export function VenueManagementClient({
               </CardHeader>
 
               <CardContent className="space-y-3 pt-0">
-                <p className="text-xs text-zinc-400 line-clamp-2">
+                <p className="text-xs text-[var(--text-muted)] line-clamp-2">
                   {v.description || "No description provided."}
                 </p>
 
-                <div className="flex items-center justify-between pt-3 border-t border-[#232021] text-xs text-zinc-400">
+                <div className="flex items-center justify-between pt-3 border-t border-[var(--border-subtle)] text-xs text-[var(--text-muted)]">
                   <div className="flex items-center gap-1">
-                    <Users className="w-3.5 h-3.5 text-zinc-500" />
+                    <Users className="w-3.5 h-3.5 text-[var(--text-dim)]" />
                     <span>Capacity: {v.capacity || "N/A"}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5 text-zinc-500" />
+                    <Calendar className="w-3.5 h-3.5 text-[var(--text-dim)]" />
                     <span>{v._count?.events || 0} events</span>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#232021]">
+                <div className="flex items-center justify-end gap-2 pt-3 border-t border-[var(--border-subtle)]">
                   <Button
                     variant="secondary"
                     size="sm"
@@ -276,14 +276,14 @@ export function VenueManagementClient({
               id="isActiveVenue"
               checked={isActive}
               onChange={(e) => setIsActive(e.target.checked)}
-              className="rounded border-[#383334] text-[#931827] focus:ring-[#931827]"
+              className="rounded border-[var(--border-subtle)] text-[var(--brand)] focus:ring-[var(--brand)]"
             />
-            <label htmlFor="isActiveVenue" className="text-xs text-zinc-300">
+            <label htmlFor="isActiveVenue" className="text-xs text-[var(--text-muted)]">
               Venue is active and ready for event scheduling
             </label>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
             <Button
               type="button"
               variant="outline"

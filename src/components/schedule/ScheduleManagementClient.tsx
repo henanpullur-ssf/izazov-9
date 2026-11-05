@@ -180,7 +180,7 @@ export function ScheduleManagementClient({
             value={selectedVenue}
             onChange={(e) => setSelectedVenue(e.target.value)}
             aria-label="Filter by Venue"
-            className="rounded-xl border border-[#2f2b2c] bg-[#121112] px-3.5 py-2 text-xs text-zinc-300 outline-none focus:border-[#931827] cursor-pointer"
+            className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] px-3.5 py-2 text-xs text-[var(--text-muted)] outline-none focus:border-[#931827] cursor-pointer"
           >
             <option value="ALL">All Venues</option>
             {venues.map((v) => (
@@ -194,7 +194,7 @@ export function ScheduleManagementClient({
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
             aria-label="Filter by Category"
-            className="rounded-xl border border-[#2f2b2c] bg-[#121112] px-3.5 py-2 text-xs text-zinc-300 outline-none focus:border-[#931827] cursor-pointer"
+            className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] px-3.5 py-2 text-xs text-[var(--text-muted)] outline-none focus:border-[#931827] cursor-pointer"
           >
             <option value="ALL">All Categories</option>
             {categoryOptions.map((cat) => (
@@ -213,7 +213,7 @@ export function ScheduleManagementClient({
 
       {filteredSchedules.length === 0 ? (
         <EmptyState
-          icon={<Clock className="w-6 h-6 text-zinc-500" />}
+          icon={<Clock className="w-6 h-6 text-[var(--text-dim)]" />}
           title="No schedule slots configured"
           description="Create time slots, assign events to venues, and build the fest itinerary."
           actionLabel="Create Schedule Slot"
@@ -224,7 +224,7 @@ export function ScheduleManagementClient({
           {filteredSchedules.map((s) => (
             <Card
               key={s.id}
-              className="p-4 sm:p-5 hover:border-[#383334] transition"
+              className="p-4 sm:p-5 hover:border-[var(--border-subtle)] transition"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="space-y-1.5">
@@ -238,9 +238,9 @@ export function ScheduleManagementClient({
                     <StatusBadge status={s.event.status} />
                   </div>
 
-                  <div className="flex items-center gap-4 text-xs text-zinc-400 flex-wrap">
-                    <span className="flex items-center gap-1.5 text-zinc-300">
-                      <Clock className="w-3.5 h-3.5 text-[#931827]" />
+                  <div className="flex items-center gap-4 text-xs text-[var(--text-muted)] flex-wrap">
+                    <span className="flex items-center gap-1.5 text-[var(--text-muted)]">
+                      <Clock className="w-3.5 h-3.5 text-[var(--brand)]" />
                       <span>
                         {formatDate(s.startTime)} • {formatTime(s.startTime)} -{" "}
                         {formatTime(s.endTime)}
@@ -249,13 +249,13 @@ export function ScheduleManagementClient({
 
                     {s.venue && (
                       <span className="flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-zinc-500" />
+                        <MapPin className="w-3.5 h-3.5 text-[var(--text-dim)]" />
                         <span>{s.venue.name}</span>
                       </span>
                     )}
 
                     {s.notes && (
-                      <span className="text-zinc-500 italic">
+                      <span className="text-[var(--text-dim)] italic">
                         Note: {s.notes}
                       </span>
                     )}
@@ -354,7 +354,7 @@ export function ScheduleManagementClient({
             rows={2}
           />
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
             <Button
               type="button"
               variant="outline"

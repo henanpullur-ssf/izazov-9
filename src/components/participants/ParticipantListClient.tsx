@@ -141,25 +141,25 @@ export function ParticipantListClient({
       >
         <div className="flex items-center gap-2 flex-wrap">
           {/* Sort Controls */}
-          <div className="flex items-center gap-1.5 bg-[#141213] border border-[#2b2728] rounded-xl px-2.5 py-1.5 text-xs text-zinc-300">
-            <span className="text-zinc-500 font-medium">Sort:</span>
+          <div className="flex items-center gap-1.5 bg-[#141213] border border-[var(--border-subtle)] rounded-xl px-2.5 py-1.5 text-xs text-[var(--text-muted)]">
+            <span className="text-[var(--text-dim)] font-medium">Sort:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
               aria-label="Sort participants by"
               className="bg-transparent text-white outline-none cursor-pointer text-xs"
             >
-              <option value="name" className="bg-[#141213]">Name</option>
-              <option value="rollNumber" className="bg-[#141213]">Roll Number</option>
-              <option value="participantId" className="bg-[#141213]">Participant ID</option>
-              <option value="points" className="bg-[#141213]">Total Points</option>
-              <option value="house" className="bg-[#141213]">Team</option>
-              <option value="createdAt" className="bg-[#141213]">Registration Date</option>
+              <option value="name" className="bg-[var(--surface)]">Name</option>
+              <option value="rollNumber" className="bg-[var(--surface)]">Roll Number</option>
+              <option value="participantId" className="bg-[var(--surface)]">Participant ID</option>
+              <option value="points" className="bg-[var(--surface)]">Total Points</option>
+              <option value="house" className="bg-[var(--surface)]">Team</option>
+              <option value="createdAt" className="bg-[var(--surface)]">Registration Date</option>
             </select>
             <button
               onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
               aria-label="Toggle sort order"
-              className="p-1 hover:bg-[#272425] rounded transition text-zinc-400 hover:text-white"
+              className="p-1 hover:bg-[#272425] rounded transition text-[var(--text-muted)] hover:text-[var(--foreground)]"
               title={sortOrder === "asc" ? "Ascending (Click for Descending)" : "Descending (Click for Ascending)"}
             >
               <ArrowUpDown className="w-3.5 h-3.5" />
@@ -177,7 +177,7 @@ export function ParticipantListClient({
 
       {filteredAndSortedParticipants.length === 0 ? (
         <EmptyState
-          icon={<Users className="w-6 h-6 text-zinc-500" />}
+          icon={<Users className="w-6 h-6 text-[var(--text-dim)]" />}
           title="No participants found"
           description={
             search || houseId !== "ALL"
@@ -209,7 +209,7 @@ export function ParticipantListClient({
                   {filteredAndSortedParticipants.map((p) => (
                     <TableRow key={p.id}>
                       <TableCell>
-                        <span className="font-mono font-bold text-xs text-zinc-300">
+                        <span className="font-mono font-bold text-xs text-[var(--text-muted)]">
                           {p.rollNumber || "—"}
                         </span>
                       </TableCell>
@@ -226,7 +226,7 @@ export function ParticipantListClient({
                               {p.participantId}
                             </Badge>
                             {p.gender && (
-                              <span className="text-xs text-zinc-500">
+                              <span className="text-xs text-[var(--text-dim)]">
                                 • {p.gender}
                               </span>
                             )}
@@ -241,11 +241,11 @@ export function ParticipantListClient({
                             </Badge>
                           </Link>
                         ) : (
-                          <span className="text-xs text-zinc-500">Unassigned</span>
+                          <span className="text-xs text-[var(--text-dim)]">Unassigned</span>
                         )}
                       </TableCell>
                       <TableCell>
-                        <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-[#1c1812] border border-amber-500/25">
+                        <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-[var(--surface-elevated)] border border-amber-500/25">
                           <Trophy className="w-3 h-3 text-amber-400" />
                           <span className="text-xs font-mono font-bold text-amber-300">
                             {p.totalPoints || 0} pts
@@ -253,28 +253,28 @@ export function ParticipantListClient({
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="space-y-0.5 text-xs text-zinc-400">
+                        <div className="space-y-0.5 text-xs text-[var(--text-muted)]">
                           {p.email && (
                             <div className="flex items-center gap-1">
-                              <Mail className="w-3 h-3 text-zinc-500" />
+                              <Mail className="w-3 h-3 text-[var(--text-dim)]" />
                               <span>{p.email}</span>
                             </div>
                           )}
                           {p.phone && (
                             <div className="flex items-center gap-1">
-                              <Phone className="w-3 h-3 text-zinc-500" />
+                              <Phone className="w-3 h-3 text-[var(--text-dim)]" />
                               <span>{p.phone}</span>
                             </div>
                           )}
                           {!p.email && !p.phone && (
-                            <span className="text-zinc-500">—</span>
+                            <span className="text-[var(--text-dim)]">—</span>
                           )}
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="text-xs text-zinc-400 space-y-0.5">
+                        <div className="text-xs text-[var(--text-muted)] space-y-0.5">
                           <p>{p._count?.registrations || 0} registered</p>
-                          <p className="text-[11px] text-zinc-500">
+                          <p className="text-[11px] text-[var(--text-dim)]">
                             {p._count?.attendance || 0} attended
                           </p>
                         </div>
@@ -282,9 +282,9 @@ export function ParticipantListClient({
                       <TableCell>
                         <button
                           onClick={() => setQrModalTarget(p)}
-                          className="inline-flex items-center gap-1.5 rounded-lg border border-[#383334] bg-[#1a1819] px-2.5 py-1 text-xs text-zinc-300 hover:border-[#931827] hover:text-white transition cursor-pointer"
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--surface-elevated)] px-2.5 py-1 text-xs text-[var(--text-muted)] hover:border-[#931827] hover:text-[var(--foreground)] transition cursor-pointer"
                         >
-                          <QrCode className="w-3.5 h-3.5 text-[#931827]" />
+                          <QrCode className="w-3.5 h-3.5 text-[var(--brand)]" />
                           <span>Pass</span>
                         </button>
                       </TableCell>
@@ -317,13 +317,13 @@ export function ParticipantListClient({
             {filteredAndSortedParticipants.map((p) => (
               <div
                 key={p.id}
-                className="p-4 rounded-xl border border-[#2d292a] bg-[#141314] space-y-3"
+                className="p-4 rounded-xl border border-[var(--border-subtle)] bg-[#141314] space-y-3"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-1">
                     <div className="flex items-center gap-1.5 flex-wrap">
                       {p.rollNumber && (
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#201d1e] text-zinc-300 border border-[#332f30]">
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[var(--surface-card)] text-[var(--text-muted)] border border-[var(--border-subtle)]">
                           Roll: {p.rollNumber}
                         </span>
                       )}
@@ -350,12 +350,12 @@ export function ParticipantListClient({
                   </div>
                 </div>
 
-                <div className="space-y-1 text-xs text-zinc-400 pt-2 border-t border-[#232021]">
+                <div className="space-y-1 text-xs text-[var(--text-muted)] pt-2 border-t border-[var(--border-subtle)]">
                   {p.email && <p className="truncate">Email: {p.email}</p>}
                   {p.phone && <p>Phone: {p.phone}</p>}
                 </div>
 
-                <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#232021]">
+                <div className="flex items-center justify-end gap-2 pt-2 border-t border-[var(--border-subtle)]">
                   <Link href={`/admin/participants/${p.id}`} className="flex-1">
                     <Button variant="secondary" size="sm" className="w-full">
                       <Eye className="w-3.5 h-3.5 mr-1" />
@@ -385,27 +385,27 @@ export function ParticipantListClient({
       >
         {qrModalTarget && (
           <div className="flex flex-col items-center justify-center text-center space-y-4 py-4">
-            <div className="p-6 rounded-2xl bg-[#201d1e] border-2 border-[#931827] shadow-xl">
+            <div className="p-6 rounded-2xl bg-[var(--surface-card)] border-2 border-[#931827] shadow-xl">
               <QrCode className="w-32 h-32 text-white mx-auto stroke-[1.2]" />
             </div>
             <div className="space-y-1">
               <h4 className="text-base font-bold text-white">
                 {qrModalTarget.name}
               </h4>
-              <p className="text-xs font-mono font-semibold text-[#931827]">
+              <p className="text-xs font-mono font-semibold text-[var(--brand)]">
                 {qrModalTarget.participantId} {qrModalTarget.rollNumber ? `• Roll: ${qrModalTarget.rollNumber}` : ""}
               </p>
               {qrModalTarget.house && (
-                <p className="text-xs text-zinc-400">
+                <p className="text-xs text-[var(--text-muted)]">
                   Team: {qrModalTarget.house.name}
                 </p>
               )}
             </div>
-            <div className="w-full p-3 rounded-xl bg-[#0c0b0c] border border-[#2d292a] text-left">
-              <p className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">
+            <div className="w-full p-3 rounded-xl bg-[var(--surface)] border border-[var(--border-subtle)] text-left">
+              <p className="text-[10px] text-[var(--text-dim)] uppercase tracking-wider font-semibold">
                 Raw Token String
               </p>
-              <p className="text-xs font-mono text-zinc-300 break-all select-all mt-1">
+              <p className="text-xs font-mono text-[var(--text-muted)] break-all select-all mt-1">
                 {qrModalTarget.qrToken}
               </p>
             </div>

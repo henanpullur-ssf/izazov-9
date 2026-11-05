@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import {
@@ -325,14 +325,14 @@ export function AdminGalleryClient({
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-black text-white tracking-tight uppercase">
+            <h1 className="text-2xl font-black text-[var(--foreground)] tracking-tight uppercase">
               Gallery Management
             </h1>
-            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#931827] text-white">
+            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[var(--brand)] text-[var(--brand-foreground)]">
               ARCHIVE
             </span>
           </div>
-          <p className="text-xs text-zinc-400 mt-1">
+          <p className="text-xs text-[var(--text-muted)] mt-1">
             Manage festival albums, bulk upload high-resolution photos, curate drafts, and publish official media.
           </p>
         </div>
@@ -346,7 +346,7 @@ export function AdminGalleryClient({
               onClick={() => setShowAlbumModal(true)}
               className="gap-1.5"
             >
-              <FolderPlus className="w-4 h-4 text-zinc-300" />
+              <FolderPlus className="w-4 h-4 text-[var(--text-muted)]" />
               <span>New Album</span>
             </Button>
           )}
@@ -494,7 +494,7 @@ export function AdminGalleryClient({
         </div>
 
         {/* Pagination & Filter Summary */}
-        <div className="flex flex-wrap items-center justify-between pt-2 border-t border-[var(--border-subtle,#242021)] text-[11px] text-zinc-400">
+        <div className="flex flex-wrap items-center justify-between pt-2 border-t border-[var(--border-subtle,#242021)] text-[11px] text-[var(--text-muted)]">
           <span>
             Showing {images.length} of {pagination.total} photos
             {pagination.totalPages > 1 && ` • Page ${pagination.page} of ${pagination.totalPages}`}
@@ -504,14 +504,14 @@ export function AdminGalleryClient({
               <button
                 disabled={pagination.page <= 1}
                 onClick={() => refreshData(pagination.page - 1)}
-                className="px-2 py-1 rounded bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] disabled:opacity-40 hover:text-white transition cursor-pointer"
+                className="px-2 py-1 rounded bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] disabled:opacity-40 hover:text-[var(--foreground)] transition cursor-pointer"
               >
                 Previous
               </button>
               <button
                 disabled={!pagination.hasMore}
                 onClick={() => refreshData(pagination.page + 1)}
-                className="px-2 py-1 rounded bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] disabled:opacity-40 hover:text-white transition cursor-pointer"
+                className="px-2 py-1 rounded bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] disabled:opacity-40 hover:text-[var(--foreground)] transition cursor-pointer"
               >
                 Next
               </button>
@@ -524,7 +524,7 @@ export function AdminGalleryClient({
       {isLoading ? (
         <div className="py-24 text-center">
           <Loader2 className="w-8 h-8 animate-spin text-red-500 mx-auto" />
-          <p className="text-xs text-zinc-500 mt-2">Loading photos...</p>
+          <p className="text-xs text-[var(--text-dim)] mt-2">Loading photos...</p>
         </div>
       ) : images.length === 0 ? (
         /* Empty State */
@@ -621,7 +621,7 @@ export function AdminGalleryClient({
                       onClick={() => handleTogglePublish(photo)}
                       className={`text-[10px] font-semibold px-2 py-1 rounded transition cursor-pointer ${
                         photo.isPublished
-                          ? "text-zinc-400 hover:text-amber-400 hover:bg-amber-950/20"
+                          ? "text-[var(--text-muted)] hover:text-amber-400 hover:bg-amber-950/20"
                           : "text-emerald-400 hover:bg-emerald-950/20"
                       }`}
                     >
@@ -633,7 +633,7 @@ export function AdminGalleryClient({
                     {canEdit && (
                       <button
                         onClick={() => setEditingImage(photo)}
-                        className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition cursor-pointer"
+                        className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] transition cursor-pointer"
                         title="Edit metadata"
                       >
                         <Edit className="w-3.5 h-3.5" />
@@ -643,7 +643,7 @@ export function AdminGalleryClient({
                     {canDelete && (
                       <button
                         onClick={() => setDeletingImageId(photo.id)}
-                        className="p-1.5 rounded-lg text-zinc-400 hover:text-red-400 hover:bg-red-950/20 transition cursor-pointer"
+                        className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-red-400 hover:bg-red-950/20 transition cursor-pointer"
                         title="Delete photo"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -718,7 +718,7 @@ export function AdminGalleryClient({
                         {photo.isPublished ? "Published" : "Draft"}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-zinc-500 text-[11px]">
+                    <td className="px-4 py-3 text-[var(--text-dim)] text-[11px]">
                       {new Date(photo.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-4 py-3 text-right">
@@ -726,7 +726,7 @@ export function AdminGalleryClient({
                         {canPublish && (
                           <button
                             onClick={() => handleTogglePublish(photo)}
-                            className="px-2 py-1 rounded text-[10px] font-medium border border-zinc-800 hover:bg-zinc-800 transition cursor-pointer"
+                            className="px-2 py-1 rounded text-[10px] font-medium border border-[var(--border-subtle)] hover:bg-[var(--surface-elevated)] transition cursor-pointer"
                           >
                             {photo.isPublished ? "Unpublish" : "Publish"}
                           </button>
@@ -734,7 +734,7 @@ export function AdminGalleryClient({
                         {canEdit && (
                           <button
                             onClick={() => setEditingImage(photo)}
-                            className="p-1.5 rounded hover:bg-zinc-800 text-zinc-400 hover:text-white transition cursor-pointer"
+                            className="p-1.5 rounded hover:bg-[var(--surface-elevated)] text-[var(--text-muted)] hover:text-[var(--foreground)] transition cursor-pointer"
                           >
                             <Edit className="w-3.5 h-3.5" />
                           </button>
@@ -742,7 +742,7 @@ export function AdminGalleryClient({
                         {canDelete && (
                           <button
                             onClick={() => setDeletingImageId(photo.id)}
-                            className="p-1.5 rounded hover:bg-red-950/30 text-zinc-400 hover:text-red-400 transition cursor-pointer"
+                            className="p-1.5 rounded hover:bg-red-950/30 text-[var(--text-muted)] hover:text-red-400 transition cursor-pointer"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -764,11 +764,11 @@ export function AdminGalleryClient({
             <div className="flex items-center justify-between border-b border-[var(--border-subtle,#262123)] pb-4">
               <div className="flex items-center gap-2">
                 <UploadCloud className="w-5 h-5 text-red-500" />
-                <h3 className="text-base font-bold text-white">Upload Photos to Gallery</h3>
+                <h3 className="text-base font-bold text-[var(--foreground)]">Upload Photos to Gallery</h3>
               </div>
               <button
                 onClick={() => setShowUploadModal(false)}
-                className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition cursor-pointer"
+                className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] transition cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -789,14 +789,14 @@ export function AdminGalleryClient({
             <form onSubmit={handleUploadSubmit} className="space-y-4">
               {/* Target Album Selection */}
               <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                   Target Album <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={uploadAlbumId}
                   onChange={(e) => setUploadAlbumId(e.target.value)}
                   required
-                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--brand,#931827)] cursor-pointer"
+                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--brand,#931827)] cursor-pointer"
                 >
                   <option value="">Select Album...</option>
                   {albums.map((a) => (
@@ -815,13 +815,13 @@ export function AdminGalleryClient({
               {/* Associated Event & Category */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                     Link to Event (Optional)
                   </label>
                   <select
                     value={uploadEventId}
                     onChange={(e) => setUploadEventId(e.target.value)}
-                    className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--brand,#931827)] cursor-pointer"
+                    className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--brand,#931827)] cursor-pointer"
                   >
                     <option value="none">None (General Fest)</option>
                     {events.map((e) => (
@@ -833,13 +833,13 @@ export function AdminGalleryClient({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                     Category (Optional)
                   </label>
                   <select
                     value={uploadCategory}
                     onChange={(e) => setUploadCategory(e.target.value)}
-                    className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--brand,#931827)] cursor-pointer"
+                    className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--brand,#931827)] cursor-pointer"
                   >
                     <option value="none">None</option>
                     {categories.map((c) => (
@@ -853,7 +853,7 @@ export function AdminGalleryClient({
 
               {/* Photographer attribution */}
               <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                   Photographer Credit (Optional)
                 </label>
                 <input
@@ -861,13 +861,13 @@ export function AdminGalleryClient({
                   placeholder="e.g. Media Cell / John Doe"
                   value={uploadPhotographer}
                   onChange={(e) => setUploadPhotographer(e.target.value)}
-                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[var(--brand,#931827)]"
+                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] placeholder-[var(--text-dim)] focus:outline-none focus:border-[var(--brand,#931827)]"
                 />
               </div>
 
               {/* Multi-File Dropzone */}
               <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                   Select Photos (JPG, PNG, WebP — up to 25MB each)
                 </label>
                 <input
@@ -879,10 +879,10 @@ export function AdminGalleryClient({
                       setUploadFiles(Array.from(e.target.files));
                     }
                   }}
-                  className="w-full bg-[var(--surface,#181516)] border border-dashed border-[var(--border-subtle,#383133)] rounded-2xl p-4 text-xs text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[var(--brand,#931827)] file:text-white hover:file:bg-red-700 cursor-pointer"
+                  className="w-full bg-[var(--surface,#181516)] border border-dashed border-[var(--border-subtle,#383133)] rounded-2xl p-4 text-xs text-[var(--text-muted)] file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[var(--brand,#931827)] file:text-white hover:file:bg-red-700 cursor-pointer"
                 />
                 {uploadFiles.length > 0 && (
-                  <p className="text-[11px] text-zinc-400 mt-2">
+                  <p className="text-[11px] text-[var(--text-muted)] mt-2">
                     {uploadFiles.length} file(s) selected (Total:{" "}
                     {(
                       uploadFiles.reduce((acc, f) => acc + f.size, 0) /
@@ -900,11 +900,11 @@ export function AdminGalleryClient({
                   id="publishImmediately"
                   checked={uploadPublishImmediately}
                   onChange={(e) => setUploadPublishImmediately(e.target.checked)}
-                  className="rounded border-zinc-700 text-red-600 focus:ring-red-500 cursor-pointer"
+                  className="rounded border-[var(--border-strong)] text-red-600 focus:ring-red-500 cursor-pointer"
                 />
                 <label
                   htmlFor="publishImmediately"
-                  className="text-xs text-zinc-300 cursor-pointer"
+                  className="text-xs text-[var(--text-muted)] cursor-pointer"
                 >
                   Publish immediately (otherwise saved as <span className="text-amber-400 font-semibold">Draft</span> for review)
                 </label>
@@ -952,25 +952,25 @@ export function AdminGalleryClient({
             <div className="flex items-center justify-between border-b border-[var(--border-subtle,#262123)] pb-4">
               <div className="flex items-center gap-2">
                 <FolderPlus className="w-5 h-5 text-red-500" />
-                <h3 className="text-base font-bold text-white">Create New Album</h3>
+                <h3 className="text-base font-bold text-[var(--foreground)]">Create New Album</h3>
               </div>
               <button
                 onClick={() => setShowAlbumModal(false)}
-                className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition cursor-pointer"
+                className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] transition cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {albumFeedback && (
-              <div className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-white">
+              <div className="p-3 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-xs text-white">
                 {albumFeedback}
               </div>
             )}
 
             <form onSubmit={handleCreateAlbumSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                   Album Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -979,12 +979,12 @@ export function AdminGalleryClient({
                   value={albumName}
                   onChange={(e) => setAlbumName(e.target.value)}
                   required
-                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[var(--brand,#931827)]"
+                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] placeholder-[var(--text-dim)] focus:outline-none focus:border-[var(--brand,#931827)]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                   Description
                 </label>
                 <textarea
@@ -992,19 +992,19 @@ export function AdminGalleryClient({
                   rows={2}
                   value={albumDesc}
                   onChange={(e) => setAlbumDesc(e.target.value)}
-                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[var(--brand,#931827)] resize-none"
+                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] placeholder-[var(--text-dim)] focus:outline-none focus:border-[var(--brand,#931827)] resize-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                   Sort Order
                 </label>
                 <input
                   type="number"
                   value={albumSortOrder}
                   onChange={(e) => setAlbumSortOrder(Number(e.target.value))}
-                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--brand,#931827)]"
+                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--brand,#931827)]"
                 />
               </div>
 
@@ -1035,10 +1035,10 @@ export function AdminGalleryClient({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
           <div className="w-full max-w-lg rounded-3xl border border-[var(--border-subtle,#332c2e)] bg-[var(--surface-card,#141213)] p-6 space-y-5 shadow-2xl">
             <div className="flex items-center justify-between border-b border-[var(--border-subtle,#262123)] pb-4">
-              <h3 className="text-base font-bold text-white">Edit Photo Metadata</h3>
+              <h3 className="text-base font-bold text-[var(--foreground)]">Edit Photo Metadata</h3>
               <button
                 onClick={() => setEditingImage(null)}
-                className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition cursor-pointer"
+                className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-elevated)] transition cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1046,7 +1046,7 @@ export function AdminGalleryClient({
 
             <form onSubmit={handleUpdateMetadataSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                   Title
                 </label>
                 <input
@@ -1055,12 +1055,12 @@ export function AdminGalleryClient({
                   onChange={(e) =>
                     setEditingImage({ ...editingImage, title: e.target.value })
                   }
-                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--brand,#931827)]"
+                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--brand,#931827)]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                   Caption / Description
                 </label>
                 <textarea
@@ -1069,13 +1069,13 @@ export function AdminGalleryClient({
                   onChange={(e) =>
                     setEditingImage({ ...editingImage, caption: e.target.value })
                   }
-                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--brand,#931827)] resize-none"
+                  className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--brand,#931827)] resize-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                     Album
                   </label>
                   <select
@@ -1083,7 +1083,7 @@ export function AdminGalleryClient({
                     onChange={(e) =>
                       setEditingImage({ ...editingImage, albumId: e.target.value })
                     }
-                    className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--brand,#931827)]"
+                    className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--brand,#931827)]"
                   >
                     {albums.map((a) => (
                       <option key={a.id} value={a.id}>
@@ -1094,7 +1094,7 @@ export function AdminGalleryClient({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                     Event
                   </label>
                   <select
@@ -1102,7 +1102,7 @@ export function AdminGalleryClient({
                     onChange={(e) =>
                       setEditingImage({ ...editingImage, eventId: e.target.value })
                     }
-                    className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--brand,#931827)]"
+                    className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--brand,#931827)]"
                   >
                     <option value="none">None</option>
                     {events.map((e) => (
@@ -1116,7 +1116,7 @@ export function AdminGalleryClient({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                     Photographer
                   </label>
                   <input
@@ -1125,12 +1125,12 @@ export function AdminGalleryClient({
                     onChange={(e) =>
                       setEditingImage({ ...editingImage, photographer: e.target.value })
                     }
-                    className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--brand,#931827)]"
+                    className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--brand,#931827)]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                     Sort Order
                   </label>
                   <input
@@ -1139,32 +1139,32 @@ export function AdminGalleryClient({
                     onChange={(e) =>
                       setEditingImage({ ...editingImage, sortOrder: Number(e.target.value) })
                     }
-                    className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--brand,#931827)]"
+                    className="w-full bg-[var(--surface,#181516)] border border-[var(--border-subtle,#2e282a)] rounded-xl px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none focus:border-[var(--brand,#931827)]"
                   />
                 </div>
               </div>
 
               <div className="flex items-center gap-6 pt-2">
-                <label className="flex items-center gap-2 text-xs text-zinc-300 cursor-pointer">
+                <label className="flex items-center gap-2 text-xs text-[var(--text-muted)] cursor-pointer">
                   <input
                     type="checkbox"
                     checked={editingImage.isFeatured}
                     onChange={(e) =>
                       setEditingImage({ ...editingImage, isFeatured: e.target.checked })
                     }
-                    className="rounded border-zinc-700 text-red-600 focus:ring-red-500"
+                    className="rounded border-[var(--border-strong)] text-red-600 focus:ring-red-500"
                   />
                   <span>Featured on Homepage</span>
                 </label>
 
-                <label className="flex items-center gap-2 text-xs text-zinc-300 cursor-pointer">
+                <label className="flex items-center gap-2 text-xs text-[var(--text-muted)] cursor-pointer">
                   <input
                     type="checkbox"
                     checked={editingImage.isPublished}
                     onChange={(e) =>
                       setEditingImage({ ...editingImage, isPublished: e.target.checked })
                     }
-                    className="rounded border-zinc-700 text-red-600 focus:ring-red-500"
+                    className="rounded border-[var(--border-strong)] text-red-600 focus:ring-red-500"
                   />
                   <span>Published Publicly</span>
                 </label>
@@ -1196,8 +1196,8 @@ export function AdminGalleryClient({
               <Trash2 className="w-5 h-5" />
             </div>
             <div className="space-y-1">
-              <h3 className="text-base font-bold text-white">Delete this photo?</h3>
-              <p className="text-xs text-zinc-400 leading-relaxed">
+              <h3 className="text-base font-bold text-[var(--foreground)]">Delete this photo?</h3>
+              <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                 This action will permanently remove the photo from the gallery archive and cloud storage CDN.
               </p>
             </div>

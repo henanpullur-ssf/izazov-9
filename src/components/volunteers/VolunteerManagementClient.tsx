@@ -100,7 +100,7 @@ export function VolunteerManagementClient({
     <div className="space-y-6">
       {volunteers.length === 0 ? (
         <EmptyState
-          icon={<HeartHandshake className="w-6 h-6 text-zinc-500" />}
+          icon={<HeartHandshake className="w-6 h-6 text-[var(--text-dim)]" />}
           title="No volunteers registered"
           description="Volunteers will appear here once student volunteers sign up or are assigned the Volunteer role in Settings."
         />
@@ -112,7 +112,7 @@ export function VolunteerManagementClient({
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="text-base">{vol.user.name}</CardTitle>
-                    <p className="text-xs text-zinc-400 mt-0.5">
+                    <p className="text-xs text-[var(--text-muted)] mt-0.5">
                       {vol.user.email} {vol.user.phone ? `• ${vol.user.phone}` : ""}
                     </p>
                   </div>
@@ -133,12 +133,12 @@ export function VolunteerManagementClient({
               </CardHeader>
 
               <CardContent className="space-y-3 pt-0">
-                <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
                   Duty Assignments ({vol.assignments.length})
                 </p>
 
                 {vol.assignments.length === 0 ? (
-                  <p className="text-xs text-zinc-500 py-2">
+                  <p className="text-xs text-[var(--text-dim)] py-2">
                     No active assignments.
                   </p>
                 ) : (
@@ -146,28 +146,28 @@ export function VolunteerManagementClient({
                     {vol.assignments.map((asg) => (
                       <div
                         key={asg.id}
-                        className="p-3 rounded-xl border border-[#2d292a] bg-[#181617] space-y-2"
+                        className="p-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-hover)] space-y-2"
                       >
                         <div className="flex items-start justify-between gap-2">
                           <div>
-                            <p className="text-xs font-semibold text-white">
+                            <p className="text-xs font-semibold text-[var(--foreground)]">
                               {asg.duty || "General Operations"}
                             </p>
-                            <p className="text-[11px] text-zinc-400">
+                            <p className="text-[11px] text-[var(--text-muted)]">
                               {asg.event ? `Event: ${asg.event.name}` : "Campus Floating"}
                             </p>
                           </div>
                           <button
                             onClick={() => handleDeleteAssignment(asg.id)}
-                            className="text-zinc-500 hover:text-red-400 p-1"
+                            className="text-[var(--text-dim)] hover:text-red-400 p-1"
                             title="Remove assignment"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
 
-                        <div className="flex items-center justify-between pt-2 border-t border-[#242122] text-[11px]">
-                          <div className="flex items-center gap-2 text-zinc-400">
+                        <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subtle)] text-[11px]">
+                          <div className="flex items-center gap-2 text-[var(--text-muted)]">
                             {asg.checkedInAt ? (
                               <span className="text-emerald-400">
                                 In: {formatTime(asg.checkedInAt)}
@@ -176,7 +176,7 @@ export function VolunteerManagementClient({
                               <span>Not Checked In</span>
                             )}
                             {asg.checkedOutAt && (
-                              <span className="text-zinc-500">
+                              <span className="text-[var(--text-dim)]">
                                 • Out: {formatTime(asg.checkedOutAt)}
                               </span>
                             )}
@@ -257,7 +257,7 @@ export function VolunteerManagementClient({
             required
           />
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
             <Button
               type="button"
               variant="outline"

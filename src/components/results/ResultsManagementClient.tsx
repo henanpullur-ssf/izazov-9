@@ -246,9 +246,9 @@ export function ResultsManagementClient({
   return (
     <div className="space-y-6">
       {/* Controls Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#131213] p-4 rounded-2xl border border-[#272425]">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[var(--surface)] p-4 rounded-2xl border border-[#272425]">
         <div className="flex items-center gap-3">
-          <label htmlFor="event-filter" className="text-xs text-zinc-400 font-medium whitespace-nowrap">
+          <label htmlFor="event-filter" className="text-xs text-[var(--text-muted)] font-medium whitespace-nowrap">
             Filter by Event:
           </label>
           <select
@@ -256,7 +256,7 @@ export function ResultsManagementClient({
             value={selectedEventId}
             onChange={(e) => setSelectedEventId(e.target.value)}
             aria-label="Filter Results by Event"
-            className="rounded-xl border border-[#2f2b2c] bg-[#0c0b0c] px-3.5 py-2 text-xs text-zinc-200 outline-none focus:border-[#931827] cursor-pointer max-w-sm"
+            className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] px-3.5 py-2 text-xs text-[var(--foreground)] outline-none focus:border-[#931827] cursor-pointer max-w-sm"
           >
             <option value="ALL">All Competitions ({results.length} Results)</option>
             {events.map((e) => (
@@ -279,7 +279,7 @@ export function ResultsManagementClient({
 
       {filteredResults.length === 0 ? (
         <EmptyState
-          icon={<Trophy className="w-6 h-6 text-zinc-500" />}
+          icon={<Trophy className="w-6 h-6 text-[var(--text-dim)]" />}
           title="No results recorded"
           description="Enter official scores, grades, prize levels, and manually assigned points for completed competitions."
           actionLabel="Enter Result"
@@ -314,10 +314,10 @@ export function ResultsManagementClient({
                 key={res.id}
                 className={`p-4 sm:p-5 transition ${
                   !res.isPublished
-                    ? "opacity-60 border-dashed border-[#383334]"
+                    ? "opacity-60 border-dashed border-[var(--border-subtle)]"
                     : res.position === 1 || res.prizeLevel === "1st Prize"
                     ? "border-amber-500/40 bg-gradient-to-r from-[#1c170f] via-[#141213] to-[#121112]"
-                    : "hover:border-[#383334]"
+                    : "hover:border-[var(--border-subtle)]"
                 }`}
               >
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -331,7 +331,7 @@ export function ResultsManagementClient({
                           ? "bg-zinc-300 text-black font-bold"
                           : res.position === 3 || res.prizeLevel === "3rd Prize"
                           ? "bg-amber-800 text-white font-bold"
-                          : "bg-[#201d1e] text-zinc-400 border border-[#383334]"
+                          : "bg-[var(--surface-card)] text-[var(--text-muted)] border border-[var(--border-subtle)]"
                       }`}
                     >
                       {res.position ? `#${res.position}` : "—"}
@@ -343,7 +343,7 @@ export function ResultsManagementClient({
                           {participantName}
                         </span>
                         {rollNo && (
-                          <span className="text-xs font-mono px-2 py-0.5 rounded bg-[#201d1e] text-zinc-300 border border-[#332f30]">
+                          <span className="text-xs font-mono px-2 py-0.5 rounded bg-[var(--surface-card)] text-[var(--text-muted)] border border-[var(--border-subtle)]">
                             Roll: {rollNo}
                           </span>
                         )}
@@ -371,16 +371,16 @@ export function ResultsManagementClient({
                             Published
                           </span>
                         ) : (
-                          <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400">
+                          <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-[var(--surface-elevated)] text-[var(--text-muted)]">
                             Unpublished
                           </span>
                         )}
                       </div>
 
-                      <p className="text-xs text-zinc-400 flex items-center gap-2 flex-wrap">
+                      <p className="text-xs text-[var(--text-muted)] flex items-center gap-2 flex-wrap">
                         <span>
                           Event:{" "}
-                          <strong className="text-zinc-200">
+                          <strong className="text-[var(--foreground)]">
                             {res.event.name} ({res.event.code})
                           </strong>
                         </span>
@@ -388,7 +388,7 @@ export function ResultsManagementClient({
                           <span>• Category: {res.event.category}</span>
                         )}
                         {res.remarks && (
-                          <span className="italic text-zinc-500">
+                          <span className="italic text-[var(--text-dim)]">
                             • &ldquo;{res.remarks}&rdquo;
                           </span>
                         )}
@@ -397,15 +397,15 @@ export function ResultsManagementClient({
                   </div>
 
                   {/* Right Column: Points & Actions */}
-                  <div className="flex items-center justify-between md:justify-end gap-5 pt-3 md:pt-0 border-t md:border-t-0 border-[#232021]">
+                  <div className="flex items-center justify-between md:justify-end gap-5 pt-3 md:pt-0 border-t md:border-t-0 border-[var(--border-subtle)]">
                     <div className="text-left md:text-right">
                       <div className="flex items-baseline md:justify-end gap-1">
                         <span className="text-xl sm:text-2xl font-mono font-black text-white">
                           {res.points}
                         </span>
-                        <span className="text-xs text-zinc-400 font-bold">pts</span>
+                        <span className="text-xs text-[var(--text-muted)] font-bold">pts</span>
                       </div>
-                      <p className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">
+                      <p className="text-[10px] text-[var(--text-dim)] uppercase tracking-wider font-semibold">
                         Manual Fest Points
                       </p>
                     </div>
@@ -418,7 +418,7 @@ export function ResultsManagementClient({
                         title={res.isPublished ? "Unpublish Result" : "Publish Result"}
                       >
                         {res.isPublished ? (
-                          <EyeOff className="w-3.5 h-3.5 text-zinc-400" />
+                          <EyeOff className="w-3.5 h-3.5 text-[var(--text-muted)]" />
                         ) : (
                           <Eye className="w-3.5 h-3.5 text-emerald-400" />
                         )}
@@ -533,7 +533,7 @@ export function ResultsManagementClient({
           )}
 
           {/* Points (Manual), Grade (Manual Selector), Prize Level */}
-          <div className="p-4 rounded-2xl bg-[#0c0b0c] border border-[#2b2728] space-y-4">
+          <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border-subtle)] space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <Input
@@ -630,31 +630,31 @@ export function ResultsManagementClient({
 
           {/* Status Checkboxes */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#2b2728] bg-[#141213] cursor-pointer hover:border-[#403b3c] transition">
+            <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[var(--border-subtle)] bg-[#141213] cursor-pointer hover:border-[var(--border-strong)] transition">
               <input
                 type="checkbox"
                 checked={isPublished}
                 onChange={(e) => setIsPublished(e.target.checked)}
-                className="rounded border-[#383334] text-[#931827] focus:ring-[#931827] w-4 h-4"
+                className="rounded border-[var(--border-subtle)] text-[var(--brand)] focus:ring-[#931827] w-4 h-4"
               />
               <div>
-                <p className="text-xs font-bold text-white">Published Status</p>
-                <p className="text-[10px] text-zinc-400">
+                <p className="text-xs font-bold text-[var(--foreground)]">Published Status</p>
+                <p className="text-[10px] text-[var(--text-muted)]">
                   When enabled, counts towards totals and championship
                 </p>
               </div>
             </label>
 
-            <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#2b2728] bg-[#141213] cursor-pointer hover:border-[#403b3c] transition">
+            <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[var(--border-subtle)] bg-[#141213] cursor-pointer hover:border-[var(--border-strong)] transition">
               <input
                 type="checkbox"
                 checked={isWinner}
                 onChange={(e) => setIsWinner(e.target.checked)}
-                className="rounded border-[#383334] text-[#931827] focus:ring-[#931827] w-4 h-4"
+                className="rounded border-[var(--border-subtle)] text-[var(--brand)] focus:ring-[#931827] w-4 h-4"
               />
               <div>
-                <p className="text-xs font-bold text-white">Highlight as Podium Winner</p>
-                <p className="text-[10px] text-zinc-400">
+                <p className="text-xs font-bold text-[var(--foreground)]">Highlight as Podium Winner</p>
+                <p className="text-[10px] text-[var(--text-muted)]">
                   Displays winner badge on leaderboard
                 </p>
               </div>
@@ -662,7 +662,7 @@ export function ResultsManagementClient({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
             <Button
               type="button"
               variant="outline"

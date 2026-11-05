@@ -270,8 +270,8 @@ export function SettingsManagementClient({
         <div
           className={`fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-2xl border text-sm font-medium transition animate-in slide-in-from-bottom-5 ${
             toastMessage.type === "success"
-              ? "bg-[#142316] text-emerald-300 border-emerald-800/60"
-              : "bg-[#291214] text-red-300 border-red-800/60"
+              ? "bg-[var(--surface-card)] text-emerald-300 border-emerald-800/60"
+              : "bg-[var(--surface-card)] text-red-300 border-red-800/60"
           }`}
         >
           {toastMessage.type === "success" ? (
@@ -284,16 +284,16 @@ export function SettingsManagementClient({
       )}
 
       {/* Top Header Action Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-[#121112] border border-[#262223]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border-subtle)]">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-[#931827] flex items-center justify-center text-white shadow-md shadow-[#931827]/30 border border-red-400/20">
+          <div className="w-9 h-9 rounded-xl bg-[var(--brand)] flex items-center justify-center text-white shadow-md shadow-[var(--brand)]/30 border border-red-400/20">
             <Sliders className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-white tracking-wide">
+            <h2 className="text-sm font-bold text-[var(--foreground)] tracking-wide">
               Website Customization & Control Panel
             </h2>
-            <p className="text-xs text-zinc-400">
+            <p className="text-xs text-[var(--text-muted)]">
               Live adjustments persist to database and revalidate public portal immediately.
             </p>
           </div>
@@ -318,7 +318,7 @@ export function SettingsManagementClient({
               size="sm"
               onClick={() => setIsResetConfirmOpen(true)}
               disabled={saving}
-              className="gap-1.5 text-xs text-zinc-300"
+              className="gap-1.5 text-xs text-[var(--text-muted)]"
             >
               <span>Reset to Defaults</span>
             </Button>
@@ -327,7 +327,7 @@ export function SettingsManagementClient({
               size="sm"
               onClick={handleSaveSettings}
               disabled={saving}
-              className="gap-1.5 shadow-lg shadow-[#931827]/25"
+              className="gap-1.5 shadow-lg shadow-[var(--brand)]/25"
             >
               <Save className="w-3.5 h-3.5" />
               <span>{saving ? "Saving..." : "Save Customizations"}</span>
@@ -337,7 +337,7 @@ export function SettingsManagementClient({
       </div>
 
       {/* Tabs Navigation Bar */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 border-b border-[#242122] scrollbar-none">
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 border-b border-[var(--border-subtle)] scrollbar-none">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const active = activeTab === tab.id;
@@ -347,8 +347,8 @@ export function SettingsManagementClient({
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
                 active
-                  ? "bg-[#931827] text-white shadow-md shadow-[#931827]/20"
-                  : "text-zinc-400 hover:text-white hover:bg-[#181617]"
+                  ? "bg-[var(--brand)] text-white shadow-md shadow-[var(--brand)]/20"
+                  : "text-[var(--text-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-hover)]"
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -368,10 +368,10 @@ export function SettingsManagementClient({
               <div className="space-y-6 animate-in fade-in duration-200">
                 {/* Brand Identity Card */}
                 <Card className="p-6 space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#242122] pb-3">
+                  <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-[#931827]" />
-                      <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                      <Sparkles className="w-4 h-4 text-[var(--brand)]" />
+                      <h3 className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
                         Brand Identity
                       </h3>
                     </div>
@@ -422,10 +422,10 @@ export function SettingsManagementClient({
 
                 {/* Theme & Color Palette Card */}
                 <Card className="p-6 space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#242122] pb-3">
+                  <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
                     <div className="flex items-center gap-2">
-                      <Palette className="w-4 h-4 text-[#931827]" />
-                      <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                      <Palette className="w-4 h-4 text-[var(--brand)]" />
+                      <h3 className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
                         Color Theme Palette
                       </h3>
                     </div>
@@ -434,7 +434,7 @@ export function SettingsManagementClient({
                       variant="ghost"
                       size="sm"
                       onClick={handleResetThemeOnly}
-                      className="text-xs text-zinc-400 hover:text-white"
+                      className="text-xs text-[var(--text-muted)] hover:text-[var(--foreground)]"
                     >
                       Reset Colors
                     </Button>
@@ -442,10 +442,10 @@ export function SettingsManagementClient({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Primary Brand Color */}
-                    <div className="space-y-1.5 p-3 rounded-xl bg-[#0e0d0e] border border-[#282425]">
-                      <label className="text-xs font-semibold text-zinc-300 flex items-center justify-between">
+                    <div className="space-y-1.5 p-3 rounded-xl bg-[var(--surface)] border border-[#282425]">
+                      <label className="text-xs font-semibold text-[var(--text-muted)] flex items-center justify-between">
                         <span>Primary Brand Accent</span>
-                        <span className="text-[11px] font-mono text-zinc-400">{formData.primaryColor}</span>
+                        <span className="text-[11px] font-mono text-[var(--text-muted)]">{formData.primaryColor}</span>
                       </label>
                       <div className="flex items-center gap-2.5">
                         <input
@@ -464,10 +464,10 @@ export function SettingsManagementClient({
                     </div>
 
                     {/* Background Color */}
-                    <div className="space-y-1.5 p-3 rounded-xl bg-[#0e0d0e] border border-[#282425]">
-                      <label className="text-xs font-semibold text-zinc-300 flex items-center justify-between">
+                    <div className="space-y-1.5 p-3 rounded-xl bg-[var(--surface)] border border-[#282425]">
+                      <label className="text-xs font-semibold text-[var(--text-muted)] flex items-center justify-between">
                         <span>Canvas Background</span>
-                        <span className="text-[11px] font-mono text-zinc-400">{formData.backgroundColor}</span>
+                        <span className="text-[11px] font-mono text-[var(--text-muted)]">{formData.backgroundColor}</span>
                       </label>
                       <div className="flex items-center gap-2.5">
                         <input
@@ -486,10 +486,10 @@ export function SettingsManagementClient({
                     </div>
 
                     {/* Surface Color */}
-                    <div className="space-y-1.5 p-3 rounded-xl bg-[#0e0d0e] border border-[#282425]">
-                      <label className="text-xs font-semibold text-zinc-300 flex items-center justify-between">
+                    <div className="space-y-1.5 p-3 rounded-xl bg-[var(--surface)] border border-[#282425]">
+                      <label className="text-xs font-semibold text-[var(--text-muted)] flex items-center justify-between">
                         <span>Surface / Header Color</span>
-                        <span className="text-[11px] font-mono text-zinc-400">{formData.surfaceColor}</span>
+                        <span className="text-[11px] font-mono text-[var(--text-muted)]">{formData.surfaceColor}</span>
                       </label>
                       <div className="flex items-center gap-2.5">
                         <input
@@ -508,10 +508,10 @@ export function SettingsManagementClient({
                     </div>
 
                     {/* Card Color */}
-                    <div className="space-y-1.5 p-3 rounded-xl bg-[#0e0d0e] border border-[#282425]">
-                      <label className="text-xs font-semibold text-zinc-300 flex items-center justify-between">
+                    <div className="space-y-1.5 p-3 rounded-xl bg-[var(--surface)] border border-[#282425]">
+                      <label className="text-xs font-semibold text-[var(--text-muted)] flex items-center justify-between">
                         <span>Card Container Color</span>
-                        <span className="text-[11px] font-mono text-zinc-400">{formData.cardColor}</span>
+                        <span className="text-[11px] font-mono text-[var(--text-muted)]">{formData.cardColor}</span>
                       </label>
                       <div className="flex items-center gap-2.5">
                         <input
@@ -530,10 +530,10 @@ export function SettingsManagementClient({
                     </div>
 
                     {/* Text Color */}
-                    <div className="space-y-1.5 p-3 rounded-xl bg-[#0e0d0e] border border-[#282425]">
-                      <label className="text-xs font-semibold text-zinc-300 flex items-center justify-between">
+                    <div className="space-y-1.5 p-3 rounded-xl bg-[var(--surface)] border border-[#282425]">
+                      <label className="text-xs font-semibold text-[var(--text-muted)] flex items-center justify-between">
                         <span>Headings & Text Color</span>
-                        <span className="text-[11px] font-mono text-zinc-400">{formData.textColor}</span>
+                        <span className="text-[11px] font-mono text-[var(--text-muted)]">{formData.textColor}</span>
                       </label>
                       <div className="flex items-center gap-2.5">
                         <input
@@ -552,10 +552,10 @@ export function SettingsManagementClient({
                     </div>
 
                     {/* Muted Text Color */}
-                    <div className="space-y-1.5 p-3 rounded-xl bg-[#0e0d0e] border border-[#282425]">
-                      <label className="text-xs font-semibold text-zinc-300 flex items-center justify-between">
+                    <div className="space-y-1.5 p-3 rounded-xl bg-[var(--surface)] border border-[#282425]">
+                      <label className="text-xs font-semibold text-[var(--text-muted)] flex items-center justify-between">
                         <span>Subtext & Muted Color</span>
-                        <span className="text-[11px] font-mono text-zinc-400">{formData.mutedTextColor}</span>
+                        <span className="text-[11px] font-mono text-[var(--text-muted)]">{formData.mutedTextColor}</span>
                       </label>
                       <div className="flex items-center gap-2.5">
                         <input
@@ -574,10 +574,10 @@ export function SettingsManagementClient({
                     </div>
 
                     {/* Border Color */}
-                    <div className="space-y-1.5 p-3 rounded-xl bg-[#0e0d0e] border border-[#282425] sm:col-span-2">
-                      <label className="text-xs font-semibold text-zinc-300 flex items-center justify-between">
+                    <div className="space-y-1.5 p-3 rounded-xl bg-[var(--surface)] border border-[#282425] sm:col-span-2">
+                      <label className="text-xs font-semibold text-[var(--text-muted)] flex items-center justify-between">
                         <span>Subtle Borders Color</span>
-                        <span className="text-[11px] font-mono text-zinc-400">{formData.borderColor}</span>
+                        <span className="text-[11px] font-mono text-[var(--text-muted)]">{formData.borderColor}</span>
                       </label>
                       <div className="flex items-center gap-2.5">
                         <input
@@ -604,10 +604,10 @@ export function SettingsManagementClient({
               <div className="space-y-6 animate-in fade-in duration-200">
                 {/* Hero Section Banner Card */}
                 <Card className="p-6 space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#242122] pb-3">
+                  <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
                     <div className="flex items-center gap-2">
-                      <LayoutTemplate className="w-4 h-4 text-[#931827]" />
-                      <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                      <LayoutTemplate className="w-4 h-4 text-[var(--brand)]" />
+                      <h3 className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
                         Hero Banner Content
                       </h3>
                     </div>
@@ -666,14 +666,14 @@ export function SettingsManagementClient({
 
                 {/* Homepage Section Visibility Toggles Card */}
                 <Card className="p-6 space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#242122] pb-3">
+                  <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
                     <div className="flex items-center gap-2">
-                      <Eye className="w-4 h-4 text-[#931827]" />
-                      <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                      <Eye className="w-4 h-4 text-[var(--brand)]" />
+                      <h3 className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
                         Homepage Sections Visibility
                       </h3>
                     </div>
-                    <span className="text-xs text-zinc-400">Toggle active modules</span>
+                    <span className="text-xs text-[var(--text-muted)]">Toggle active modules</span>
                   </div>
 
                   <div className="space-y-3">
@@ -711,11 +711,11 @@ export function SettingsManagementClient({
                     ].map((section) => (
                       <div
                         key={section.key}
-                        className="flex items-center justify-between p-3.5 rounded-xl bg-[#0e0d0e] border border-[#262223]"
+                        className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--surface)] border border-[var(--border-subtle)]"
                       >
                         <div>
-                          <p className="text-xs font-semibold text-white">{section.label}</p>
-                          <p className="text-[11px] text-zinc-400">{section.desc}</p>
+                          <p className="text-xs font-semibold text-[var(--foreground)]">{section.label}</p>
+                          <p className="text-[11px] text-[var(--text-muted)]">{section.desc}</p>
                         </div>
                         <input
                           type="checkbox"
@@ -735,10 +735,10 @@ export function SettingsManagementClient({
               <div className="space-y-6 animate-in fade-in duration-200">
                 {/* About Page Content Card */}
                 <Card className="p-6 space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#242122] pb-3">
+                  <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
                     <div className="flex items-center gap-2">
-                      <Info className="w-4 h-4 text-[#931827]" />
-                      <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                      <Info className="w-4 h-4 text-[var(--brand)]" />
+                      <h3 className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
                         About Page Content
                       </h3>
                     </div>
@@ -772,10 +772,10 @@ export function SettingsManagementClient({
 
                 {/* Festival Details Card */}
                 <Card className="p-6 space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#242122] pb-3">
+                  <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-[#931827]" />
-                      <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                      <Sparkles className="w-4 h-4 text-[var(--brand)]" />
+                      <h3 className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
                         Festival Logistics & Schedule Dates
                       </h3>
                     </div>
@@ -840,10 +840,10 @@ export function SettingsManagementClient({
               <div className="space-y-6 animate-in fade-in duration-200">
                 {/* Contact Information Card */}
                 <Card className="p-6 space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#242122] pb-3">
+                  <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
                     <div className="flex items-center gap-2">
-                      <Phone className="w-4 h-4 text-[#931827]" />
-                      <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                      <Phone className="w-4 h-4 text-[var(--brand)]" />
+                      <h3 className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
                         Helpdesk & Contact Info
                       </h3>
                     </div>
@@ -886,10 +886,10 @@ export function SettingsManagementClient({
 
                 {/* Social Channels Card */}
                 <Card className="p-6 space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#242122] pb-3">
+                  <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
                     <div className="flex items-center gap-2">
-                      <Share2 className="w-4 h-4 text-[#931827]" />
-                      <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                      <Share2 className="w-4 h-4 text-[var(--brand)]" />
+                      <h3 className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
                         Social Media Channels
                       </h3>
                     </div>
@@ -933,14 +933,14 @@ export function SettingsManagementClient({
               <div className="space-y-6 animate-in fade-in duration-200">
                 {/* Navigation Visibility Card */}
                 <Card className="p-6 space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#242122] pb-3">
+                  <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
                     <div className="flex items-center gap-2">
-                      <Compass className="w-4 h-4 text-[#931827]" />
-                      <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                      <Compass className="w-4 h-4 text-[var(--brand)]" />
+                      <h3 className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
                         Public Navigation Visibility
                       </h3>
                     </div>
-                    <span className="text-xs text-zinc-400">Header & Mobile links</span>
+                    <span className="text-xs text-[var(--text-muted)]">Header & Mobile links</span>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -955,9 +955,9 @@ export function SettingsManagementClient({
                     ].map((item) => (
                       <div
                         key={item.key}
-                        className="flex items-center justify-between p-3 rounded-xl bg-[#0e0d0e] border border-[#262223]"
+                        className="flex items-center justify-between p-3 rounded-xl bg-[var(--surface)] border border-[var(--border-subtle)]"
                       >
-                        <span className="text-xs font-semibold text-white">{item.label}</span>
+                        <span className="text-xs font-semibold text-[var(--foreground)]">{item.label}</span>
                         <input
                           type="checkbox"
                           checked={formData[item.key]}
@@ -971,8 +971,8 @@ export function SettingsManagementClient({
 
                 {/* Footer Content Card */}
                 <Card className="p-6 space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#242122] pb-3">
-                    <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                  <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
+                    <h3 className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
                       Footer Text & Copyright
                     </h3>
                   </div>
@@ -997,8 +997,8 @@ export function SettingsManagementClient({
 
                 {/* SEO & Meta Card */}
                 <Card className="p-6 space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#242122] pb-3">
-                    <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                  <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
+                    <h3 className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
                       Search Engine Optimization & Social Sharing
                     </h3>
                   </div>
@@ -1043,7 +1043,7 @@ export function SettingsManagementClient({
               <Button
                 type="submit"
                 disabled={saving}
-                className="gap-2 shadow-xl shadow-[#931827]/30"
+                className="gap-2 shadow-xl shadow-[var(--brand)]/30"
               >
                 <Save className="w-4 h-4" />
                 <span>{saving ? "Saving Customizations..." : "Save Customizations"}</span>
@@ -1055,19 +1055,19 @@ export function SettingsManagementClient({
           <div className="lg:col-span-5 sticky top-20 space-y-4">
             <div className="flex items-center justify-between px-2">
               <div className="flex items-center gap-2">
-                <Eye className="w-4 h-4 text-[#931827]" />
-                <span className="text-xs font-bold uppercase tracking-wider text-white">
+                <Eye className="w-4 h-4 text-[var(--brand)]" />
+                <span className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">
                   Real-Time Portal Preview
                 </span>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#181617] border border-[#2d292a] text-zinc-400">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[var(--surface-hover)] border border-[var(--border-subtle)] text-[var(--text-muted)]">
                 Interactive
               </span>
             </div>
 
             {/* Simulated Live Viewport Container */}
             <div
-              className="rounded-3xl border border-[#2d292a] overflow-hidden shadow-2xl transition-all duration-300"
+              className="rounded-3xl border border-[var(--border-subtle)] overflow-hidden shadow-2xl transition-all duration-300"
               style={{
                 backgroundColor: formData.backgroundColor || "#000000",
                 borderColor: formData.borderColor || "#2d292a",
@@ -1233,7 +1233,7 @@ export function SettingsManagementClient({
                 }}
               >
                 <span className="truncate max-w-[180px]">{formData.copyrightText}</span>
-                <span className="font-semibold text-white">{formData.contactEmail}</span>
+                <span className="font-semibold text-[var(--foreground)]">{formData.contactEmail}</span>
               </div>
             </div>
           </div>
@@ -1245,10 +1245,10 @@ export function SettingsManagementClient({
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h3 className="text-base font-bold text-white tracking-tight">
+                <h3 className="text-base font-bold text-[var(--foreground)] tracking-tight">
                   Festival Factions / Houses
                 </h3>
-                <p className="text-xs text-zinc-400">
+                <p className="text-xs text-[var(--text-muted)]">
                   Manage the 4 championship factions competing for the festival trophy.
                 </p>
               </div>
@@ -1261,7 +1261,7 @@ export function SettingsManagementClient({
 
             {houses.length === 0 ? (
               <Card className="p-8 text-center space-y-3">
-                <p className="text-sm text-zinc-400">No houses registered in database.</p>
+                <p className="text-sm text-[var(--text-muted)]">No houses registered in database.</p>
                 <Button onClick={handleSeedData} size="sm" variant="outline" className="gap-2">
                   <Database className="w-4 h-4" />
                   <span>Seed Default 4 Houses</span>
@@ -1272,7 +1272,7 @@ export function SettingsManagementClient({
                 {houses.map((house) => (
                   <Card key={house.id} className="p-5 space-y-3 relative group">
                     <div className="flex items-center justify-between">
-                      <div className="w-8 h-8 rounded-xl bg-[#931827] flex items-center justify-center font-bold text-white text-xs">
+                      <div className="w-8 h-8 rounded-xl bg-[var(--brand)] flex items-center justify-center font-bold text-white text-xs">
                         {house.shortName || house.name.slice(0, 2).toUpperCase()}
                       </div>
                       <Badge variant="neutral">
@@ -1281,18 +1281,18 @@ export function SettingsManagementClient({
                     </div>
 
                     <div>
-                      <h4 className="text-base font-bold text-white tracking-tight">
+                      <h4 className="text-base font-bold text-[var(--foreground)] tracking-tight">
                         {house.name}
                       </h4>
-                      <p className="text-xs text-zinc-400 mt-1 line-clamp-2">
+                      <p className="text-xs text-[var(--text-muted)] mt-1 line-clamp-2">
                         {house.description || "No description provided."}
                       </p>
                     </div>
 
-                    <div className="pt-2 border-t border-[#232021] flex justify-end">
+                    <div className="pt-2 border-t border-[var(--border-subtle)] flex justify-end">
                       <button
                         onClick={() => setDeleteHouseTarget(house)}
-                        className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-950/20 transition cursor-pointer"
+                        className="p-1.5 rounded-lg text-[var(--text-dim)] hover:text-red-400 hover:bg-red-950/20 transition cursor-pointer"
                         title="Delete House"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -1305,12 +1305,12 @@ export function SettingsManagementClient({
           </div>
 
           {/* User Role Access Control */}
-          <div className="space-y-4 pt-6 border-t border-[#232021]">
+          <div className="space-y-4 pt-6 border-t border-[var(--border-subtle)]">
             <div>
-              <h3 className="text-base font-bold text-white tracking-tight">
+              <h3 className="text-base font-bold text-[var(--foreground)] tracking-tight">
                 User Access & Permissions
               </h3>
-              <p className="text-xs text-zinc-400">
+              <p className="text-xs text-[var(--text-muted)]">
                 Grant elevated coordinator, volunteer, judge, or admin capabilities to registered campus accounts.
               </p>
             </div>
@@ -1318,7 +1318,7 @@ export function SettingsManagementClient({
             <Card className="overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-[#181617] border-b border-[#2d292a] text-zinc-400 uppercase font-semibold">
+                  <thead className="bg-[var(--surface-hover)] border-b border-[var(--border-subtle)] text-[var(--text-muted)] uppercase font-semibold">
                     <tr>
                       <th className="px-4 py-3">User</th>
                       <th className="px-4 py-3">Email</th>
@@ -1326,11 +1326,11 @@ export function SettingsManagementClient({
                       <th className="px-4 py-3 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#232021]">
+                  <tbody className="divide-y divide-[var(--border-subtle)]">
                     {users.map((u) => (
-                      <tr key={u.id} className="hover:bg-[#161415] transition">
-                        <td className="px-4 py-3 font-semibold text-white">{u.name}</td>
-                        <td className="px-4 py-3 text-zinc-400 font-mono text-[11px]">{u.email}</td>
+                      <tr key={u.id} className="hover:bg-[var(--surface-hover)] transition">
+                        <td className="px-4 py-3 font-semibold text-[var(--foreground)]">{u.name}</td>
+                        <td className="px-4 py-3 text-[var(--text-muted)] font-mono text-[11px]">{u.email}</td>
                         <td className="px-4 py-3">
                           <Badge
                             variant={
@@ -1354,7 +1354,7 @@ export function SettingsManagementClient({
                               setRoleUserTarget(u);
                               setSelectedRole(u.role);
                             }}
-                            className="text-xs text-zinc-300 hover:text-white"
+                            className="text-xs text-[var(--text-muted)] hover:text-[var(--foreground)]"
                           >
                             Change Role
                           </Button>
@@ -1428,7 +1428,7 @@ export function SettingsManagementClient({
             rows={3}
           />
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#232021]">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-[var(--border-subtle)]">
             <Button
               type="button"
               variant="outline"
@@ -1451,18 +1451,18 @@ export function SettingsManagementClient({
         title={`Change Role: ${roleUserTarget?.name}`}
       >
         <form onSubmit={handleUpdateRole} className="space-y-4">
-          <p className="text-xs text-zinc-400">
-            Select the new permission level for <span className="text-white font-semibold">{roleUserTarget?.email}</span>.
+          <p className="text-xs text-[var(--text-muted)]">
+            Select the new permission level for <span className="text-[var(--foreground)] font-semibold">{roleUserTarget?.email}</span>.
           </p>
 
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+            <label className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider">
               Role Permission Level
             </label>
             <select
               value={selectedRole}
               onChange={(e) => setSelectedRole(e.target.value as UserRole)}
-              className="w-full rounded-xl border border-[#2e2a2b] bg-[#0c0b0c] px-4 py-2.5 text-xs text-white outline-none focus:border-[#931827] cursor-pointer"
+              className="w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] px-4 py-2.5 text-xs text-white outline-none focus:border-[#931827] cursor-pointer"
             >
               {USER_ROLES.map((r) => (
                 <option key={r} value={r}>
@@ -1472,7 +1472,7 @@ export function SettingsManagementClient({
             </select>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#232021]">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-[var(--border-subtle)]">
             <Button
               type="button"
               variant="outline"

@@ -230,45 +230,45 @@ export function CategoryManagementClient({
       {/* Stats Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         <Card className="p-4 space-y-1">
-          <p className="text-xs font-medium text-zinc-400">Total Categories</p>
+          <p className="text-xs font-medium text-[var(--text-muted)]">Total Categories</p>
           <p className="text-xl font-bold text-white font-mono">
             {categories.length}
           </p>
         </Card>
 
         <Card className="p-4 space-y-1">
-          <p className="text-xs font-medium text-zinc-400">Active Categories</p>
+          <p className="text-xs font-medium text-[var(--text-muted)]">Active Categories</p>
           <p className="text-xl font-bold text-emerald-400 font-mono">
             {activeCount}
           </p>
         </Card>
 
         <Card className="p-4 space-y-1">
-          <p className="text-xs font-medium text-zinc-400">Inactive Categories</p>
-          <p className="text-xl font-bold text-zinc-400 font-mono">
+          <p className="text-xs font-medium text-[var(--text-muted)]">Inactive Categories</p>
+          <p className="text-xl font-bold text-[var(--text-muted)] font-mono">
             {categories.length - activeCount}
           </p>
         </Card>
 
         <Card className="p-4 space-y-1">
-          <p className="text-xs font-medium text-zinc-400">Categorized Events</p>
-          <p className="text-xl font-bold text-[#931827] font-mono">
+          <p className="text-xs font-medium text-[var(--text-muted)]">Categorized Events</p>
+          <p className="text-xl font-bold text-[var(--brand)] font-mono">
             {totalEventCount}
           </p>
         </Card>
       </div>
 
       {/* Action and Filter Controls */}
-      <div className="p-4 rounded-2xl border border-[#2d292a] bg-[#121112] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+      <div className="p-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface)] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3 flex-1">
           <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search category by name or description..."
-              className="w-full rounded-xl border border-[#332f30] bg-[#0c0b0c] pl-10 pr-4 py-2 text-xs text-white placeholder-zinc-500 outline-none focus:border-[#931827]"
+              className="w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] pl-10 pr-4 py-2 text-xs text-white placeholder-zinc-500 outline-none focus:border-[#931827]"
             />
           </div>
 
@@ -278,7 +278,7 @@ export function CategoryManagementClient({
               setStatusFilter(e.target.value as "ALL" | "ACTIVE" | "INACTIVE")
             }
             aria-label="Filter by Status"
-            className="rounded-xl border border-[#332f30] bg-[#181617] px-3.5 py-2 text-xs text-zinc-300 outline-none focus:border-[#931827] cursor-pointer"
+            className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-hover)] px-3.5 py-2 text-xs text-[var(--text-muted)] outline-none focus:border-[#931827] cursor-pointer"
           >
             <option value="ALL">All Statuses</option>
             <option value="ACTIVE">Active Only</option>
@@ -295,7 +295,7 @@ export function CategoryManagementClient({
       {/* Categories Content */}
       {filteredCategories.length === 0 ? (
         <EmptyState
-          icon={<Tag className="w-6 h-6 text-zinc-500" />}
+          icon={<Tag className="w-6 h-6 text-[var(--text-dim)]" />}
           title="No categories found"
           description={
             search || statusFilter !== "ALL"
@@ -331,14 +331,14 @@ export function CategoryManagementClient({
                       <TableRow key={cat.id}>
                         <TableCell>
                           <div className="flex items-center gap-1">
-                            <span className="font-mono text-xs text-zinc-400 font-bold w-5">
+                            <span className="font-mono text-xs text-[var(--text-muted)] font-bold w-5">
                               {cat.sortOrder}
                             </span>
                             <div className="flex flex-col">
                               <button
                                 onClick={() => handleMoveOrder(originalIndex, "up")}
                                 disabled={originalIndex === 0 || reordering}
-                                className="text-zinc-500 hover:text-white disabled:opacity-20 p-0.5"
+                                className="text-[var(--text-dim)] hover:text-[var(--foreground)] disabled:opacity-20 p-0.5"
                                 title="Move up"
                                 aria-label="Move category up"
                               >
@@ -352,7 +352,7 @@ export function CategoryManagementClient({
                                   originalIndex === categories.length - 1 ||
                                   reordering
                                 }
-                                className="text-zinc-500 hover:text-white disabled:opacity-20 p-0.5"
+                                className="text-[var(--text-dim)] hover:text-[var(--foreground)] disabled:opacity-20 p-0.5"
                                 title="Move down"
                                 aria-label="Move category down"
                               >
@@ -375,13 +375,13 @@ export function CategoryManagementClient({
                           </div>
                         </TableCell>
                         <TableCell>
-                          <p className="text-xs text-zinc-400 line-clamp-1 max-w-md">
+                          <p className="text-xs text-[var(--text-muted)] line-clamp-1 max-w-md">
                             {cat.description || "—"}
                           </p>
                         </TableCell>
                         <TableCell>
-                          <div className="flex items-center gap-1.5 text-xs text-zinc-300">
-                            <Calendar className="w-3.5 h-3.5 text-zinc-500" />
+                          <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)]">
+                            <Calendar className="w-3.5 h-3.5 text-[var(--text-dim)]" />
                             <span>{cat.eventCount || 0} events</span>
                           </div>
                         </TableCell>
@@ -441,7 +441,7 @@ export function CategoryManagementClient({
               return (
                 <div
                   key={cat.id}
-                  className="p-4 rounded-xl border border-[#2d292a] bg-[#141314] space-y-3"
+                  className="p-4 rounded-xl border border-[var(--border-subtle)] bg-[#141314] space-y-3"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2">
@@ -470,12 +470,12 @@ export function CategoryManagementClient({
                   </div>
 
                   {cat.description && (
-                    <p className="text-xs text-zinc-400">{cat.description}</p>
+                    <p className="text-xs text-[var(--text-muted)]">{cat.description}</p>
                   )}
 
-                  <div className="flex items-center justify-between pt-2 border-t border-[#232021] text-xs text-zinc-400">
+                  <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subtle)] text-xs text-[var(--text-muted)]">
                     <div className="flex items-center gap-1.5">
-                      <span className="font-mono text-zinc-500">Order:</span>
+                      <span className="font-mono text-[var(--text-dim)]">Order:</span>
                       <span className="font-mono font-bold text-white">
                         {cat.sortOrder}
                       </span>
@@ -483,7 +483,7 @@ export function CategoryManagementClient({
                         <button
                           onClick={() => handleMoveOrder(originalIndex, "up")}
                           disabled={originalIndex === 0 || reordering}
-                          className="text-zinc-500 hover:text-white disabled:opacity-20 p-1"
+                          className="text-[var(--text-dim)] hover:text-[var(--foreground)] disabled:opacity-20 p-1"
                         >
                           <ArrowUp className="w-3 h-3" />
                         </button>
@@ -495,7 +495,7 @@ export function CategoryManagementClient({
                             originalIndex === categories.length - 1 ||
                             reordering
                           }
-                          className="text-zinc-500 hover:text-white disabled:opacity-20 p-1"
+                          className="text-[var(--text-dim)] hover:text-[var(--foreground)] disabled:opacity-20 p-1"
                         >
                           <ArrowDown className="w-3 h-3" />
                         </button>
@@ -503,12 +503,12 @@ export function CategoryManagementClient({
                     </div>
 
                     <div className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5 text-zinc-500" />
+                      <Calendar className="w-3.5 h-3.5 text-[var(--text-dim)]" />
                       <span>{cat.eventCount || 0} events</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#232021]">
+                  <div className="flex items-center justify-end gap-2 pt-2 border-t border-[var(--border-subtle)]">
                     <Button
                       variant="secondary"
                       size="sm"
@@ -568,7 +568,7 @@ export function CategoryManagementClient({
           />
 
           <div className="space-y-2">
-            <label className="block text-xs font-medium text-zinc-300 uppercase tracking-wider">
+            <label className="block text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
               Category Color Accent
             </label>
             <div className="flex items-center gap-3">
@@ -577,7 +577,7 @@ export function CategoryManagementClient({
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
                 aria-label="Color Picker"
-                className="w-10 h-10 rounded-xl border border-[#383334] bg-[#0d0c0d] p-0.5 cursor-pointer"
+                className="w-10 h-10 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] p-0.5 cursor-pointer"
               />
               <Input
                 value={color}
@@ -618,7 +618,7 @@ export function CategoryManagementClient({
             />
 
             <div className="space-y-2 flex flex-col justify-center pt-2">
-              <label className="text-xs font-medium text-zinc-300 uppercase tracking-wider">
+              <label className="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                 Active Status
               </label>
               <div className="flex items-center gap-2">
@@ -627,11 +627,11 @@ export function CategoryManagementClient({
                   id="categoryIsActive"
                   checked={isActive}
                   onChange={(e) => setIsActive(e.target.checked)}
-                  className="rounded border-[#383334] text-[#931827] focus:ring-[#931827]"
+                  className="rounded border-[var(--border-subtle)] text-[var(--brand)] focus:ring-[#931827]"
                 />
                 <label
                   htmlFor="categoryIsActive"
-                  className="text-xs text-zinc-300 cursor-pointer"
+                  className="text-xs text-[var(--text-muted)] cursor-pointer"
                 >
                   Active & visible in event forms
                 </label>
@@ -640,14 +640,14 @@ export function CategoryManagementClient({
           </div>
 
           {editTarget && (editTarget.eventCount || 0) > 0 && (
-            <div className="p-3 rounded-xl bg-[#1f1b1c] border border-[#3d3738] text-xs text-zinc-300">
+            <div className="p-3 rounded-xl bg-[#1f1b1c] border border-[#3d3738] text-xs text-[var(--text-muted)]">
               <span className="font-semibold text-white">Note:</span> Renaming
               this category will automatically update all {editTarget.eventCount}{" "}
               associated event(s).
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
             <Button
               type="button"
               variant="outline"
@@ -694,15 +694,15 @@ export function CategoryManagementClient({
               <h3 className="text-sm font-semibold text-white">
                 Cannot Delete Category &quot;{deleteWarningTarget?.name}&quot;
               </h3>
-              <p className="text-xs text-zinc-300 leading-relaxed">
+              <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                 This category is currently assigned to{" "}
-                <strong className="text-white font-mono">
+                <strong className="text-[var(--foreground)] font-mono">
                   {deleteWarningTarget?.eventCount}
                 </strong>{" "}
                 event(s). Deleting it would break existing event records, scoring,
                 and leaderboard filters.
               </p>
-              <p className="text-xs text-zinc-400">
+              <p className="text-xs text-[var(--text-muted)]">
                 To prevent new events from selecting this category while
                 preserving existing data, you can{" "}
                 <strong className="text-amber-300">deactivate</strong> it instead.
@@ -710,7 +710,7 @@ export function CategoryManagementClient({
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
             <Button
               variant="outline"
               size="sm"

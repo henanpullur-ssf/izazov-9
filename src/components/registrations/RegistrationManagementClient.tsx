@@ -346,7 +346,7 @@ export function RegistrationManagementClient({
 
       {filteredRegistrations.length === 0 ? (
         <EmptyState
-          icon={<ClipboardList className="w-6 h-6 text-zinc-500" />}
+          icon={<ClipboardList className="w-6 h-6 text-[var(--text-dim)]" />}
           title="No registrations found"
           description={
             search || selectedEvent !== "ALL" || selectedStatus !== "ALL"
@@ -382,7 +382,7 @@ export function RegistrationManagementClient({
                       </TableCell>
                       <TableCell>
                         <div className="space-y-0.5">
-                          <span className="font-semibold text-white text-xs">
+                          <span className="font-semibold text-[var(--foreground)] text-xs">
                             {r.event.name}
                           </span>
                           <div>
@@ -403,11 +403,11 @@ export function RegistrationManagementClient({
                             {r.participants.map((p) => (
                               <span
                                 key={p.participant.id}
-                                className="text-xs text-zinc-300 bg-[#1e1c1d] px-2 py-0.5 rounded-md border border-[#2e2a2b]"
+                                className="text-xs text-[var(--text-muted)] bg-[#1e1c1d] px-2 py-0.5 rounded-md border border-[var(--border-subtle)]"
                               >
                                 {p.participant.name}
                                 {p.participant.house && (
-                                  <span className="text-zinc-500 ml-1">
+                                  <span className="text-[var(--text-dim)] ml-1">
                                     ({p.participant.house.name})
                                   </span>
                                 )}
@@ -417,7 +417,7 @@ export function RegistrationManagementClient({
                         </div>
                       </TableCell>
                       <TableCell>
-                        <span className="text-xs text-zinc-400">
+                        <span className="text-xs text-[var(--text-muted)]">
                           {formatDate(r.registeredAt)}
                         </span>
                       </TableCell>
@@ -431,7 +431,7 @@ export function RegistrationManagementClient({
                             )
                           }
                           aria-label="Change registration status"
-                          className="rounded-lg border border-[#383334] bg-[#1a1819] px-2 py-1 text-xs text-white outline-none focus:border-[#931827] cursor-pointer"
+                          className="rounded-lg border border-[var(--border-subtle)] bg-[var(--surface-elevated)] px-2 py-1 text-xs text-white outline-none focus:border-[#931827] cursor-pointer"
                         >
                           {REGISTRATION_STATUSES.map((st) => (
                             <option key={st} value={st}>
@@ -471,11 +471,11 @@ export function RegistrationManagementClient({
             {filteredRegistrations.map((r) => (
               <div
                 key={r.id}
-                className="p-4 rounded-xl border border-[#2d292a] bg-[#141314] space-y-3"
+                className="p-4 rounded-xl border border-[var(--border-subtle)] bg-[#141314] space-y-3"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-1">
-                    <span className="text-xs font-mono text-[#931827] font-bold">
+                    <span className="text-xs font-mono text-[var(--brand)] font-bold">
                       {r.registrationNumber}
                     </span>
                     <h3 className="font-semibold text-white text-sm">
@@ -485,17 +485,17 @@ export function RegistrationManagementClient({
                   <StatusBadge status={r.status} />
                 </div>
 
-                <div className="space-y-1 text-xs text-zinc-300 pt-2 border-t border-[#232021]">
+                <div className="space-y-1 text-xs text-[var(--text-muted)] pt-2 border-t border-[var(--border-subtle)]">
                   {r.teamName && (
                     <p className="font-bold text-red-400">Team: {r.teamName}</p>
                   )}
-                  <p className="text-zinc-400">
+                  <p className="text-[var(--text-muted)]">
                     Participants:{" "}
                     {r.participants.map((p) => p.participant.name).join(", ")}
                   </p>
                 </div>
 
-                  <div className="flex items-center justify-between gap-2 pt-2 border-t border-[#232021]">
+                  <div className="flex items-center justify-between gap-2 pt-2 border-t border-[var(--border-subtle)]">
                     <select
                       value={r.status}
                       onChange={(e) =>
@@ -505,7 +505,7 @@ export function RegistrationManagementClient({
                         )
                       }
                       aria-label="Change registration status"
-                      className="rounded-lg border border-[#383334] bg-[#1a1819] px-2 py-1 text-xs text-white outline-none focus:border-[#931827]"
+                      className="rounded-lg border border-[var(--border-subtle)] bg-[var(--surface-elevated)] px-2 py-1 text-xs text-white outline-none focus:border-[#931827]"
                     >
                       {REGISTRATION_STATUSES.map((st) => (
                         <option key={st} value={st}>
@@ -599,7 +599,7 @@ export function RegistrationManagementClient({
               {/* Req A + B: participant picker with search and limit display */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="block text-xs font-medium text-zinc-300 uppercase tracking-wider">
+                  <label className="block text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                     Select Participants
                   </label>
                   {/* Req B: X / Y counter */}
@@ -608,7 +608,7 @@ export function RegistrationManagementClient({
                       createEventData?.maxParticipants != null &&
                       selectedParticipantIds.length >= createEventData.maxParticipants
                         ? "bg-red-950/50 text-red-300 border-red-800"
-                        : "bg-[#1e1c1d] text-zinc-300 border-[#2e2a2b]"
+                        : "bg-[#1e1c1d] text-[var(--text-muted)] border-[var(--border-subtle)]"
                     }`}
                   >
                     {selectedParticipantIds.length}
@@ -630,24 +630,24 @@ export function RegistrationManagementClient({
 
                 {/* Req A: participant search */}
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500 pointer-events-none" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--text-dim)] pointer-events-none" />
                   <input
                     type="text"
                     value={participantSearch}
                     onChange={(e) => setParticipantSearch(e.target.value)}
                     placeholder="Search by name, ID, or house..."
-                    className="w-full rounded-xl border border-[#2d292a] bg-[#0c0b0c] pl-9 pr-3 py-2 text-xs text-white placeholder-zinc-600 outline-none focus:border-[#931827] focus:ring-1 focus:ring-[#931827]/30 transition"
+                    className="w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] pl-9 pr-3 py-2 text-xs text-white placeholder-zinc-600 outline-none focus:border-[#931827] focus:ring-1 focus:ring-[#931827]/30 transition"
                     aria-label="Search participants"
                   />
                 </div>
 
-                <div className="max-h-48 overflow-y-auto rounded-xl border border-[#2d292a] bg-[#0c0b0c] p-3 divide-y divide-[#1f1c1d]">
+                <div className="max-h-48 overflow-y-auto rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] p-3 divide-y divide-[#1f1c1d]">
                   {participants.length === 0 ? (
-                    <p className="text-xs text-zinc-500 text-center py-2">
+                    <p className="text-xs text-[var(--text-dim)] text-center py-2">
                       No participants available. Add participants first.
                     </p>
                   ) : createFilteredParticipants.length === 0 ? (
-                    <p className="text-xs text-zinc-500 text-center py-4">
+                    <p className="text-xs text-[var(--text-dim)] text-center py-4">
                       No participants match &ldquo;{participantSearch}&rdquo;
                     </p>
                   ) : (
@@ -669,15 +669,15 @@ export function RegistrationManagementClient({
                           }
                           className={`py-2 px-2 flex items-center justify-between rounded-lg transition ${
                             isSelected
-                              ? "bg-[#251517] text-white cursor-pointer"
+                              ? "bg-[var(--surface-card)] text-white cursor-pointer"
                               : disabled
                               ? "opacity-40 cursor-not-allowed"
-                              : "hover:bg-[#181617] cursor-pointer"
+                              : "hover:bg-[var(--surface-hover)] cursor-pointer"
                           }`}
                         >
                           <div>
                             <p className="text-xs font-semibold">{p.name}</p>
-                            <p className="text-[10px] text-zinc-400">
+                            <p className="text-[10px] text-[var(--text-muted)]">
                               {p.participantId}
                               {p.houseName ? ` • ${p.houseName}` : ""}
                             </p>
@@ -688,7 +688,7 @@ export function RegistrationManagementClient({
                             onChange={() => {}}
                             disabled={disabled}
                             aria-label={`Select ${p.name}`}
-                            className="rounded border-[#383334] text-[#931827] focus:ring-[#931827] disabled:opacity-50"
+                            className="rounded border-[var(--border-subtle)] text-[var(--brand)] focus:ring-[#931827] disabled:opacity-50"
                           />
                         </div>
                       );
@@ -711,7 +711,7 @@ export function RegistrationManagementClient({
             </>
           )}
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
             <Button
               type="button"
               variant="outline"
@@ -738,17 +738,17 @@ export function RegistrationManagementClient({
         {editTarget && (
           <form onSubmit={handleEdit} className="space-y-4">
             {/* Read-only identity banner */}
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2.5 rounded-xl border border-[#2d292a] bg-[#0c0b0c]">
-              <span className="text-xs text-zinc-500 uppercase tracking-wider">Reg #</span>
-              <span className="font-mono text-xs font-bold text-[#931827]">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2.5 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)]">
+              <span className="text-xs text-[var(--text-dim)] uppercase tracking-wider">Reg #</span>
+              <span className="font-mono text-xs font-bold text-[var(--brand)]">
                 {editTarget.registrationNumber}
               </span>
-              <span className="text-zinc-600">·</span>
-              <span className="text-xs text-zinc-400">
+              <span className="text-[var(--text-dim)]">·</span>
+              <span className="text-xs text-[var(--text-muted)]">
                 {editTarget.event.code} — {editTarget.event.name}
               </span>
-              <span className="text-zinc-600">·</span>
-              <span className="text-xs text-zinc-500">
+              <span className="text-[var(--text-dim)]">·</span>
+              <span className="text-xs text-[var(--text-dim)]">
                 Registered {formatDate(editTarget.registeredAt)}
               </span>
             </div>
@@ -781,7 +781,7 @@ export function RegistrationManagementClient({
             {/* Participants section */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="block text-xs font-medium text-zinc-300 uppercase tracking-wider">
+                <label className="block text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                   Participants
                 </label>
                 {/* Req B: X / Y counter */}
@@ -790,7 +790,7 @@ export function RegistrationManagementClient({
                     editEventData?.maxParticipants != null &&
                     editSelectedParticipantIds.length >= editEventData.maxParticipants
                       ? "bg-red-950/50 text-red-300 border-red-800"
-                      : "bg-[#1e1c1d] text-zinc-300 border-[#2e2a2b]"
+                      : "bg-[#1e1c1d] text-[var(--text-muted)] border-[var(--border-subtle)]"
                   }`}
                 >
                   {editSelectedParticipantIds.length}
@@ -825,30 +825,30 @@ export function RegistrationManagementClient({
 
                   {/* Req A: participant search for edit */}
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500 pointer-events-none" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--text-dim)] pointer-events-none" />
                     <input
                       type="text"
                       value={editParticipantSearch}
                       onChange={(e) => setEditParticipantSearch(e.target.value)}
                       placeholder="Search by name, ID, or house..."
-                      className="w-full rounded-xl border border-[#2d292a] bg-[#0c0b0c] pl-9 pr-3 py-2 text-xs text-white placeholder-zinc-600 outline-none focus:border-[#931827] focus:ring-1 focus:ring-[#931827]/30 transition"
+                      className="w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] pl-9 pr-3 py-2 text-xs text-white placeholder-zinc-600 outline-none focus:border-[#931827] focus:ring-1 focus:ring-[#931827]/30 transition"
                       aria-label="Search participants"
                     />
                   </div>
                 </>
               )}
 
-              <div className="max-h-48 overflow-y-auto rounded-xl border border-[#2d292a] bg-[#0c0b0c] p-3 divide-y divide-[#1f1c1d]">
+              <div className="max-h-48 overflow-y-auto rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] p-3 divide-y divide-[#1f1c1d]">
                 {editHasJudgingData ? (
                   // Read-only participant list when judging data exists
                   editTarget.participants.map((p) => (
                     <div
                       key={p.participant.id}
-                      className="py-2 px-2 flex items-center justify-between rounded-lg bg-[#251517] text-white"
+                      className="py-2 px-2 flex items-center justify-between rounded-lg bg-[var(--surface-card)] text-white"
                     >
                       <div>
                         <p className="text-xs font-semibold">{p.participant.name}</p>
-                        <p className="text-[10px] text-zinc-400">
+                        <p className="text-[10px] text-[var(--text-muted)]">
                           {p.participant.participantId}
                           {p.participant.house ? ` • ${p.participant.house.name}` : ""}
                         </p>
@@ -858,16 +858,16 @@ export function RegistrationManagementClient({
                         checked
                         readOnly
                         disabled
-                        className="rounded border-[#383334] text-[#931827] opacity-50"
+                        className="rounded border-[var(--border-subtle)] text-[var(--brand)] opacity-50"
                       />
                     </div>
                   ))
                 ) : participants.length === 0 ? (
-                  <p className="text-xs text-zinc-500 text-center py-2">
+                  <p className="text-xs text-[var(--text-dim)] text-center py-2">
                     No participants available.
                   </p>
                 ) : editFilteredParticipants.length === 0 ? (
-                  <p className="text-xs text-zinc-500 text-center py-4">
+                  <p className="text-xs text-[var(--text-dim)] text-center py-4">
                     No participants match &ldquo;{editParticipantSearch}&rdquo;
                   </p>
                 ) : (
@@ -889,15 +889,15 @@ export function RegistrationManagementClient({
                         }
                         className={`py-2 px-2 flex items-center justify-between rounded-lg transition ${
                           isSelected
-                            ? "bg-[#251517] text-white cursor-pointer"
+                            ? "bg-[var(--surface-card)] text-white cursor-pointer"
                             : disabled
                             ? "opacity-40 cursor-not-allowed"
-                            : "hover:bg-[#181617] cursor-pointer"
+                            : "hover:bg-[var(--surface-hover)] cursor-pointer"
                         }`}
                       >
                         <div>
                           <p className="text-xs font-semibold">{p.name}</p>
-                          <p className="text-[10px] text-zinc-400">
+                          <p className="text-[10px] text-[var(--text-muted)]">
                             {p.participantId}
                             {p.houseName ? ` • ${p.houseName}` : ""}
                           </p>
@@ -908,7 +908,7 @@ export function RegistrationManagementClient({
                           onChange={() => {}}
                           disabled={disabled}
                           aria-label={`Select ${p.name}`}
-                          className="rounded border-[#383334] text-[#931827] focus:ring-[#931827] disabled:opacity-50"
+                          className="rounded border-[var(--border-subtle)] text-[var(--brand)] focus:ring-[#931827] disabled:opacity-50"
                         />
                       </div>
                     );
@@ -917,7 +917,7 @@ export function RegistrationManagementClient({
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+            <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
               <Button
                 type="button"
                 variant="outline"

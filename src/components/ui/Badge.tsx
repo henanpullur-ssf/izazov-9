@@ -32,7 +32,7 @@ export function Badge({
   const variantStyles: Record<BadgeVariant, string> = {
     default: "bg-[var(--surface-elevated)] text-[var(--text-muted)] border-[var(--border-subtle)]",
     primary: "bg-[var(--brand-muted)] text-[var(--brand)] border-[var(--brand)]/30 font-semibold",
-    secondary: "bg-[#8D4B26]/12 text-[#8D4B26] dark:text-[#E0A47B] border-[#8D4B26]/30",
+    secondary: "bg-[var(--brand-muted)] text-[var(--brand)] dark:text-[var(--brand-foreground)] border-[var(--brand)]/30",
     success: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30",
     warning: "bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30",
     danger: "bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-500/30",

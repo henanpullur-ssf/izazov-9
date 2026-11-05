@@ -137,13 +137,13 @@ export function Lightbox({
       onTouchEnd={handleTouchEnd}
     >
       {/* Top Header Bar */}
-      <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-zinc-800/80 bg-black/60 z-10">
+      <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-[var(--border-subtle)]/80 bg-black/60 z-10">
         <div className="flex items-center gap-3">
           <span className="text-xs font-mono font-medium text-blue-300 bg-blue-950/40 border border-blue-900/50 px-2.5 py-1 rounded-full">
             {currentIndex + 1} / {photos.length}
           </span>
           {currentPhoto.album?.name && (
-            <span className="hidden sm:inline-flex items-center gap-1 text-xs text-zinc-300 font-medium">
+            <span className="hidden sm:inline-flex items-center gap-1 text-xs text-[var(--text-muted)] font-medium">
               <Tag className="w-3 h-3 text-blue-400" />
               {currentPhoto.album.name}
             </span>
@@ -152,7 +152,7 @@ export function Lightbox({
 
         <button
           onClick={onClose}
-          className="p-2 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-800 transition cursor-pointer"
+          className="p-2 rounded-xl bg-[var(--surface-elevated)]/80 hover:bg-[var(--surface-elevated)] text-[var(--text-muted)] hover:text-[var(--foreground)] border border-[var(--border-subtle)] transition cursor-pointer"
           aria-label="Close Lightbox (Esc)"
         >
           <X className="w-5 h-5" />
@@ -165,7 +165,7 @@ export function Lightbox({
         {hasMultiple && (
           <button
             onClick={handlePrev}
-            className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/60 hover:bg-zinc-900 text-white border border-zinc-800/80 hover:border-zinc-700 transition shadow-2xl backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand)]"
+            className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/60 hover:bg-[var(--surface-elevated)] text-white border border-[var(--border-subtle)]/80 hover:border-[var(--border-strong)] transition shadow-2xl backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand)]"
             aria-label="Previous Photo (Left Arrow)"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -186,7 +186,7 @@ export function Lightbox({
         {hasMultiple && (
           <button
             onClick={handleNext}
-            className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/60 hover:bg-zinc-900 text-white border border-zinc-800/80 hover:border-zinc-700 transition shadow-2xl backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand)]"
+            className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/60 hover:bg-[var(--surface-elevated)] text-white border border-[var(--border-subtle)]/80 hover:border-[var(--border-strong)] transition shadow-2xl backdrop-blur-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand)]"
             aria-label="Next Photo (Right Arrow)"
           >
             <ChevronRight className="w-6 h-6" />
@@ -195,33 +195,33 @@ export function Lightbox({
       </div>
 
       {/* Bottom Metadata Bar */}
-      <div className="px-4 sm:px-8 py-4 border-t border-zinc-800/80 bg-black/75 z-10">
+      <div className="px-4 sm:px-8 py-4 border-t border-[var(--border-subtle)]/80 bg-black/75 z-10">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="space-y-1">
             <h3 className="text-sm sm:text-base font-bold text-white tracking-wide">
               {currentPhoto.title || "IZAZOV 9.0 Official Highlight"}
             </h3>
             {currentPhoto.caption && (
-              <p className="text-xs text-zinc-300 leading-relaxed max-w-2xl">
+              <p className="text-xs text-[var(--text-muted)] leading-relaxed max-w-2xl">
                 {currentPhoto.caption}
               </p>
             )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-zinc-400">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-[var(--text-muted)]">
             {currentPhoto.event && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#192332] border border-[#344052] text-blue-200 font-semibold">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-blue-200 font-semibold">
                 <Sparkles className="w-3.5 h-3.5 text-blue-400" />
                 {currentPhoto.event.name}
               </span>
             )}
             {currentPhoto.photographer && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300">
-                <Camera className="w-3.5 h-3.5 text-zinc-400" />
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-[var(--text-muted)]">
+                <Camera className="w-3.5 h-3.5 text-[var(--text-muted)]" />
                 {currentPhoto.photographer}
               </span>
             )}
-            <span className="inline-flex items-center gap-1.5 text-zinc-500 text-[11px]">
+            <span className="inline-flex items-center gap-1.5 text-[var(--text-dim)] text-[11px]">
               <Calendar className="w-3.5 h-3.5" />
               {new Date(currentPhoto.createdAt).toLocaleDateString("en-US", {
                 month: "short",

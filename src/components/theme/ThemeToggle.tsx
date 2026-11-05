@@ -81,7 +81,7 @@ export function ThemeToggle({
               : "text-[var(--text-muted)] hover:text-[var(--foreground)]"
           }`}
         >
-          <Sun className="w-3.5 h-3.5 text-amber-500" />
+          <Sun className="w-3.5 h-3.5 text-[var(--accent-gold)]" />
           <span>Light</span>
         </button>
         <button
@@ -95,7 +95,7 @@ export function ThemeToggle({
               : "text-[var(--text-muted)] hover:text-[var(--foreground)]"
           }`}
         >
-          <Moon className="w-3.5 h-3.5 text-blue-400" />
+          <Moon className="w-3.5 h-3.5 text-[var(--brand)]" />
           <span>Dark</span>
         </button>
         <button
@@ -109,7 +109,7 @@ export function ThemeToggle({
               : "text-[var(--text-muted)] hover:text-[var(--foreground)]"
           }`}
         >
-          <Laptop className="w-3.5 h-3.5 text-emerald-500" />
+          <Laptop className="w-3.5 h-3.5 text-[var(--accent-amber)]" />
           <span>System</span>
         </button>
       </div>
@@ -132,9 +132,9 @@ export function ThemeToggle({
         }
       >
         {mounted && resolvedTheme === "light" ? (
-          <Sun className={`${iconSize} text-amber-500`} />
+          <Sun className={`${iconSize} text-[var(--accent-gold)]`} />
         ) : (
-          <Moon className={`${iconSize} text-blue-400`} />
+          <Moon className={`${iconSize} text-[var(--brand)]`} />
         )}
       </button>
     );
@@ -163,9 +163,9 @@ export function ThemeToggle({
       >
         {mounted ? (
           resolvedTheme === "light" ? (
-            <Sun className={`${iconSize} text-amber-500`} />
+            <Sun className={`${iconSize} text-[var(--accent-gold)]`} />
           ) : (
-            <Moon className={`${iconSize} text-blue-400`} />
+            <Moon className={`${iconSize} text-[var(--brand)]`} />
           )
         ) : (
           <span className={`${iconSize} opacity-0`} />
@@ -200,10 +200,10 @@ export function ThemeToggle({
                   <Icon
                     className={`w-3.5 h-3.5 ${
                       opt.id === "light"
-                        ? "text-amber-500"
+                        ? "text-[var(--accent-gold)]"
                         : opt.id === "dark"
-                        ? "text-blue-400"
-                        : "text-emerald-500"
+                        ? "text-[var(--brand)]"
+                        : "text-[var(--accent-amber)]"
                     }`}
                   />
                   <span>{opt.label}</span>

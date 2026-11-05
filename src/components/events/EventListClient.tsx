@@ -148,7 +148,7 @@ export function EventListClient({
 
       {filteredEvents.length === 0 ? (
         <EmptyState
-          icon={<Sparkles className="w-6 h-6 text-zinc-500" />}
+          icon={<Sparkles className="w-6 h-6 text-[var(--text-dim)]" />}
           title="No events found"
           description={
             search || category !== "ALL" || status !== "ALL" || type !== "ALL"
@@ -188,7 +188,7 @@ export function EventListClient({
                             </Badge>
                           </div>
                           {evt._count && (
-                            <p className="text-xs text-zinc-500">
+                            <p className="text-xs text-[var(--text-dim)]">
                               {evt._count.registrations} registered •{" "}
                               {evt._count.judges} judges
                             </p>
@@ -196,21 +196,21 @@ export function EventListClient({
                         </div>
                       </TableCell>
                       <TableCell>
-                        <span className="text-xs font-medium text-zinc-300">
+                        <span className="text-xs font-medium text-[var(--text-muted)]">
                           {evt.category || "General"}
                         </span>
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-1.5 text-xs text-zinc-300">
-                          <Users className="w-3.5 h-3.5 text-zinc-500" />
+                        <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)]">
+                          <Users className="w-3.5 h-3.5 text-[var(--text-dim)]" />
                           <span>
                             {evt.type} (max {evt.maxParticipants || 1})
                           </span>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-1.5 text-xs text-zinc-400">
-                          <MapPin className="w-3.5 h-3.5 text-zinc-500" />
+                        <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)]">
+                          <MapPin className="w-3.5 h-3.5 text-[var(--text-dim)]" />
                           <span>{evt.venue?.name || "TBA"}</span>
                         </div>
                       </TableCell>
@@ -246,16 +246,16 @@ export function EventListClient({
             {filteredEvents.map((evt) => (
               <div
                 key={evt.id}
-                className="p-4 rounded-xl border border-[#2d292a] bg-[#141314] space-y-3"
+                className="p-4 rounded-xl border border-[var(--border-subtle)] bg-[#141314] space-y-3"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-1">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-mono font-bold text-[#931827]">
+                      <span className="text-xs font-mono font-bold text-[var(--brand)]">
                         {evt.code}
                       </span>
-                      <span className="text-xs text-zinc-400">•</span>
-                      <span className="text-xs text-zinc-400">{evt.category}</span>
+                      <span className="text-xs text-[var(--text-muted)]">•</span>
+                      <span className="text-xs text-[var(--text-muted)]">{evt.category}</span>
                     </div>
                     <h3 className="font-semibold text-white text-base">
                       {evt.name}
@@ -264,18 +264,18 @@ export function EventListClient({
                   <StatusBadge status={evt.status} />
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 text-xs text-zinc-400 pt-2 border-t border-[#232021]">
+                <div className="grid grid-cols-2 gap-2 text-xs text-[var(--text-muted)] pt-2 border-t border-[var(--border-subtle)]">
                   <div className="flex items-center gap-1.5">
-                    <Users className="w-3.5 h-3.5 text-zinc-500" />
+                    <Users className="w-3.5 h-3.5 text-[var(--text-dim)]" />
                     <span>{evt.type} ({evt.maxParticipants || 1})</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5 text-zinc-500" />
+                    <MapPin className="w-3.5 h-3.5 text-[var(--text-dim)]" />
                     <span className="truncate">{evt.venue?.name || "TBA"}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#232021]">
+                <div className="flex items-center justify-end gap-2 pt-2 border-t border-[var(--border-subtle)]">
                   <Link href={`/admin/events/${evt.id}`} className="flex-1">
                     <Button variant="secondary" size="sm" className="w-full">
                       <Eye className="w-3.5 h-3.5 mr-1" />

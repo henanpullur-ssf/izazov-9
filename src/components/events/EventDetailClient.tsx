@@ -180,33 +180,33 @@ export function EventDetailClient({
       {/* Meta Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         <Card className="p-4 space-y-1">
-          <p className="text-xs font-medium text-zinc-400">Venue</p>
+          <p className="text-xs font-medium text-[var(--text-muted)]">Venue</p>
           <p className="text-sm font-semibold text-white flex items-center gap-1.5">
-            <MapPin className="w-4 h-4 text-zinc-500 shrink-0" />
+            <MapPin className="w-4 h-4 text-[var(--text-dim)] shrink-0" />
             <span className="truncate">{event.venue?.name || "TBA"}</span>
           </p>
         </Card>
 
         <Card className="p-4 space-y-1">
-          <p className="text-xs font-medium text-zinc-400">Max Participants</p>
+          <p className="text-xs font-medium text-[var(--text-muted)]">Max Participants</p>
           <p className="text-sm font-semibold text-white flex items-center gap-1.5">
-            <Users className="w-4 h-4 text-zinc-500 shrink-0" />
+            <Users className="w-4 h-4 text-[var(--text-dim)] shrink-0" />
             <span>{event.maxParticipants || 1} per entry</span>
           </p>
         </Card>
 
         <Card className="p-4 space-y-1">
-          <p className="text-xs font-medium text-zinc-400">Duration</p>
+          <p className="text-xs font-medium text-[var(--text-muted)]">Duration</p>
           <p className="text-sm font-semibold text-white flex items-center gap-1.5">
-            <Clock className="w-4 h-4 text-zinc-500 shrink-0" />
+            <Clock className="w-4 h-4 text-[var(--text-dim)] shrink-0" />
             <span>{event.durationMinutes ? `${event.durationMinutes} mins` : "TBD"}</span>
           </p>
         </Card>
 
         <Card className="p-4 space-y-1">
-          <p className="text-xs font-medium text-zinc-400">Registrations</p>
+          <p className="text-xs font-medium text-[var(--text-muted)]">Registrations</p>
           <p className="text-sm font-semibold text-white flex items-center gap-1.5">
-            <ClipboardList className="w-4 h-4 text-zinc-500 shrink-0" />
+            <ClipboardList className="w-4 h-4 text-[var(--text-dim)] shrink-0" />
             <span>{event.registrations.length} registered</span>
           </p>
         </Card>
@@ -220,7 +220,7 @@ export function EventDetailClient({
           <Card>
             <CardHeader className="flex flex-row items-center justify-between py-4">
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-[#931827]" />
+                <Clock className="w-4 h-4 text-[var(--brand)]" />
                 <CardTitle className="text-base">Schedule Slots</CardTitle>
               </div>
               <Link href="/admin/schedule">
@@ -231,17 +231,17 @@ export function EventDetailClient({
             </CardHeader>
             <CardContent className="p-0 divide-y divide-[#231f20]">
               {event.schedules.length === 0 ? (
-                <div className="p-5 text-center text-xs text-zinc-500">
+                <div className="p-5 text-center text-xs text-[var(--text-dim)]">
                   No schedule slots assigned.
                 </div>
               ) : (
                 event.schedules.map((s) => (
                   <div key={s.id} className="p-4 flex items-center justify-between">
                     <div>
-                      <p className="text-xs font-semibold text-white">
+                      <p className="text-xs font-semibold text-[var(--foreground)]">
                         {formatDate(s.startTime)} • {formatTime(s.startTime)} - {formatTime(s.endTime)}
                       </p>
-                      <p className="text-[11px] text-zinc-400 mt-0.5">
+                      <p className="text-[11px] text-[var(--text-muted)] mt-0.5">
                         Venue: {s.venue?.name || event.venue?.name || "TBA"}
                         {s.notes && ` • ${s.notes}`}
                       </p>
@@ -256,7 +256,7 @@ export function EventDetailClient({
           <Card>
             <CardHeader className="py-4">
               <div className="flex items-center gap-2">
-                <Award className="w-4 h-4 text-[#931827]" />
+                <Award className="w-4 h-4 text-[var(--brand)]" />
                 <CardTitle className="text-base">Assigned Judges</CardTitle>
               </div>
             </CardHeader>
@@ -267,7 +267,7 @@ export function EventDetailClient({
                   value={selectedJudgeId}
                   onChange={(e) => setSelectedJudgeId(e.target.value)}
                   aria-label="Select Judge to Assign"
-                  className="flex-1 rounded-xl border border-[#2f2b2c] bg-[#100f10] px-3 py-2 text-xs text-white outline-none focus:border-[#931827]"
+                  className="flex-1 rounded-xl border border-[var(--border-subtle)] bg-[#100f10] px-3 py-2 text-xs text-white outline-none focus:border-[#931827]"
                 >
                   <option value="">Select Judge to Assign...</option>
                   {availableJudges.map((j) => (
@@ -289,7 +289,7 @@ export function EventDetailClient({
               {/* Judges List */}
               <div className="divide-y divide-[#231f20]">
                 {event.judges.length === 0 ? (
-                  <p className="text-xs text-zinc-500 py-3 text-center">
+                  <p className="text-xs text-[var(--text-dim)] py-3 text-center">
                     No judges assigned to this event yet.
                   </p>
                 ) : (
@@ -299,10 +299,10 @@ export function EventDetailClient({
                       className="py-2.5 flex items-center justify-between"
                     >
                       <div>
-                        <p className="text-xs font-semibold text-white">
+                        <p className="text-xs font-semibold text-[var(--foreground)]">
                           {j.judge.user.name}
                         </p>
-                        <p className="text-[10px] text-zinc-400">
+                        <p className="text-[10px] text-[var(--text-muted)]">
                           {j.judge.designation || "Judge"} •{" "}
                           {j.judge.organization || "Izazov Panel"}
                         </p>
@@ -329,7 +329,7 @@ export function EventDetailClient({
           <Card>
             <CardHeader className="flex flex-row items-center justify-between py-4">
               <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-[#931827]" />
+                <Users className="w-4 h-4 text-[var(--brand)]" />
                 <CardTitle className="text-base">Registered Participants</CardTitle>
               </div>
               <Link href="/admin/registrations">
@@ -340,7 +340,7 @@ export function EventDetailClient({
             </CardHeader>
             <CardContent className="p-0 divide-y divide-[#231f20] max-h-80 overflow-y-auto">
               {event.registrations.length === 0 ? (
-                <div className="p-5 text-center text-xs text-zinc-500">
+                <div className="p-5 text-center text-xs text-[var(--text-dim)]">
                   No registrations recorded yet.
                 </div>
               ) : (
@@ -348,14 +348,14 @@ export function EventDetailClient({
                   <div key={reg.id} className="p-3.5 sm:px-5 flex items-center justify-between">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-mono text-zinc-400">
+                        <span className="text-xs font-mono text-[var(--text-muted)]">
                           {reg.registrationNumber}
                         </span>
-                        <span className="text-xs font-semibold text-white">
+                        <span className="text-xs font-semibold text-[var(--foreground)]">
                           {reg.teamName || reg.participants[0]?.participant?.name || "Participant"}
                         </span>
                       </div>
-                      <div className="flex items-center gap-2 text-[11px] text-zinc-400 mt-0.5">
+                      <div className="flex items-center gap-2 text-[11px] text-[var(--text-muted)] mt-0.5">
                         {reg.participants.map((p, idx) => (
                           <span key={p.participant.id}>
                             {p.participant.name}
@@ -376,7 +376,7 @@ export function EventDetailClient({
           <Card>
             <CardHeader className="flex flex-row items-center justify-between py-4">
               <div className="flex items-center gap-2">
-                <Trophy className="w-4 h-4 text-[#931827]" />
+                <Trophy className="w-4 h-4 text-[var(--brand)]" />
                 <CardTitle className="text-base">Event Results</CardTitle>
               </div>
               <Link href="/admin/results">
@@ -387,7 +387,7 @@ export function EventDetailClient({
             </CardHeader>
             <CardContent className="p-4 sm:p-6">
               {event.results.length === 0 ? (
-                <p className="text-xs text-zinc-500 text-center py-4">
+                <p className="text-xs text-[var(--text-dim)] text-center py-4">
                   No results published yet. Scoring in progress.
                 </p>
               ) : (
@@ -395,7 +395,7 @@ export function EventDetailClient({
                   {event.results.map((res) => (
                     <div
                       key={res.id}
-                      className="p-3 rounded-xl border border-[#2d292a] bg-[#181617] flex items-center justify-between"
+                      className="p-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-hover)] flex items-center justify-between"
                     >
                       <div className="flex items-center gap-3">
                         <span
@@ -403,20 +403,20 @@ export function EventDetailClient({
                             res.position === 1
                               ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
                               : res.position === 2
-                              ? "bg-zinc-400/20 text-zinc-200 border border-zinc-400/40"
+                              ? "bg-zinc-400/20 text-[var(--foreground)] border border-zinc-400/40"
                               : res.position === 3
                               ? "bg-amber-800/20 text-amber-500 border border-amber-800/40"
-                              : "bg-zinc-800 text-zinc-400"
+                              : "bg-[var(--surface-elevated)] text-[var(--text-muted)]"
                           }`}
                         >
                           {res.position || "—"}
                         </span>
                         <div>
-                          <p className="text-xs font-semibold text-white">
+                          <p className="text-xs font-semibold text-[var(--foreground)]">
                             {res.participant?.name || "Team / Participant"}
                           </p>
                           {res.participant?.house && (
-                            <p className="text-[10px] text-zinc-400">
+                            <p className="text-[10px] text-[var(--text-muted)]">
                               Team: {res.participant.house.name}
                             </p>
                           )}

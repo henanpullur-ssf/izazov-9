@@ -198,10 +198,10 @@ export function ManualCheckInSection({ events }: { events: EventOption[] }) {
           <div className="space-y-3">
             {/* Stats + Search bar */}
             <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
-              <div className="flex items-center gap-2 text-xs text-zinc-400 shrink-0">
+              <div className="flex items-center gap-2 text-xs text-[var(--text-muted)] shrink-0">
                 <span>
                   {selectedEvent?.code} —{" "}
-                  <span className="text-white font-semibold">
+                  <span className="text-[var(--foreground)] font-semibold">
                     {roster.length}
                   </span>{" "}
                   registered
@@ -220,28 +220,28 @@ export function ManualCheckInSection({ events }: { events: EventOption[] }) {
               </div>
 
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--text-dim)]" />
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search by name or participant ID…"
-                  className="w-full rounded-xl border border-[#2f2b2c] bg-[#121112] pl-9 pr-3 py-1.5 text-xs text-white placeholder-zinc-500 outline-none focus:border-[#931827]"
+                  className="w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] pl-9 pr-3 py-1.5 text-xs text-[var(--foreground)] placeholder-[var(--text-dim)] outline-none focus:border-[var(--brand)]"
                 />
               </div>
             </div>
 
             {/* Empty state: no registrations */}
             {roster.length === 0 && (
-              <div className="py-8 text-center text-xs text-zinc-500">
-                <Users className="w-8 h-8 mx-auto mb-2 text-zinc-700" />
+              <div className="py-8 text-center text-xs text-[var(--text-dim)]">
+                <Users className="w-8 h-8 mx-auto mb-2 text-[var(--text-dim)]" />
                 No participants are registered for this event.
               </div>
             )}
 
             {/* Empty state: search no results */}
             {roster.length > 0 && filteredRoster.length === 0 && (
-              <div className="py-6 text-center text-xs text-zinc-500">
+              <div className="py-6 text-center text-xs text-[var(--text-dim)]">
                 No participants match your search.
               </div>
             )}
@@ -262,15 +262,15 @@ export function ManualCheckInSection({ events }: { events: EventOption[] }) {
                       className={`flex items-center justify-between gap-3 px-4 py-3 rounded-xl border transition-colors ${
                         isPresent
                           ? "border-emerald-800/50 bg-emerald-950/20"
-                          : "border-[#2d292a] bg-[#141314]"
+                          : "border-[var(--border-subtle)] bg-[var(--surface-card)]"
                       }`}
                     >
                       {/* Participant info */}
                       <div className="min-w-0 flex-1">
-                        <p className="text-xs font-semibold text-white truncate">
+                        <p className="text-xs font-semibold text-[var(--foreground)] truncate">
                           {participant.name}
                         </p>
-                        <p className="text-[11px] text-zinc-400 truncate">
+                        <p className="text-[11px] text-[var(--text-muted)] truncate">
                           {participant.participantId}
                           {participant.houseName &&
                             ` • ${participant.houseName}`}
@@ -337,8 +337,8 @@ export function ManualCheckInSection({ events }: { events: EventOption[] }) {
 
         {/* Idle state hint */}
         {roster === null && !rosterLoading && !rosterError && (
-          <p className="text-xs text-zinc-500 text-center py-4">
-            Select an event and click <span className="text-zinc-300">Load Roster</span> to see registered participants.
+          <p className="text-xs text-[var(--text-dim)] text-center py-4">
+            Select an event and click <span className="text-[var(--text-muted)]">Load Roster</span> to see registered participants.
           </p>
         )}
       </CardContent>

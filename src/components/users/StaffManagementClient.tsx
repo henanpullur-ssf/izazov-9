@@ -303,15 +303,15 @@ export function StaffManagementClient({
   return (
     <div className="space-y-6">
       {/* Controls & Search */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#131213] p-4 rounded-2xl border border-[#272425]">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[var(--surface-card)] p-4 rounded-2xl border border-[var(--border-subtle)]">
         <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search staff by name or email..."
-            className="w-full rounded-xl border border-[#332f30] bg-[#0c0b0c] pl-10 pr-4 py-2 text-xs text-white placeholder-zinc-500 outline-none focus:border-[#931827]"
+            className="w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] pl-10 pr-4 py-2 text-xs text-[var(--foreground)] placeholder-[var(--text-dim)] outline-none focus:border-[var(--brand)]"
           />
         </div>
 
@@ -320,7 +320,7 @@ export function StaffManagementClient({
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
             aria-label="Filter by Role"
-            className="rounded-xl border border-[#332f30] bg-[#181617] px-3 py-2 text-xs text-zinc-300 outline-none focus:border-[#931827] cursor-pointer"
+            className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--foreground)] outline-none focus:border-[var(--brand)] cursor-pointer"
           >
             <option value="ALL">All Roles</option>
             <option value="SUPER_ADMIN">Super Admin</option>
@@ -333,7 +333,7 @@ export function StaffManagementClient({
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             aria-label="Filter by Status"
-            className="rounded-xl border border-[#332f30] bg-[#181617] px-3 py-2 text-xs text-zinc-300 outline-none focus:border-[#931827] cursor-pointer"
+            className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--foreground)] outline-none focus:border-[var(--brand)] cursor-pointer"
           >
             <option value="ALL">All Statuses</option>
             <option value="ACTIVE">Active Only</option>
@@ -349,7 +349,7 @@ export function StaffManagementClient({
 
       {filteredUsers.length === 0 ? (
         <EmptyState
-          icon={<Users className="w-6 h-6 text-zinc-500" />}
+          icon={<Users className="w-6 h-6 text-[var(--text-dim)]" />}
           title="No staff accounts found"
           description={
             search || roleFilter !== "ALL" || statusFilter !== "ALL"
@@ -383,7 +383,7 @@ export function StaffManagementClient({
                     <TableCell>
                       <div className="space-y-0.5">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-white text-sm">
+                          <span className="font-bold text-[var(--foreground)] text-sm">
                             {user.name}
                           </span>
                           {isSelf && (
@@ -392,7 +392,7 @@ export function StaffManagementClient({
                             </span>
                           )}
                         </div>
-                        <p className="text-xs text-zinc-400 font-mono">
+                        <p className="text-xs text-[var(--text-muted)] font-mono">
                           {user.email}
                         </p>
                       </div>
@@ -405,8 +405,8 @@ export function StaffManagementClient({
                           SUPER ADMIN
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700">
-                          <Shield className="w-3 h-3 text-zinc-400" />
+                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[var(--surface-elevated)] text-[var(--text-muted)] border border-[var(--border-strong)]">
+                          <Shield className="w-3 h-3 text-[var(--text-muted)]" />
                           {user.role === "VOLUNTEER" ? "STAFF / VOLUNTEER" : user.role}
                         </span>
                       )}
@@ -429,14 +429,14 @@ export function StaffManagementClient({
                             return (
                               <span
                                 key={mKey}
-                                className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#1f1a1c] text-zinc-300 border border-[#382f32]"
+                                className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#1f1a1c] text-[var(--text-muted)] border border-[#382f32]"
                               >
                                 {def.name}
                               </span>
                             );
                           })}
                           {assignedModules.length === 0 || (assignedModules.length === 1 && assignedModules[0] === "dashboard") ? (
-                            <span className="text-[10px] text-zinc-500 italic">
+                            <span className="text-[10px] text-[var(--text-dim)] italic">
                               Dashboard only
                             </span>
                           ) : null}
@@ -459,7 +459,7 @@ export function StaffManagementClient({
                     </TableCell>
 
                     <TableCell>
-                      <span className="text-xs text-zinc-400 font-mono">
+                      <span className="text-xs text-[var(--text-muted)] font-mono">
                         {formatDate(user.createdAt)}
                       </span>
                     </TableCell>
@@ -584,27 +584,27 @@ export function StaffManagementClient({
           <div className="space-y-3 pt-2">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-bold text-white uppercase tracking-wider">
+                <p className="text-xs font-bold text-[var(--foreground)] uppercase tracking-wider">
                   Module Access Permissions
                 </p>
-                <p className="text-[11px] text-zinc-400">
+                <p className="text-[11px] text-[var(--text-muted)]">
                   Select which operations sections this account can view and manage.
                 </p>
               </div>
-              <span className="text-[10px] font-mono text-zinc-500">
+              <span className="text-[10px] font-mono text-[var(--text-dim)]">
                 {selectedModules.filter((m) => m !== "dashboard").length} modules active
               </span>
             </div>
 
             {/* Dashboard Default */}
-            <div className="p-3 rounded-xl border border-[#2b2728] bg-[#0e0d0e] flex items-center justify-between">
+            <div className="p-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-7 h-7 rounded-lg bg-zinc-800 text-zinc-300 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-[var(--surface-elevated)] text-[var(--text-muted)] flex items-center justify-center">
                   <LayoutDashboard className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-white">Dashboard</p>
-                  <p className="text-[10px] text-zinc-400">
+                  <p className="text-xs font-bold text-[var(--foreground)]">Dashboard</p>
+                  <p className="text-[10px] text-[var(--text-muted)]">
                     Standard access granted to all active staff accounts.
                   </p>
                 </div>
@@ -614,7 +614,7 @@ export function StaffManagementClient({
                 checked={true}
                 disabled={true}
                 aria-label="Dashboard permission"
-                className="rounded border-[#383334] text-emerald-600 focus:ring-0 opacity-70 cursor-not-allowed"
+                className="rounded border-[var(--border-subtle)] text-emerald-600 focus:ring-0 opacity-70 cursor-not-allowed"
               />
             </div>
 
@@ -630,8 +630,8 @@ export function StaffManagementClient({
                     key={mod.key}
                     className={`rounded-2xl border transition ${
                       isSelected
-                        ? "border-[#931827]/60 bg-[#161214]"
-                        : "border-[#262223] bg-[#0d0c0d] hover:border-[#383234]"
+                        ? "border-[var(--brand)]/60 bg-[var(--surface-card)]"
+                        : "border-[var(--border-subtle)] bg-[var(--surface)] hover:border-[var(--border-strong)]"
                     }`}
                   >
                     <div className="p-3.5 flex items-center justify-between gap-3">
@@ -645,10 +645,10 @@ export function StaffManagementClient({
                           <Icon className="w-4 h-4" />
                         </div>
                         <div>
-                          <p className="text-xs font-bold text-white">
+                          <p className="text-xs font-bold text-[var(--foreground)]">
                             {mod.name}
                           </p>
-                          <p className="text-[11px] text-zinc-400">
+                          <p className="text-[11px] text-[var(--text-muted)]">
                             {mod.description}
                           </p>
                         </div>
@@ -658,7 +658,7 @@ export function StaffManagementClient({
                         <button
                           type="button"
                           onClick={() => setExpandedModule(isExpanded ? null : mod.key)}
-                          className="p-1 text-zinc-400 hover:text-zinc-200 transition text-[11px] flex items-center gap-0.5"
+                          className="p-1 text-[var(--text-muted)] hover:text-[var(--foreground)] transition text-[11px] flex items-center gap-0.5"
                           title="View sub-permissions"
                         >
                           {isExpanded ? (
@@ -673,22 +673,22 @@ export function StaffManagementClient({
                           checked={isSelected}
                           onChange={() => toggleModuleSelection(mod.key)}
                           aria-label={`Toggle access for ${mod.name}`}
-                          className="rounded border-[#383334] text-[#931827] focus:ring-[#931827] w-4 h-4 cursor-pointer"
+                          className="rounded border-[var(--border-subtle)] text-[var(--brand)] focus:ring-[var(--brand)] w-4 h-4 cursor-pointer"
                         />
                       </div>
                     </div>
 
                     {/* Expandable Sub-Items Breakdown */}
                     {isExpanded && (
-                      <div className="px-4 pb-3.5 pt-1 border-t border-[#252022] text-xs space-y-1.5 bg-[#090809]/60">
-                        <p className="text-[10px] text-zinc-400 uppercase font-bold tracking-wider pt-1">
+                      <div className="px-4 pb-3.5 pt-1 border-t border-[var(--border-subtle)] text-xs space-y-1.5 bg-[var(--surface)]/60">
+                        <p className="text-[10px] text-[var(--text-muted)] uppercase font-bold tracking-wider pt-1">
                           Included Permissions & Sections:
                         </p>
                         <div className="flex items-center gap-1.5 flex-wrap">
                           {mod.subItems.map((item) => (
                             <span
                               key={item}
-                              className="text-[10px] px-2 py-0.5 rounded bg-[#1e1a1c] border border-[#302a2c] text-zinc-300"
+                              className="text-[10px] px-2 py-0.5 rounded bg-[#1e1a1c] border border-[#302a2c] text-[var(--text-muted)]"
                             >
                               ✓ {item}
                             </span>
@@ -704,23 +704,23 @@ export function StaffManagementClient({
 
           {/* Account Status */}
           <div className="pt-2">
-            <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[#2b2728] bg-[#141213] cursor-pointer hover:border-[#403b3c] transition">
+            <label className="flex items-center gap-2.5 p-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-card)] cursor-pointer hover:border-[var(--border-strong)] transition">
               <input
                 type="checkbox"
                 checked={isActive}
                 onChange={(e) => setIsActive(e.target.checked)}
-                className="rounded border-[#383334] text-[#931827] focus:ring-[#931827] w-4 h-4"
+                className="rounded border-[var(--border-subtle)] text-[var(--brand)] focus:ring-[var(--brand)] w-4 h-4"
               />
               <div>
-                <p className="text-xs font-bold text-white">Active Account</p>
-                <p className="text-[10px] text-zinc-400">
+                <p className="text-xs font-bold text-[var(--foreground)]">Active Account</p>
+                <p className="text-[10px] text-[var(--text-muted)]">
                   When deactivated, login and access are blocked immediately.
                 </p>
               </div>
             </label>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
             <Button
               type="button"
               variant="outline"
@@ -758,8 +758,8 @@ export function StaffManagementClient({
             </div>
           )}
 
-          <p className="text-xs text-zinc-400">
-            Enter a new password for <strong className="text-white">{resetModalUser?.email}</strong>. The password will be hashed securely with bcrypt.
+          <p className="text-xs text-[var(--text-muted)]">
+            Enter a new password for <strong className="text-[var(--foreground)]">{resetModalUser?.email}</strong>. The password will be hashed securely with bcrypt.
           </p>
 
           <Input
@@ -772,7 +772,7 @@ export function StaffManagementClient({
             autoFocus
           />
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#292526]">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-[var(--border-subtle)]">
             <Button
               type="button"
               variant="outline"

@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
@@ -200,7 +200,7 @@ export default async function PublicEventDetailPage({
                               ? "bg-zinc-300 text-black"
                               : res.position === 3
                               ? "bg-amber-800 text-white"
-                              : "bg-zinc-800 text-zinc-400"
+                              : "bg-[var(--surface-elevated)] text-[var(--text-muted)]"
                           }`}
                         >
                           #{res.position}

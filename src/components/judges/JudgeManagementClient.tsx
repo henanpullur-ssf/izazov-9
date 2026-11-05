@@ -127,10 +127,10 @@ export function JudgeManagementClient({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)]">
             Jury & Evaluation Panel
           </h2>
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-[var(--text-dim)]">
             {judges.length} judges registered across competitions
           </p>
         </div>
@@ -146,7 +146,7 @@ export function JudgeManagementClient({
 
       {judges.length === 0 ? (
         <EmptyState
-          icon={<Award className="w-6 h-6 text-zinc-500" />}
+          icon={<Award className="w-6 h-6 text-[var(--text-dim)]" />}
           title="No judges configured"
           description="Add industry experts, alumni, and faculty to evaluate festival competitions."
           actionLabel="Add Judge"
@@ -160,8 +160,8 @@ export function JudgeManagementClient({
                 <div className="flex items-start justify-between gap-2">
                   <div>
                     <CardTitle className="text-base">{j.user.name}</CardTitle>
-                    <p className="text-xs text-zinc-400 flex items-center gap-1.5 mt-0.5">
-                      <Building className="w-3.5 h-3.5 text-zinc-500" />
+                    <p className="text-xs text-[var(--text-muted)] flex items-center gap-1.5 mt-0.5">
+                      <Building className="w-3.5 h-3.5 text-[var(--text-dim)]" />
                       <span>
                         {j.designation || "Jury Member"}{" "}
                         {j.organization ? `• ${j.organization}` : ""}
@@ -183,20 +183,20 @@ export function JudgeManagementClient({
               </CardHeader>
 
               <CardContent className="space-y-3 pt-0">
-                <div className="text-xs text-zinc-400 space-y-1">
+                <div className="text-xs text-[var(--text-muted)] space-y-1">
                   <div className="flex items-center gap-1">
-                    <Mail className="w-3 h-3 text-zinc-500" />
+                    <Mail className="w-3 h-3 text-[var(--text-dim)]" />
                     <span>{j.user.email}</span>
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-[#232021]">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                <div className="pt-2 border-t border-[var(--border-subtle)]">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-2">
                     Assigned Events ({j.assignments.length})
                   </p>
 
                   {j.assignments.length === 0 ? (
-                    <p className="text-xs text-zinc-500 py-1">
+                    <p className="text-xs text-[var(--text-dim)] py-1">
                       No competitions assigned yet.
                     </p>
                   ) : (
@@ -204,7 +204,7 @@ export function JudgeManagementClient({
                       {j.assignments.map((asg) => (
                         <div
                           key={asg.id}
-                          className="flex items-center gap-1.5 rounded-lg border border-[#383334] bg-[#1a1819] px-2.5 py-1 text-xs text-white"
+                          className="flex items-center gap-1.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--surface-elevated)] px-2.5 py-1 text-xs text-white"
                         >
                           <Badge variant="primary" className="text-[10px]">
                             {asg.event.code}
@@ -214,7 +214,7 @@ export function JudgeManagementClient({
                             onClick={() =>
                               handleRemoveEvent(j.id, asg.event.id)
                             }
-                            className="text-zinc-500 hover:text-red-400 ml-1"
+                            className="text-[var(--text-dim)] hover:text-red-400 ml-1"
                             title="Unassign"
                           >
                             ×
@@ -284,7 +284,7 @@ export function JudgeManagementClient({
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
             <Button
               type="button"
               variant="outline"
@@ -322,7 +322,7 @@ export function JudgeManagementClient({
             ))}
           </Select>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#292526]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
             <Button
               type="button"
               variant="outline"

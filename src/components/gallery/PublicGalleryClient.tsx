@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import {
@@ -268,8 +268,8 @@ export function PublicGalleryClient({
                     {photo.title || "IZAZOV Moment"}
                   </h3>
                   {photo.photographer && (
-                    <p className="text-[10px] text-zinc-300 flex items-center gap-1">
-                      <Camera className="w-2.5 h-2.5 text-zinc-400" />
+                    <p className="text-[10px] text-[var(--text-muted)] flex items-center gap-1">
+                      <Camera className="w-2.5 h-2.5 text-[var(--text-muted)]" />
                       Photo: {photo.photographer}
                     </p>
                   )}
