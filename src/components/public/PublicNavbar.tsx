@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import type { SiteSettingsData } from "@/lib/constants";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import FestLogo from "@/components/branding/FestLogo";
 
 interface PublicNavbarProps {
   settings?: SiteSettingsData | null;
@@ -29,7 +30,6 @@ export function PublicNavbar({ settings }: PublicNavbarProps) {
 
   const siteName = settings?.siteName || "IZAZOV 9.0";
   const shortName = settings?.shortName || "9.0";
-  const logoUrl = settings?.logoUrl || "/logo.png";
 
   const navLinks = [
     {
@@ -91,19 +91,11 @@ export function PublicNavbar({ settings }: PublicNavbarProps) {
     <header className="sticky top-0 z-40 w-full border-b border-[var(--border-subtle)] bg-[var(--background)]/90 backdrop-blur-md transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo & Title */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          {logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={logoUrl}
-              alt={siteName}
-              className="h-9 w-auto max-w-[120px] object-contain group-hover:scale-105 transition-transform"
-            />
-          ) : (
-            <div className="w-9 h-9 rounded-xl bg-[var(--brand)] flex items-center justify-center font-black text-white text-sm tracking-wider shadow-md border border-white/20 group-hover:scale-105 transition-transform">
-              {shortName ? shortName.slice(0, 2).toUpperCase() : siteName.slice(0, 2).toUpperCase()}
-            </div>
-          )}
+       <Link href="/" className="flex items-center gap-2.5 group">
+  <FestLogo
+    size={40}
+    className="h-9 w-9 shrink-0 group-hover:scale-105 transition-transform"
+  />
           <div className="flex items-center gap-1.5">
             <span className="text-base sm:text-lg font-black text-[var(--foreground)] tracking-tight">
               {siteName}
