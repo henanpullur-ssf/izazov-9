@@ -201,3 +201,70 @@ body {
   background-color: var(--brand);
   color: var(--brand-foreground);
 }
+/* IZAZOV Hero Content Reveal */
+@keyframes heroContentReveal {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.hero-content-reveal {
+  opacity: 0;
+  visibility: hidden;
+  animation: heroContentReveal 1s ease-out 6.5s forwards;
+}
+
+/* Mobile: 4 seconds */
+@media (max-width: 767px) {
+  .hero-content-reveal {
+    animation-delay: 6s;
+  }
+}
+/* IZAZOV Infinite Symbol Ribbon */
+
+.symbol-ribbon {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  line-height: 0;
+}
+
+.symbol-ribbon-track {
+  display: flex;
+  width: max-content;
+  animation: symbolRibbonMove 35s linear infinite;
+}
+
+.symbol-ribbon-track img {
+  height: 50px;
+  width: auto;
+  max-width: none;
+  flex-shrink: 0;
+  display: block;
+}
+
+@keyframes symbolRibbonMove {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 767px) {
+  .symbol-ribbon-track img {
+    height: 35px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .symbol-ribbon-track {
+    animation: none;
+  }
+}

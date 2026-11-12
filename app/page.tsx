@@ -79,223 +79,317 @@ export default async function HomePage() {
       <PublicNavbar settings={settings} />
 
       <main className="flex-1">
-        {/* 1. HERO SECTION */}
-        <section className="relative overflow-hidden border-b border-[var(--border-subtle)] min-h-[90vh] flex flex-col justify-center">
+        
+{/* 1. HERO SECTION */}
+<section className="relative overflow-hidden border-b border-[var(--border-subtle)] min-h-[90vh] flex flex-col justify-center">
 
-          {/* ─── Photographic background ─── */}
-          <div className="absolute inset-0 z-0" aria-hidden="true">
-            <Image
-              src="/hero-bg-1.webp"
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-[center_30%]"
-            />
-            {/* Layered warm-ember gradient overlay – keeps collage visible but text readable */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#171311]/75 via-[#38271F]/40 to-[#171311]/92" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#171311]/88 via-[#171311]/30 to-[#171311]/60" />
+  {/* ─── DESKTOP GIF BACKGROUND ─── */}
+  <div
+    className="hidden md:block absolute inset-0 z-0 overflow-hidden"
+    aria-hidden="true"
+  >
+    <Image
+      src="/videos/izazov-hero.gif"
+      alt=""
+      fill
+      unoptimized
+      priority
+      sizes="100vw"
+      className="object-cover object-center"
+    />
+
+    <div className="absolute inset-0 bg-gradient-to-l from-[#171311]/80 via-[#171311]/30 to-transparent" />
+    <div className="absolute inset-0 bg-gradient-to-b from-[#171311]/20 via-transparent to-[#171311]/60" />
+  </div>
+
+  {/* ─── MOBILE GIF BACKGROUND ─── */}
+  <div
+    className="md:hidden absolute inset-0 z-0 overflow-hidden"
+    aria-hidden="true"
+  >
+    <Image
+      src="/videos/izazov-mobile.gif"
+      alt=""
+      fill
+      unoptimized
+      priority
+      sizes="100vw"
+      className="object-cover object-center"
+    />
+
+    <div className="absolute inset-0 bg-gradient-to-b from-[#171311]/10 via-transparent to-[#171311]/75" />
+  </div>
+
+  {/* ─── CONTENT LAYER ─── */}
+  <div className="hero-content-reveal relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-28 sm:py-36">
+
+    <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+
+      <div className="w-full lg:w-[58%] lg:ml-auto space-y-6 text-center lg:text-left min-w-0">
+
+        {/* DESKTOP CONTENT */}
+        <div className="hidden md:block space-y-6">
+
+          {/* Live badge */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-xs font-semibold text-white/90 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+            <span>
+              THE {settings.edition || "9.0"} EDITION • {festDates}
+            </span>
           </div>
 
-          {/* ─── Content layer ─── */}
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-28 sm:py-36">
-            <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
-
-              {/* Hero copy – always white text since overlay makes bg dark */}
-              <div className="flex-1 space-y-6 text-center lg:text-left min-w-0">
-
-                {/* Live badge */}
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-xs font-semibold text-white/90 shadow-sm">
-                  <span className="w-2 h-2 rounded-full bg-white animate-ping" />
-                  <span>
-                    THE {settings.edition || "9.0"} EDITION • {festDates}
-                  </span>
-                </div>
-
-                {/* Headline */}
-                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight uppercase max-w-4xl leading-[1.05]">
-                  {settings.heroTitle ? (
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#D49A4A] to-[#C7B8A7]">
-                      {settings.heroTitle}
-                    </span>
-                  ) : (
-                    <>
-                      ANCIENT ROOTS.{" "}
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D49A4A] via-[#F0E4D1] to-[#A94F2B]">
-                        LIVING ART.
-                      </span>
-                    </>
-                  )}
-                  <br />
-                  <span className="text-white drop-shadow">
-                    {settings.siteName || "IZAZOV 9.0"}
-                  </span>
-                </h1>
-
-                {/* Description */}
-                <p className="text-base sm:text-lg text-white/70 max-w-2xl leading-relaxed mx-auto lg:mx-0">
-                  {settings.heroDescription ||
-                    "The flagship campus festival uniting cultural spectacles, 24-hour hackathons, esports battles, literary arenas, and the championship cup."}
-                </p>
-
-                {/* CTA buttons */}
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
-                  <Link href={settings.heroButtonLink || "/events"}>
-                    <Button size="lg" className="gap-2 shadow-lg shadow-[var(--brand)]/30">
-                      <Sparkles className="w-4 h-4" />
-                      <span>{settings.heroButtonText || "Explore Events"}</span>
-                    </Button>
-                  </Link>
-                  {settings.showScheduleNav && (
-                    <Link href="/schedule">
-                      <Button variant="secondary" size="lg" className="gap-2">
-                        <Calendar className="w-4 h-4" />
-                        <span>Schedule</span>
-                      </Button>
-                    </Link>
-                  )}
-                  {settings.showResultsNav && (
-                    <Link href="/results">
-                      <Button
-                        variant="outline"
-                        size="lg"
-                        className="gap-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50"
-                      >
-                        <Trophy className="w-4 h-4" />
-                        <span>Leaderboard</span>
-                      </Button>
-                    </Link>
-                  )}
-                  {settings.showAnnouncementsNav && (
-                    <Link href="/announcements">
-                      <Button
-                        variant="outline"
-                        size="lg"
-                        className="gap-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50"
-                      >
-                        <Megaphone className="w-4 h-4" />
-                        <span>Announcements</span>
-                      </Button>
-                    </Link>
-                  )}
-                </div>
-
-                {/* Live Stats Strip */}
-                {settings.showStats && (
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto lg:mx-0 pt-10 text-center border-t border-white/15">
-                    <div className="p-3">
-                      <p className="text-2xl sm:text-3xl font-black text-white font-mono">
-                        {events.length > 0 ? `${events.length}+` : "15+"}
-                      </p>
-                      <p className="text-xs text-white/55 mt-0.5">Competitions</p>
-                    </div>
-                    <div className="p-3">
-                      <p className="text-2xl sm:text-3xl font-black text-white font-mono">
-                        60+
-                      </p>
-                      <p className="text-xs text-white/55 mt-0.5">Participants</p>
-                    </div>
-                    <div className="p-3">
-                      <p className="text-2xl sm:text-3xl font-black text-white font-mono">
-                        {houses.length > 0 ? houses.length : "4"}
-                      </p>
-                      <p className="text-xs text-white/55 mt-0.5">Fest Teams</p>
-                    </div>
-                    <div className="p-3">
-                      <p className="text-2xl sm:text-3xl font-black text-white font-mono">
-                        {venues.length > 0 ? venues.length : "5+"}
-                      </p>
-                      <p className="text-xs text-white/55 mt-0.5">Campus Stages</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* ─── Bottom fade into page background ─── */}
-          <div
-            className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F2E9DC] dark:from-[#171311] to-transparent z-10 pointer-events-none"
-            aria-hidden="true"
-          />
-        </section>
-
-        {/* 2. FESTIVAL INTRODUCTION & TEAMS */}
-        <section className="py-16 sm:py-20 border-b border-[var(--border-subtle)] bg-[var(--surface-card)]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-4">
-                <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">
-                  Championship Legacy
+          {/* Headline */}
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight uppercase max-w-4xl leading-[1.05]">
+            {settings.heroTitle ? (
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#D49A4A] to-[#C7B8A7]">
+                {settings.heroTitle}
+              </span>
+            ) : (
+              <>
+                ANCIENT ROOTS.{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D49A4A] via-[#F0E4D1] to-[#A94F2B]">
+                  LIVING ART.
                 </span>
-                <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-[var(--foreground)]">
-                  Heritage Meets Glory.
-                </h2>
-                <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed">
-                  {settings.siteName || "IZAZOV 9.0"} is engineered around high-stakes inter-team and open campus rivalry. Every cultural victory, coding breakthrough, debate win, and esports triumph contributes points toward the prestigious Fest Cup.
+              </>
+            )}
+            <br />
+            <span className="text-white drop-shadow">
+              {settings.siteName || "IZAZOV 9.0"}
+            </span>
+          </h1>
+
+          {/* Description */}
+          <p className="text-base sm:text-lg text-white/70 max-w-2xl leading-relaxed mx-auto lg:mx-0">
+            {settings.heroDescription ||
+              "The flagship campus festival uniting cultural spectacles, 24-hour hackathons, esports battles, literary arenas, and the championship cup."}
+          </p>
+
+          {/* Desktop CTA buttons */}
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
+
+            <Link href={settings.heroButtonLink || "/events"}>
+              <Button size="lg" className="gap-2 shadow-lg shadow-[var(--brand)]/30">
+                <Sparkles className="w-4 h-4" />
+                <span>{settings.heroButtonText || "Explore Events"}</span>
+              </Button>
+            </Link>
+
+            {settings.showScheduleNav && (
+              <Link href="/schedule">
+                <Button variant="secondary" size="lg" className="gap-2">
+                  <Calendar className="w-4 h-4" />
+                  <span>Schedule</span>
+                </Button>
+              </Link>
+            )}
+
+            {settings.showResultsNav && (
+              <Link href="/results">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="gap-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50"
+                >
+                  <Trophy className="w-4 h-4" />
+                  <span>Leaderboard</span>
+                </Button>
+              </Link>
+            )}
+
+            {settings.showAnnouncementsNav && (
+              <Link href="/announcements">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="gap-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50"
+                >
+                  <Megaphone className="w-4 h-4" />
+                  <span>Announcements</span>
+                </Button>
+              </Link>
+            )}
+          </div>
+
+          {/* Desktop Stats */}
+          {settings.showStats && (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto lg:mx-0 pt-10 text-center border-t border-white/15">
+              <div className="p-3">
+                <p className="text-2xl sm:text-3xl font-black text-white font-mono">
+                  {events.length > 0 ? `${events.length}+` : "15+"}
                 </p>
-                <div className="pt-2">
-                  <Link href="/results">
-                    <Button variant="outline" size="sm" className="gap-1.5">
-                      <span>View Team Championship Standings</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Button>
-                  </Link>
-                </div>
+                <p className="text-xs text-white/55 mt-0.5">Competitions</p>
               </div>
 
-              {/* Teams Showcase */}
-              <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                {(houses.length > 0
-                  ? houses
-                  : [
-                      {
-                        id: "1",
-                        name: "Phoenix",
-                        shortName: "PHX",
-                        description: "Flames & Innovation",
-                      },
-                      {
-                        id: "2",
-                        name: "Pegasus",
-                        shortName: "PEG",
-                        description: "Vision & Culture",
-                      },
-                      {
-                        id: "3",
-                        name: "Orion",
-                        shortName: "ORN",
-                        description: "Strategy & Intellect",
-                      },
-                      {
-                        id: "4",
-                        name: "Hydra",
-                        shortName: "HYD",
-                        description: "Resilience & Power",
-                      },
-                    ]
-                ).map((h) => (
-                  <div
-                    key={h.id}
-                    className="p-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface)] hover:border-[var(--brand)] transition shadow-[var(--shadow-card)]"
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-bold text-[var(--foreground)] text-base">{h.name}</h4>
-                      {h.shortName && (
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--brand-muted)] border border-[var(--brand)]/30 text-[var(--brand)] font-bold">
-                          {h.shortName}
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs text-[var(--text-muted)]">
-                      {h.description || "Faction contender"}
-                    </p>
-                  </div>
-                ))}
+              <div className="p-3">
+                <p className="text-2xl sm:text-3xl font-black text-white font-mono">
+                  60+
+                </p>
+                <p className="text-xs text-white/55 mt-0.5">Participants</p>
+              </div>
+
+              <div className="p-3">
+                <p className="text-2xl sm:text-3xl font-black text-white font-mono">
+                  {houses.length > 0 ? houses.length : "4"}
+                </p>
+                <p className="text-xs text-white/55 mt-0.5">Fest Teams</p>
+              </div>
+
+              <div className="p-3">
+                <p className="text-2xl sm:text-3xl font-black text-white font-mono">
+                  {venues.length > 0 ? venues.length : "5+"}
+                </p>
+                <p className="text-xs text-white/55 mt-0.5">Campus Stages</p>
               </div>
             </div>
+          )}
+        </div>
+
+        {/* MOBILE CONTENT */}
+        <div className="md:hidden min-h-[65vh] flex flex-col justify-end items-center text-center pb-10 space-y-5 translate-y-20">
+          <h1 className="text-4xl font-black tracking-tight uppercase text-white drop-shadow-lg">
+            {settings.siteName || "IZAZOV 9.0"}
+          </h1>
+
+          <div className="flex flex-col w-full max-w-xs gap-3">
+
+            <Link
+              href={settings.heroButtonLink || "/events"}
+              className="w-full"
+            >
+              <Button size="lg" className="w-full gap-2 shadow-lg shadow-[var(--brand)]/30">
+                <Sparkles className="w-4 h-4" />
+                <span>{settings.heroButtonText || "Explore Events"}</span>
+              </Button>
+            </Link>
+
+            <Link href="/schedule" className="w-full">
+              <Button variant="secondary" size="lg" className="w-full gap-2">
+                <Calendar className="w-4 h-4" />
+                <span>View Schedule</span>
+              </Button>
+            </Link>
+
           </div>
-        </section>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  {/* ─── BOTTOM FADE ─── */}
+  <div
+    className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F2E9DC] dark:from-[#171311] to-transparent z-10 pointer-events-none"
+    aria-hidden="true"
+  />
+
+</section>
+{/* IZAZOV Symbol Ribbon */}
+<div className="symbol-ribbon">
+  <div className="symbol-ribbon-track">
+  {Array.from({ length: 15 }).map((_, index) => (
+    <img
+      key={index}
+      src="/images/branding/izazov-symbol-ribbon.png"
+      alt={index === 0 ? "IZAZOV official symbols" : ""}
+      aria-hidden={index !== 0}
+    />
+  ))}
+</div>
+</div>
+
+       
+{/* 2. FESTIVAL INTRODUCTION & TEAMS */}
+<section className="py-16 sm:py-20 border-b border-[var(--border-subtle)] bg-[var(--surface-card)]">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    {/* Introduction */}
+    <div className="max-w-3xl space-y-4 mb-10 sm:mb-12">
+      <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand)]">
+        Championship Legacy
+      </span>
+
+      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-[var(--foreground)]">
+       From Roots To Horizon
+      </h2>
+
+      <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed max-w-2xl">
+        Every journey begins with roots, but its possibilities reach far beyond
+        the horizon. At IZAZOV 9.0, three unique teams come together, each
+        carrying its own identity, spirit and story. Different strengths,
+        shared dreams, and one unforgettable journey — this is where
+        heritage meets ambition.
+      </p>
+
+      <div className="pt-2">
+        <Link href="/results">
+          <Button variant="outline" size="sm" className="gap-1.5">
+            <span>View Team Championship Standings</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Button>
+        </Link>
+      </div>
+    </div>
+
+    {/* Three Team Cards */}
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+      {(houses.length > 0
+        ? houses
+        : [
+            {
+              id: "1",
+              name: "AFAQIYA",
+              shortName: "AFQ",
+              description: "The Horizons & Future",
+            },
+            {
+              id: "2",
+              name: "ASALIYA",
+              shortName: "ASL",
+              description: "The Roots & Originality",
+            },
+            {
+              id: "3",
+              name: "TURATHIA",
+              shortName: "TRT",
+              description: "Heritage & Culture",
+            },
+          ]
+      ).map((h) => (
+        <Link
+          key={h.id}
+          href={`/teams/${h.id}`}
+          className="group block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-2"
+        >
+          <div className="h-full min-h-[130px] p-5 sm:p-6 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface)] shadow-[var(--shadow-card)] transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[var(--brand)] group-hover:shadow-lg">
+            
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <h3 className="text-lg sm:text-xl font-black tracking-wide text-[var(--foreground)] transition-colors group-hover:text-[var(--brand)]">
+                {h.name}
+              </h3>
+
+              {h.shortName && (
+                <span className="text-[10px] font-mono px-2.5 py-1 rounded-md bg-[var(--brand-muted)] border border-[var(--brand)]/30 text-[var(--brand)] font-bold">
+                  {h.shortName}
+                </span>
+              )}
+            </div>
+
+            <div className="flex items-end justify-between gap-2">
+              <p className="text-xs sm:text-sm text-[var(--text-muted)]">
+                {h.description || "A legacy of identity and ambition"}
+              </p>
+
+              <ArrowRight className="w-5 h-5 shrink-0 text-[var(--text-muted)] transition-all duration-300 group-hover:translate-x-1 group-hover:text-[var(--brand)]" />
+            </div>
+
+          </div>
+        </Link>
+      ))}
+    </div>
+
+  </div>
+</section>
+
 
         {/* 3. EVENT CATEGORIES */}
         <section className="py-16 sm:py-20 border-b border-[var(--border-subtle)] bg-[var(--background)]">

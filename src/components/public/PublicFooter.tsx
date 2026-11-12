@@ -18,7 +18,7 @@ interface PublicFooterProps {
 export function PublicFooter({ settings }: PublicFooterProps) {
   const siteName = settings?.siteName || FEST_NAME;
   const tagline = settings?.tagline || FEST_TAGLINE;
-  const logoUrl = settings?.logoUrl || "/logo.png";
+  const logoUrl = "/images/branding/izazov-9-logo.png";
   const festDates =
     settings?.startDate && settings?.endDate
       ? `${settings.startDate} - ${settings.endDate}`
@@ -56,7 +56,7 @@ export function PublicFooter({ settings }: PublicFooterProps) {
                 <img
                   src={logoUrl}
                   alt={siteName}
-                  className="h-8 w-auto max-w-[100px] object-contain rounded-md"
+                  className="h-12 w-auto max-w-[160px] object-contain"
                 />
               ) : (
                 <div className="w-8 h-8 rounded-lg bg-[var(--brand)] flex items-center justify-center font-black text-white text-xs">
