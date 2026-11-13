@@ -25,17 +25,40 @@ export async function getTeams(search?: string) {
             name: true,
             participantId: true,
             rollNumber: true,
-            results: {
-              where: { isPublished: true },
-              select: { points: true, totalMarks: true, prizeLevel: true, position: true },
-            },
           },
         },
       },
       orderBy: { name: "asc" },
     });
 
-    // Compute team points and prize counts
+    // Fetch all published results with event type to correctly separate
+    // individual vs group event scoring.
+    const allPublishedResults = await prisma.result.findMany({
+      where: { isPublished: true },
+      select: {
+        id: true,
+        points: true,
+        totalMarks: true,
+        prizeLevel: true,
+        position: true,
+        participantId: true,
+        event: { select: { type: true } },
+        participant: { select: { houseId: true } },
+        registration: {
+          select: {
+            participants: {
+              select: {
+                participant: { select: { houseId: true } },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    // Compute team points and prize counts.
+    // GROUP event: points are awarded to the team/house only — not to individual participants.
+    // INDIVIDUAL event: points are awarded to the directly assigned participant's house.
     const teamsWithStats = houses.map((house) => {
       let totalPoints = 0;
       let gold = 0;
@@ -44,9 +67,37 @@ export async function getTeams(search?: string) {
       let consolation = 0;
       let special = 0;
 
-      house.participants.forEach((p) => {
-        p.results.forEach((r) => {
-          const pts = r.points !== null ? Number(r.points) : Number(r.totalMarks) || 0;
+      allPublishedResults.forEach((r) => {
+        const pts = r.points !== null ? Number(r.points) : Number(r.totalMarks) || 0;
+        const isGroupEvent = r.event.type === "GROUP";
+
+        let belongsToThisHouse = false;
+
+        if (isGroupEvent) {
+          // GROUP events: determine team by any registration participant belonging to this house.
+          // The result is credited to the house exactly once (boolean flag prevents duplication).
+          const anyMemberInHouse = (r.registration?.participants ?? []).some(
+            (rp) => rp.participant?.houseId === house.id
+          );
+          if (anyMemberInHouse) {
+            belongsToThisHouse = true;
+          }
+        } else {
+          // INDIVIDUAL events: credit the house of the directly assigned participant.
+          if (r.participant?.houseId === house.id) {
+            belongsToThisHouse = true;
+          } else if (!r.participantId) {
+            // No direct participant link — fall back to registration participants.
+            const anyMemberInHouse = (r.registration?.participants ?? []).some(
+              (rp) => rp.participant?.houseId === house.id
+            );
+            if (anyMemberInHouse) {
+              belongsToThisHouse = true;
+            }
+          }
+        }
+
+        if (belongsToThisHouse) {
           totalPoints += pts;
 
           if (r.prizeLevel === "1st Prize" || r.position === 1) gold++;
@@ -54,7 +105,7 @@ export async function getTeams(search?: string) {
           else if (r.prizeLevel === "3rd Prize" || r.position === 3) bronze++;
           else if (r.prizeLevel === "Consolation") consolation++;
           else if (r.prizeLevel === "Special Prize") special++;
-        });
+        }
       });
 
       return {
@@ -106,10 +157,6 @@ export async function getTeamById(id: string, options?: {
         assistantManager: true,
         participants: {
           include: {
-            results: {
-              where: { isPublished: true },
-              select: { points: true, totalMarks: true, prizeLevel: true, position: true, event: { select: { name: true, code: true } } },
-            },
             _count: {
               select: {
                 registrations: true,
@@ -125,46 +172,64 @@ export async function getTeamById(id: string, options?: {
       return { success: false, error: "Team not found" };
     }
 
-    // Also get all teams to calculate this team's championship rank
+    // Also get all teams to calculate this team's championship rank.
+    // getTeams() already uses the corrected group/individual scoring logic.
     const allTeamsRes = await getTeams();
     const rankedList = allTeamsRes.data || [];
     const thisRanked = rankedList.find((t) => t.id === id);
     const rank = thisRanked ? thisRanked.rank : 1;
+    const totalPoints = thisRanked?.totalPoints ?? 0;
+    const gold = thisRanked?.prizes.gold ?? 0;
+    const silver = thisRanked?.prizes.silver ?? 0;
+    const bronze = thisRanked?.prizes.bronze ?? 0;
+    const consolation = thisRanked?.prizes.consolation ?? 0;
+    const special = thisRanked?.prizes.special ?? 0;
 
-    let totalPoints = 0;
-    let gold = 0;
-    let silver = 0;
-    let bronze = 0;
-    let consolation = 0;
-    let special = 0;
+    // Fetch published individual-event results for each member of this house.
+    // GROUP event points are excluded: they belong to the team, not to individual members.
+    const memberIds = house.participants.map((p) => p.id);
 
-    // Process members
+    // Individual event results where this participant is the direct result target.
+    const individualResultsByParticipant = await prisma.result.findMany({
+      where: {
+        isPublished: true,
+        participantId: { in: memberIds },
+        event: { type: "INDIVIDUAL" },
+      },
+      select: {
+        participantId: true,
+        points: true,
+        totalMarks: true,
+        prizeLevel: true,
+        position: true,
+        event: { select: { name: true, code: true } },
+      },
+    });
+
+    // Build a map: participantId → their individual points and prizes
+    const memberIndividualStats: Record<
+      string,
+      { pts: number; gold: number; silver: number; bronze: number }
+    > = {};
+
+    memberIds.forEach((pid) => {
+      memberIndividualStats[pid] = { pts: 0, gold: 0, silver: 0, bronze: 0 };
+    });
+
+    individualResultsByParticipant.forEach((r) => {
+      if (!r.participantId) return;
+      const stats = memberIndividualStats[r.participantId];
+      if (!stats) return;
+      const pts = r.points !== null ? Number(r.points) : Number(r.totalMarks) || 0;
+      stats.pts += pts;
+      if (r.prizeLevel === "1st Prize" || r.position === 1) stats.gold++;
+      else if (r.prizeLevel === "2nd Prize" || r.position === 2) stats.silver++;
+      else if (r.prizeLevel === "3rd Prize" || r.position === 3) stats.bronze++;
+    });
+
+    // Process members — individual points only (group event points go to the team, not members)
     const membersWithPoints = house.participants.map((p) => {
-      let memberPts = 0;
-      let mGold = 0;
-      let mSilver = 0;
-      let mBronze = 0;
-
-      p.results.forEach((r) => {
-        const pts = r.points !== null ? Number(r.points) : Number(r.totalMarks) || 0;
-        memberPts += pts;
-        totalPoints += pts;
-
-        if (r.prizeLevel === "1st Prize" || r.position === 1) {
-          gold++;
-          mGold++;
-        } else if (r.prizeLevel === "2nd Prize" || r.position === 2) {
-          silver++;
-          mSilver++;
-        } else if (r.prizeLevel === "3rd Prize" || r.position === 3) {
-          bronze++;
-          mBronze++;
-        } else if (r.prizeLevel === "Consolation") {
-          consolation++;
-        } else if (r.prizeLevel === "Special Prize") {
-          special++;
-        }
-      });
+      const stats = memberIndividualStats[p.id] ?? { pts: 0, gold: 0, silver: 0, bronze: 0 };
 
       return {
         id: p.id,
@@ -175,10 +240,10 @@ export async function getTeamById(id: string, options?: {
         email: p.email,
         phone: p.phone,
         address: p.address,
-        totalPoints: memberPts,
+        totalPoints: stats.pts,
         registrationsCount: p._count.registrations,
         attendanceCount: p._count.attendance,
-        prizes: { gold: mGold, silver: mSilver, bronze: mBronze },
+        prizes: { gold: stats.gold, silver: stats.silver, bronze: stats.bronze },
         isManager: house.managerId === p.id,
         isAssistantManager: house.assistantManagerId === p.id,
       };

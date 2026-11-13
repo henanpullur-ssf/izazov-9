@@ -46,7 +46,10 @@ export async function getParticipants(filters?: {
       include: {
         house: true,
         results: {
-          where: { isPublished: true },
+          where: {
+            isPublished: true,
+            event: { type: "INDIVIDUAL" },
+          },
           select: { points: true, totalMarks: true },
         },
         _count: {
@@ -124,24 +127,27 @@ export async function getParticipantById(id: string) {
       totalMarks: Number(r.totalMarks),
     }));
 
-    // Only published results contribute to points & official summaries
-    const publishedResults = formattedResults.filter((r) => r.isPublished);
+    // Only INDIVIDUAL event published results contribute to participant points & official summaries.
+    // GROUP event points are awarded to the team/house only, not to individual participants.
+    const publishedIndividualResults = formattedResults.filter(
+      (r) => r.isPublished && r.event?.type === "INDIVIDUAL"
+    );
 
-    const totalPoints = publishedResults.reduce((sum, r) => sum + (r.points || 0), 0);
+    const totalPoints = publishedIndividualResults.reduce((sum, r) => sum + (r.points || 0), 0);
 
     const prizeSummary = {
-      first: publishedResults.filter((r) => r.prizeLevel === "1st Prize" || r.position === 1).length,
-      second: publishedResults.filter((r) => r.prizeLevel === "2nd Prize" || r.position === 2).length,
-      third: publishedResults.filter((r) => r.prizeLevel === "3rd Prize" || r.position === 3).length,
-      consolation: publishedResults.filter((r) => r.prizeLevel === "Consolation").length,
-      special: publishedResults.filter((r) => r.prizeLevel === "Special Prize").length,
-      totalPrizes: publishedResults.filter(
+      first: publishedIndividualResults.filter((r) => r.prizeLevel === "1st Prize" || r.position === 1).length,
+      second: publishedIndividualResults.filter((r) => r.prizeLevel === "2nd Prize" || r.position === 2).length,
+      third: publishedIndividualResults.filter((r) => r.prizeLevel === "3rd Prize" || r.position === 3).length,
+      consolation: publishedIndividualResults.filter((r) => r.prizeLevel === "Consolation").length,
+      special: publishedIndividualResults.filter((r) => r.prizeLevel === "Special Prize").length,
+      totalPrizes: publishedIndividualResults.filter(
         (r) => r.prizeLevel && r.prizeLevel !== "No Prize"
       ).length,
     };
 
     const gradeSummary: Record<string, number> = {};
-    publishedResults.forEach((r) => {
+    publishedIndividualResults.forEach((r) => {
       if (r.grade) {
         gradeSummary[r.grade] = (gradeSummary[r.grade] || 0) + 1;
       }

@@ -298,17 +298,35 @@ export async function getChampionshipData() {
 
       resultsSet.forEach((r) => {
         const pts = r.points !== null ? Number(r.points) : Number(r.totalMarks) || 0;
+        const isGroupEvent = r.event.type === "GROUP";
 
-        // Check if individual participant or group registration participants have team
+        // Determine which house(es) to credit for this result.
+        // For GROUP events: award points to the team(s) only — not to individual participants.
+        // For INDIVIDUAL events: award points to the house of the credited participant.
         const houseIds = new Set<string>();
-        if (r.participant?.houseId) {
-          houseIds.add(r.participant.houseId);
-        }
-        r.registration?.participants?.forEach((rp) => {
-          if (rp.participant?.houseId) {
-            houseIds.add(rp.participant.houseId);
+
+        if (isGroupEvent) {
+          // Credit the house from the registration's participants (all should be same house,
+          // but use Set to safely handle edge cases). Do NOT credit individual participants.
+          r.registration?.participants?.forEach((rp) => {
+            if (rp.participant?.houseId) {
+              houseIds.add(rp.participant.houseId);
+            }
+          });
+        } else {
+          // INDIVIDUAL event: credit the directly assigned participant's house.
+          if (r.participant?.houseId) {
+            houseIds.add(r.participant.houseId);
           }
-        });
+          // Also handle registrations where participantId may not be set directly on the result.
+          if (houseIds.size === 0) {
+            r.registration?.participants?.forEach((rp) => {
+              if (rp.participant?.houseId) {
+                houseIds.add(rp.participant.houseId);
+              }
+            });
+          }
+        }
 
         houseIds.forEach((hId) => {
           if (teamMap[hId]) {
@@ -369,8 +387,15 @@ export async function getChampionshipData() {
 
     publishedResults.forEach((r) => {
       const pts = r.points !== null ? Number(r.points) : Number(r.totalMarks) || 0;
+      const isGroupEvent = r.event.type === "GROUP";
 
-      // Collect all participants credited with this result
+      // For GROUP events, points are awarded to the team/house only.
+      // Individual participants must NOT receive points from group event results.
+      if (isGroupEvent) {
+        return;
+      }
+
+      // Collect individual participants credited with this result (INDIVIDUAL events only)
       const creditedParticipants: {
         id: string;
         participantId: string;
@@ -389,17 +414,21 @@ export async function getChampionshipData() {
         });
       }
 
-      r.registration?.participants?.forEach((rp) => {
-        if (rp.participant && !creditedParticipants.some((p) => p.id === rp.participant.id)) {
-          creditedParticipants.push({
-            id: rp.participant.id,
-            participantId: rp.participant.participantId,
-            rollNumber: rp.participant.rollNumber,
-            name: rp.participant.name,
-            teamName: rp.participant.house?.name || null,
-          });
-        }
-      });
+      // For individual events where participantId is not set directly on the result,
+      // fall back to the registration participant list (single-member registration).
+      if (creditedParticipants.length === 0) {
+        r.registration?.participants?.forEach((rp) => {
+          if (rp.participant && !creditedParticipants.some((p) => p.id === rp.participant.id)) {
+            creditedParticipants.push({
+              id: rp.participant.id,
+              participantId: rp.participant.participantId,
+              rollNumber: rp.participant.rollNumber,
+              name: rp.participant.name,
+              teamName: rp.participant.house?.name || null,
+            });
+          }
+        });
+      }
 
       creditedParticipants.forEach((p) => {
         if (!participantMap[p.id]) {
