@@ -34,11 +34,12 @@ export interface ResultItem {
   isPublished: boolean;
   isWinner: boolean;
   event: {
-    id: string;
-    code: string;
-    name: string;
-    category: string | null;
-  };
+  id: string;
+  code: string;
+  name: string;
+  category: string | null;
+  type: "INDIVIDUAL" | "GROUP";
+};
   participant: {
     id: string;
     name: string;
@@ -289,11 +290,15 @@ export function ResultsManagementClient({
         <div className="space-y-3">
           {filteredResults.map((res) => {
             const participantName =
-              res.registration.teamName ||
-              res.participant?.name ||
-              res.registration.participants[0]?.participant?.name ||
-              "Participant";
-
+  res.event.type === "GROUP"
+    ? res.registration.teamName ||
+      res.participant?.name ||
+      res.registration.participants[0]?.participant?.name ||
+      "Team"
+    : res.participant?.name ||
+      res.registration.participants[0]?.participant?.name ||
+      res.registration.teamName ||
+      "Participant";
             const teamName =
               res.participant?.house?.name ||
               res.registration.participants[0]?.participant?.house?.name ||
