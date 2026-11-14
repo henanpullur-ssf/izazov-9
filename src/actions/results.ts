@@ -261,14 +261,26 @@ export async function getChampionshipData() {
       orderBy: { createdAt: "asc" },
     });
 
-    const totalPublishedCount = publishedResults.length;
-    // Public site updates only at multiples of 15
-const checkpointCount = Math.floor(totalPublishedCount / 15) * 15;
-const nextCheckpoint = checkpointCount + 15;
-const resultsUntilNextCheckpoint = nextCheckpoint - totalPublishedCount;
+       // Count unique events, not individual result entries
+    const uniquePublishedEventIds = Array.from(
+      new Set(publishedResults.map((result) => result.eventId))
+    );
 
-// Filter results up to the latest 15-result checkpoint
-const checkpointResults = publishedResults.slice(0, checkpointCount);
+    const totalPublishedCount = uniquePublishedEventIds.length;
+
+    // Public site updates only at multiples of 10 events
+    const checkpointCount = Math.floor(totalPublishedCount / 10) * 10;
+    const nextCheckpoint = checkpointCount + 10;
+    const resultsUntilNextCheckpoint = nextCheckpoint - totalPublishedCount;
+
+    // Include ALL published results belonging to the first 10, 20, 30... events
+    const checkpointEventIds = new Set(
+      uniquePublishedEventIds.slice(0, checkpointCount)
+    );
+
+    const checkpointResults = publishedResults.filter((result) =>
+      checkpointEventIds.has(result.eventId)
+    );
     // Helper to calculate team standings from a given set of results
     function calculateTeamStandings(resultsSet: typeof publishedResults) {
       const teamMap: Record<

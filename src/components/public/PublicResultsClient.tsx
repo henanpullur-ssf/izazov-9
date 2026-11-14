@@ -179,7 +179,7 @@ export function PublicResultsClient({
                   <>
                     Updated after{" "}
                     <strong className="text-amber-500">
-                      {championship.checkpointCount} results
+                      {championship.checkpointCount} events
                     </strong>{" "}
                     • Next update at{" "}
                     <strong className="text-[var(--foreground)]">
@@ -190,8 +190,8 @@ export function PublicResultsClient({
                 ) : (
                   <>
                     Standing updates after first{" "}
-                    <strong className="text-amber-500">15 results</strong> (
-                    {championship.totalPublishedCount} published so far)
+                    <strong className="text-amber-500">10 events</strong> (
+{championship.totalPublishedCount} published so far)
                   </>
                 )}
               </span>
