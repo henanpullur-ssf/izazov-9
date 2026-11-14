@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -77,21 +76,24 @@ export default async function ParticipantProfilePage({
   }
 
   const achievements = await prisma.result.findMany({
-    where: {
-      isPublished: true,
-      OR: [
-        { participantId: participant.id },
-        {
-          registration: {
-            participants: {
-              some: {
-                participantId: participant.id,
-              },
-            },
+   where: {
+  isPublished: true,
+  OR: [
+    { participantId: participant.id },
+    {
+      event: {
+        type: "GROUP",
+      },
+      registration: {
+        participants: {
+          some: {
+            participantId: participant.id,
           },
         },
-      ],
+      },
     },
+  ],
+},
     select: {
       id: true,
       position: true,
