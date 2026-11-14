@@ -13,8 +13,8 @@ export default async function AdminChampionshipPage() {
   const defaultData: ChampionshipData = {
     totalPublishedCount: 0,
     checkpointCount: 0,
-    nextCheckpoint: 5,
-    resultsUntilNextCheckpoint: 5,
+    nextCheckpoint: 15,
+    resultsUntilNextCheckpoint: 15,
     liveTeamStandings: [],
     publicTeamStandings: [],
     individualStandings: [],

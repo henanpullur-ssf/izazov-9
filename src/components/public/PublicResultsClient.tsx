@@ -36,6 +36,7 @@ export interface PublicResultItem {
     code: string;
     name: string;
     category: string | null;
+    type: string;
   };
   participant: {
     name: string;
@@ -111,10 +112,15 @@ export function PublicResultsClient({
 
       const q = search.toLowerCase();
       const participantName =
-        r.registration.teamName ||
-        r.participant?.name ||
-        r.registration.participants[0]?.participant?.name ||
-        "";
+  r.event.type === "GROUP"
+    ? r.registration.teamName ||
+      r.participant?.name ||
+      r.registration.participants[0]?.participant?.name ||
+      ""
+    : r.participant?.name ||
+      r.registration.participants[0]?.participant?.name ||
+      r.registration.teamName ||
+      "";
 
       const rollNo =
         r.participant?.rollNumber ||
@@ -184,7 +190,7 @@ export function PublicResultsClient({
                 ) : (
                   <>
                     Standing updates after first{" "}
-                    <strong className="text-amber-500">5 results</strong> (
+                    <strong className="text-amber-500">15 results</strong> (
                     {championship.totalPublishedCount} published so far)
                   </>
                 )}
@@ -316,10 +322,15 @@ export function PublicResultsClient({
                 <TableBody>
                   {filteredResults.map((r) => {
                     const participantName =
-                      r.registration.teamName ||
-                      r.participant?.name ||
-                      r.registration.participants[0]?.participant?.name ||
-                      "Participant";
+  r.event.type === "GROUP"
+    ? r.registration.teamName ||
+      r.participant?.name ||
+      r.registration.participants[0]?.participant?.name ||
+      "Participant"
+    : r.participant?.name ||
+      r.registration.participants[0]?.participant?.name ||
+      r.registration.teamName ||
+      "Participant";
 
                     const rollNo =
                       r.participant?.rollNumber ||

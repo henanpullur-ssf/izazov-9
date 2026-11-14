@@ -74,6 +74,14 @@ export async function saveResult(data: {
 
   try {
     const pointsValue = Number(data.points) || 0;
+    const event = await prisma.event.findUnique({
+  where: { id: data.eventId },
+  select: { type: true },
+});
+
+if (!event) {
+  return { success: false, error: "Event not found" };
+}
     const isWinnerValue = data.isWinner !== undefined 
       ? data.isWinner 
       : data.position === 1 || data.prizeLevel === "1st Prize";
@@ -101,11 +109,14 @@ export async function saveResult(data: {
     } else {
       // Check if result exists for this registration
       const existing = await prisma.result.findFirst({
-        where: {
-          eventId: data.eventId,
-          registrationId: data.registrationId,
-        },
-      });
+  where: {
+    eventId: data.eventId,
+    registrationId: data.registrationId,
+    ...(event.type === "INDIVIDUAL"
+      ? { participantId: data.participantId || null }
+      : {}),
+  },
+});
 
       if (existing) {
         result = await prisma.result.update({
@@ -251,14 +262,13 @@ export async function getChampionshipData() {
     });
 
     const totalPublishedCount = publishedResults.length;
-    // Checkpoint count for public site: multiples of 5 (e.g. 5, 10, 15, 20...)
-    const checkpointCount = Math.floor(totalPublishedCount / 5) * 5;
-    const nextCheckpoint = checkpointCount + 5;
-    const resultsUntilNextCheckpoint = nextCheckpoint - totalPublishedCount;
+    // Public site updates only at multiples of 15
+const checkpointCount = Math.floor(totalPublishedCount / 15) * 15;
+const nextCheckpoint = checkpointCount + 15;
+const resultsUntilNextCheckpoint = nextCheckpoint - totalPublishedCount;
 
-    // Filter results up to checkpoint for public calculation
-    const checkpointResults = publishedResults.slice(0, checkpointCount);
-
+// Filter results up to the latest 15-result checkpoint
+const checkpointResults = publishedResults.slice(0, checkpointCount);
     // Helper to calculate team standings from a given set of results
     function calculateTeamStandings(resultsSet: typeof publishedResults) {
       const teamMap: Record<

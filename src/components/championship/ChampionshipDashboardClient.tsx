@@ -131,7 +131,7 @@ export function ChampionshipDashboardClient({
             <span className="text-xs text-[var(--text-muted)]">results locked</span>
           </div>
           <p className="text-[11px] text-[var(--text-dim)] mt-1">
-            Public scoreboard updates at 5-result milestones
+            Public scoreboard updates at 15-result milestones
           </p>
         </Card>
 
@@ -213,7 +213,7 @@ export function ChampionshipDashboardClient({
           }`}
         >
           <Eye className="w-4 h-4" />
-          <span>Public 5-Checkpoint Preview</span>
+          <span>Public 15-Checkpoint Preview</span>
         </button>
       </div>
 
@@ -486,7 +486,7 @@ export function ChampionshipDashboardClient({
         </div>
       )}
 
-      {/* Tab 3: Public 5-Checkpoint Preview */}
+      {/* Tab 3: Public 15-Checkpoint Preview */}
       {activeTab === "public_preview" && (
         <div className="space-y-6">
           <div className="p-4 rounded-2xl bg-[var(--surface-elevated)]/60 border border-[var(--border-strong)]/50 space-y-1">

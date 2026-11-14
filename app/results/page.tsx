@@ -53,8 +53,8 @@ export default async function PublicResultsPage() {
   const defaultChampionship = {
     totalPublishedCount: 0,
     checkpointCount: 0,
-    nextCheckpoint: 5,
-    resultsUntilNextCheckpoint: 5,
+    nextCheckpoint: 15,
+    resultsUntilNextCheckpoint: 15,
     publicTeamStandings: [],
   };
 
@@ -73,7 +73,7 @@ export default async function PublicResultsPage() {
             Results & Team Championship
           </h1>
           <p className="text-xs sm:text-sm text-[var(--text-muted)] max-w-2xl">
-            Official competition scores, verified winner podiums, and the continuous Team Championship standings updated at 5-result checkpoints.
+            Official competition scores, verified winner podiums, and the continuous Team Championship standings updated at 15-result checkpoints.
           </p>
         </div>
 
