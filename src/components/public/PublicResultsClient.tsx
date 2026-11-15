@@ -65,6 +65,20 @@ export interface PublicChampionshipData {
   nextCheckpoint: number;
   resultsUntilNextCheckpoint: number;
   publicTeamStandings: {
+  id: string;
+  name: string;
+  shortName: string | null;
+  points: number;
+  gold: number;
+  silver: number;
+  bronze: number;
+  consolation: number;
+  special: number;
+  rank: number;
+}[];
+  checkpointStandings: {
+  checkpoint: number;
+  standings: {
     id: string;
     name: string;
     shortName: string | null;
@@ -76,6 +90,7 @@ export interface PublicChampionshipData {
     special: number;
     rank: number;
   }[];
+}[];
 }
 
 export function PublicResultsClient({
@@ -94,6 +109,7 @@ export function PublicResultsClient({
   const [selectedEventId, setSelectedEventId] = useState("ALL");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
   const [search, setSearch] = useState("");
+  const [selectedCheckpoint, setSelectedCheckpoint] = useState<number | null>(null);
 
   const categoryOptions = useMemo(() => {
     const names = new Set(categories.map((c) => c.name));
@@ -145,18 +161,52 @@ export function PublicResultsClient({
     });
   }, [results, selectedEventId, selectedCategory, search]);
 
-  const teamLeaderboard = useMemo(() => {
-    if (championship?.publicTeamStandings && championship.publicTeamStandings.length > 0) {
-      return championship.publicTeamStandings;
+  const activeCheckpoint =
+  selectedCheckpoint ?? championship?.checkpointCount ?? 0;
+
+const teamLeaderboard = useMemo<PublicChampionshipData["publicTeamStandings"]>(() => {
+  if (championship) {
+    if (activeCheckpoint === 0) {
+      return [];
     }
 
-    const map: Record<string, { id: string; name: string; shortName: string | null; points: number; gold: number; silver: number; bronze: number; consolation: number; special: number; rank: number }> = {};
-    houses.forEach((h) => {
-      map[h.id] = { id: h.id, name: h.name, shortName: h.shortName, points: 0, gold: 0, silver: 0, bronze: 0, consolation: 0, special: 0, rank: 1 };
-    });
+    const historical = championship.checkpointStandings?.find(
+      (item) => item.checkpoint === activeCheckpoint
+    );
 
-    return Object.values(map);
-  }, [championship, houses]);
+    return historical?.standings || championship.publicTeamStandings;
+  }
+
+  const map: Record<string, {
+    id: string;
+    name: string;
+    shortName: string | null;
+    points: number;
+    gold: number;
+    silver: number;
+    bronze: number;
+    consolation: number;
+    special: number;
+    rank: number;
+  }> = {};
+
+  houses.forEach((h) => {
+    map[h.id] = {
+      id: h.id,
+      name: h.name,
+      shortName: h.shortName,
+      points: 0,
+      gold: 0,
+      silver: 0,
+      bronze: 0,
+      consolation: 0,
+      special: 0,
+      rank: 1,
+    };
+  });
+
+  return Object.values(map);
+}, [championship, houses, activeCheckpoint]);
 
   return (
     <div className="space-y-10">
@@ -169,6 +219,19 @@ export function PublicResultsClient({
               Team Championship Standings
             </h2>
           </div>
+          {championship && championship.checkpointCount > 0 && (
+  <select
+    value={activeCheckpoint}
+    onChange={(e) => setSelectedCheckpoint(Number(e.target.value))}
+    className="px-3 py-2 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-sm font-semibold text-[var(--foreground)]"
+  >
+    {championship.checkpointStandings.map((item) => (
+      <option key={item.checkpoint} value={item.checkpoint}>
+        After {item.checkpoint} Events
+      </option>
+    ))}
+  </select>
+)}
 
           {/* Checkpoint Status Pill */}
           {championship && (

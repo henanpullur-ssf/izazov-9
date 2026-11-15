@@ -12,6 +12,7 @@ export default async function AdminChampionshipPage() {
   const res = await getChampionshipData();
   const defaultData: ChampionshipData = {
     totalPublishedCount: 0,
+    publishedEvents: [],
     checkpointCount: 0,
     nextCheckpoint: 10,
     resultsUntilNextCheckpoint: 10,

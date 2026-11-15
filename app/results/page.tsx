@@ -56,6 +56,7 @@ export default async function PublicResultsPage() {
     nextCheckpoint: 10,
     resultsUntilNextCheckpoint: 10,
     publicTeamStandings: [],
+    checkpointStandings: [],
   };
 
   const championship = championshipRes.data || defaultChampionship;

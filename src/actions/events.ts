@@ -250,3 +250,50 @@ export async function updateEventStatus(id: string, status: EventStatus) {
     return { success: false, error: "Failed to update status" };
   }
 }
+export async function getScoringEvents() {
+  try {
+    const events = await prisma.event.findMany({
+      include: {
+        judges: {
+          include: {
+            judge: {
+              include: {
+                user: true,
+              },
+            },
+          },
+        },
+        registrations: {
+          include: {
+            participants: {
+              include: {
+                participant: {
+                  include: {
+                    house: true,
+                  },
+                },
+              },
+            },
+          },
+          orderBy: {
+            registeredAt: "desc",
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return {
+      success: true,
+      data: events,
+    };
+  } catch (error) {
+    console.error("Failed to fetch scoring events:", error);
+    return {
+      success: false,
+      error: "Failed to fetch scoring events",
+    };
+  }
+}

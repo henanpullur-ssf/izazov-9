@@ -1,5 +1,7 @@
 "use client";
 
+import { getChampionshipData } from "@/actions/results";
+import { Calculator } from "lucide-react";
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import {
@@ -64,6 +66,12 @@ export interface ChampionshipData {
   checkpointCount: number;
   nextCheckpoint: number;
   resultsUntilNextCheckpoint: number;
+  publishedEvents: {
+    id: string;
+    name: string;
+    type: string;
+    resultCount: number;
+  }[];
   liveTeamStandings: TeamStanding[];
   publicTeamStandings: TeamStanding[];
   individualStandings: IndividualStanding[];
@@ -74,8 +82,36 @@ export function ChampionshipDashboardClient({
 }: {
   data: ChampionshipData;
 }) {
-  const [activeTab, setActiveTab] = useState<"teams" | "individual" | "public_preview">("teams");
+  const [activeTab, setActiveTab] = useState<
+  "teams" | "individual" | "public_preview" | "manual"
+>("teams");
   const [individualSearch, setIndividualSearch] = useState("");
+  const [selectedEventIds, setSelectedEventIds] = useState<string[]>([]);
+const [manualStandings, setManualStandings] = useState<TeamStanding[] | null>(null);
+const [manualLoading, setManualLoading] = useState(false);
+const [manualError, setManualError] = useState("");
+const handleManualCalculate = async () => {
+  if (selectedEventIds.length === 0) return;
+
+  setManualLoading(true);
+  setManualError("");
+  setManualStandings(null);
+
+  try {
+    const result = await getChampionshipData(selectedEventIds);
+
+    if (!result.success || !result.data) {
+      setManualError(result.error || "Calculation failed");
+      return;
+    }
+
+    setManualStandings(result.data.liveTeamStandings);
+  } catch {
+    setManualError("Something went wrong. Please try again.");
+  } finally {
+    setManualLoading(false);
+  }
+};
 
   const filteredIndividuals = useMemo(() => {
     const q = individualSearch.toLowerCase().trim();
@@ -215,7 +251,157 @@ export function ChampionshipDashboardClient({
           <Eye className="w-4 h-4" />
           <span>Public 10-Checkpoint Preview</span>
         </button>
+        <button
+  onClick={() => setActiveTab("manual")}
+  className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-2 ${
+    activeTab === "manual"
+      ? "bg-[var(--brand)] text-white shadow-md shadow-[var(--brand)]/30"
+      : "text-[var(--text-muted)] hover:text-[var(--foreground)]"
+  }`}
+>
+  <Calculator className="w-4 h-4" />
+  <span>Manual Calculator</span>
+</button>
       </div>
+      {/* Manual Championship Calculator */}
+{activeTab === "manual" && (
+  <div className="space-y-6">
+    <Card className="p-5 space-y-4">
+      <div>
+        <h2 className="text-lg font-bold text-white flex items-center gap-2">
+          <Calculator className="w-5 h-5 text-[var(--brand)]" />
+          Manual Championship Calculator
+        </h2>
+        <p className="text-xs text-[var(--text-muted)] mt-1">
+          Select published events to calculate a separate team leaderboard.
+          This will not affect the automatic championship or public results.
+        </p>
+      </div>
+
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <span className="text-xs font-bold text-[var(--text-muted)]">
+          {selectedEventIds.length} of {data.publishedEvents.length} events selected
+        </span>
+
+        <div className="flex gap-2">
+          <button
+            onClick={() => {
+              setSelectedEventIds(data.publishedEvents.map((event) => event.id));
+              setManualStandings(null);
+              setManualError("");
+            }}
+            className="text-xs font-bold text-[var(--brand)] hover:underline"
+          >
+            Select All
+          </button>
+          <button
+            onClick={() => {
+              setSelectedEventIds([]);
+              setManualStandings(null);
+              setManualError("");
+            }}
+            className="text-xs font-bold text-[var(--text-muted)] hover:underline"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+
+      {data.publishedEvents.length === 0 ? (
+        <p className="text-sm text-[var(--text-muted)] py-6 text-center">
+          No published events available yet.
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {data.publishedEvents.map((event) => (
+            <label
+              key={event.id}
+              className="flex items-center gap-3 p-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] cursor-pointer"
+            >
+              <input
+                type="checkbox"
+                checked={selectedEventIds.includes(event.id)}
+                onChange={(e) => {
+                  setSelectedEventIds((current) =>
+                    e.target.checked
+                      ? [...current, event.id]
+                      : current.filter((id) => id !== event.id)
+                  );
+                  setManualStandings(null);
+                  setManualError("");
+                }}
+                className="w-4 h-4 accent-[var(--brand)]"
+              />
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-bold text-white">{event.name}</p>
+                <p className="text-xs text-[var(--text-muted)]">
+                  {event.type} · {event.resultCount} published results
+                </p>
+              </div>
+            </label>
+          ))}
+        </div>
+      )}
+
+      <button
+        onClick={handleManualCalculate}
+        disabled={selectedEventIds.length === 0 || manualLoading}
+        className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[var(--brand)] text-white text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        {manualLoading ? "Calculating..." : "Calculate Championship"}
+      </button>
+
+      {manualError && (
+        <p className="text-sm text-red-400">{manualError}</p>
+      )}
+    </Card>
+
+    {manualStandings !== null && (
+      <Card className="p-5 space-y-4">
+        <div>
+          <h3 className="text-lg font-bold text-white">
+            Manual Calculation Results
+          </h3>
+          <p className="text-xs text-amber-400 mt-1">
+            Preview only — these results have not been saved or published.
+          </p>
+        </div>
+
+        {manualStandings.length === 0 ? (
+          <p className="text-sm text-[var(--text-muted)] py-6 text-center">
+            No team standings found for the selected events.
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {manualStandings.map((team) => (
+              <div
+                key={team.id}
+                className="flex items-center justify-between gap-3 p-3 rounded-xl border border-[var(--border-subtle)]"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="text-sm font-black text-[var(--brand)]">
+                    #{team.rank}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-white truncate">
+                      {team.name}
+                    </p>
+                    <p className="text-xs text-[var(--text-muted)]">
+                      🥇 {team.gold} · 🥈 {team.silver} · 🥉 {team.bronze}
+                    </p>
+                  </div>
+                </div>
+                <span className="text-sm font-black text-white whitespace-nowrap">
+                  {team.points} pts
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </Card>
+    )}
+  </div>
+)}
 
       {/* Tab 1: Live Team Championship Standings */}
       {activeTab === "teams" && (
@@ -498,7 +684,6 @@ export function ChampionshipDashboardClient({
               This preview shows the Team Championship standings as currently seen by visitors on the public website. Public scores are calculated strictly from the first <strong>{data.checkpointCount}</strong> published results.
             </p>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {data.publicTeamStandings.map((team) => (
               <Card

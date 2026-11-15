@@ -1,6 +1,6 @@
 import React from "react";
 import { requireModule } from "@/lib/auth-helpers";
-import { getEvents } from "@/actions/events";
+import { getScoringEvents } from "@/actions/events";
 import { getScores } from "@/actions/scoring";
 import { getJudges } from "@/actions/judges";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -12,7 +12,7 @@ export default async function AdminScoringPage() {
   await requireModule("competition");
 
   const [eventsRes, scoresRes, judgesRes] = await Promise.all([
-    getEvents(),
+    getScoringEvents(),
     getScores(),
     getJudges(),
   ]);
@@ -35,12 +35,12 @@ export default async function AdminScoringPage() {
   }));
 
   const events: ScoringEvent[] = rawEvents.map((e) => ({
-    id: e.id,
-    code: e.code,
-    name: e.name,
-    judges: [],
-    registrations: [],
-  }));
+  id: e.id,
+  code: e.code,
+  name: e.name,
+  judges: e.judges,
+  registrations: e.registrations,
+}));
 
   return (
     <div className="space-y-6">

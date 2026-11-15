@@ -224,7 +224,21 @@ export async function deleteResult(id: string) {
   }
 }
 
-export async function getChampionshipData() {
+export async function getChampionshipData(selectedEventIds?: string[]) {
+  if (selectedEventIds !== undefined) {
+    const authCheck = await assertPermission("results.manage");
+    if (!authCheck.success) {
+      return { success: false, error: authCheck.error };
+    }
+
+    if (
+      !Array.isArray(selectedEventIds) ||
+      selectedEventIds.length === 0 ||
+      selectedEventIds.some((id) => typeof id !== "string" || !id.trim())
+    ) {
+      return { success: false, error: "Select at least one valid event" };
+    }
+  }
   try {
     // 1. Fetch all teams (houses) with members, manager, assistant manager
     const teams = await prisma.house.findMany({
@@ -267,6 +281,20 @@ export async function getChampionshipData() {
     );
 
     const totalPublishedCount = uniquePublishedEventIds.length;
+    const publishedEvents = uniquePublishedEventIds.map((eventId) => {
+  const eventResults = publishedResults.filter(
+    (result) => result.eventId === eventId
+  );
+
+  const event = eventResults[0]?.event;
+
+  return {
+    id: eventId,
+    name: event?.name || "Unknown Event",
+    type: event?.type || "UNKNOWN",
+    resultCount: eventResults.length,
+  };
+});
 
     // Public site updates only at multiples of 10 events
     const checkpointCount = Math.floor(totalPublishedCount / 10) * 10;
@@ -382,10 +410,38 @@ export async function getChampionshipData() {
     }
 
     // Admin Live Team Standings (uses all published results)
-    const liveTeamStandings = calculateTeamStandings(publishedResults);
+    const selectedResults =
+  selectedEventIds === undefined
+    ? publishedResults
+    : publishedResults.filter((result) =>
+        selectedEventIds.includes(result.eventId)
+      );
+
+const liveTeamStandings = calculateTeamStandings(selectedResults);
 
     // Public Checkpoint Team Standings (uses only results up to checkpointCount)
     const publicTeamStandings = calculateTeamStandings(checkpointResults);
+
+// Historical public checkpoint standings
+const checkpointStandings = Array.from(
+  { length: checkpointCount / 10 },
+  (_, index) => {
+    const count = (index + 1) * 10;
+
+    const eventIds = new Set(
+      uniquePublishedEventIds.slice(0, count)
+    );
+
+    const resultsAtCheckpoint = publishedResults.filter((result) =>
+      eventIds.has(result.eventId)
+    );
+
+    return {
+      checkpoint: count,
+      standings: calculateTeamStandings(resultsAtCheckpoint),
+    };
+  }
+);
 
     // 3. Admin Individual Championship Standings (Admin only!)
     // Sum points from all published results where participant is assigned
@@ -503,11 +559,13 @@ export async function getChampionshipData() {
       success: true,
       data: {
         totalPublishedCount,
+        publishedEvents,
         checkpointCount,
         nextCheckpoint,
         resultsUntilNextCheckpoint,
         liveTeamStandings,
         publicTeamStandings,
+        checkpointStandings,
         individualStandings,
       },
     };
